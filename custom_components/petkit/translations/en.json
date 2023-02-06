@@ -1,0 +1,29 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "PetKit account is already configured",
+            "reauth_successful": "Reauthentication was successful"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Invalid authentication. Are your credentials correct?",
+            "no_devices": "No devices found on account"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "PetKit account email",
+                    "password": "PetKit account password"
+                },
+                "title": "Fill in your PetKit credentials"
+            },
+            "reauth_confirm": {
+                "data": {
+                    "email": "PetKit account email",
+                    "password": "PetKit account password"
+                },
+                "title": "Reauthenticate with your PetKit credentials"
+            }
+        }
+    }
+}
