@@ -1,5 +1,5 @@
 # PetKit Home Assistant Integration
-![GitHub manifest version (path)](https://img.shields.io/github/manifest-json/v/RobertD502/home-assistant-flair?filename=custom_components%2Fpetkit%2Fmanifest.json)
+![GitHub manifest version (path)](https://img.shields.io/github/manifest-json/v/RobertD502/home-assistant-petkit?filename=custom_components%2Fpetkit%2Fmanifest.json)
 
 <a href="https://www.buymeacoffee.com/RobertD502" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="100" width="424"></a>
 
