@@ -1,7 +1,7 @@
 {
   "domain": "petkit",
   "name": "PetKit",
-  "version": "0.1.0",
+  "version": "0.1.0b0",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "documentation": "https://github.com/RobertD502/home-assistant-petkit/blob/main/README.md",
