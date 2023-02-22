@@ -31,7 +31,6 @@ from .const import (
     EVENT_TYPE_NAMED,
     FEEDERS,
     LITTER_BOXES,
-    LOGGER,
     VALID_EVENT_TYPES,
     WATER_FOUNTAINS
 )
