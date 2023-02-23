@@ -1570,7 +1570,7 @@ class LBLitterWeight(CoordinatorEntity, SensorEntity):
     def state_class(self) -> SensorStateClass:
         """Return the type of state class."""
 
-        return SensorStateClass.TOTAL
+        return SensorStateClass.MEASUREMENT
 
     @property
     def native_unit_of_measurement(self) -> UnitOfMass:
@@ -2241,7 +2241,7 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity):
     def state_class(self) -> SensorStateClass:
         """Return the type of state class."""
 
-        return SensorStateClass.TOTAL
+        return SensorStateClass.MEASUREMENT
 
     def grab_recent_weight(self) -> float:
         """Grab the most recent weight."""
