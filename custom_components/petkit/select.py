@@ -4,9 +4,9 @@ from __future__ import annotations
 from typing import Any
 import asyncio
 
-from petkitaio.constants import W5Command
+from petkitaio.constants import FeederSetting, LitterBoxSetting, W5Command
 from petkitaio.exceptions import BluetoothError
-from petkitaio.model import Feeder, W5Fountain
+from petkitaio.model import Feeder, LitterBox, W5Fountain
 
 from homeassistant.components.select import SelectEntity
 from homeassistant.config_entries import ConfigEntry
@@ -16,12 +16,15 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import(
+    CLEANING_INTERVAL_NAMED,
     DOMAIN,
     FEEDERS,
     FEEDER_MANUAL_FEED_OPTIONS,
     LIGHT_BRIGHTNESS_COMMAND,
     LIGHT_BRIGHTNESS_NAMED,
     LIGHT_BRIGHTNESS_OPTIONS,
+    LITTER_BOXES,
+    LITTER_TYPE_NAMED,
     MANUAL_FEED_NAMED,
     MINI_FEEDER_MANUAL_FEED_OPTIONS,
     WATER_FOUNTAINS,
@@ -37,6 +40,8 @@ LIGHT_BRIGHTNESS_TO_PETKIT_NUMBERED = {v: k for (k, v) in LIGHT_BRIGHTNESS_NAMED
 WF_MODE_TO_PETKIT = {v: k for (k, v) in WF_MODE_COMMAND.items()}
 WF_MODE_TO_PETKIT_NUMBERED = {v: k for (k, v) in WF_MODE_NAMED.items()}
 MANUAL_FEED_TO_PETKIT = {v: k for (k, v) in MANUAL_FEED_NAMED.items()}
+CLEANING_INTERVAL_TO_PETKIT = {v: k for (k, v) in CLEANING_INTERVAL_NAMED.items()}
+LITTER_TYPE_TO_PETKIT = {v: k for (k, v) in LITTER_TYPE_NAMED.items()}
 
 
 async def async_setup_entry(
@@ -56,9 +61,23 @@ async def async_setup_entry(
                 WFMode(coordinator, wf_id),
             ))
     for feeder_id, feeder_data in coordinator.data.feeders.items():
-        # All Feeders
+        # D4 and Mini Feeders
+        if feeder_data.type in ['d4', 'feedermini']:
+            selects.extend((
+                ManualFeed(coordinator, feeder_id),
+            ))
+        # D3 Feeder
+        if feeder_data.type == 'd3':
+            selects.extend((
+                Sound(coordinator, feeder_id),
+            ))
+
+    # Litter boxes
+    for lb_id, lb_data in coordinator.data.litter_boxes.items():
+        # Pura X
         selects.extend((
-            ManualFeed(coordinator, feeder_id),
+            LBCleaningInterval(coordinator, lb_id),
+            LBLitterType(coordinator, lb_id),
         ))
 
     async_add_entities(selects)
@@ -133,7 +152,7 @@ class WFLightBrightness(CoordinatorEntity, SelectEntity):
         and the main relay device is online.
         """
 
-        if self.wf_data.ble_relay:
+        if self.wf_data.ble_relay and (self.wf_data.data['settings']['lampRingSwitch'] == 1):
             return True
         else:
             return False
@@ -344,4 +363,284 @@ class ManualFeed(CoordinatorEntity, SelectEntity):
         ha_to_petkit = MANUAL_FEED_TO_PETKIT.get(option)
 
         await self.coordinator.client.manual_feeding(self.feeder_data, ha_to_petkit)
+        await self.coordinator.async_request_refresh()
+
+
+class Sound(CoordinatorEntity, SelectEntity):
+    """Representation of D3 Sound selection."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_sound'
+
+    @property
+    def name(self) -> str:
+        """Return name of the entity."""
+
+        return "Sound"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:surround-sound'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def current_option(self) -> str:
+        """Return currently selected sound."""
+
+        available_sounds = self.feeder_data.sound_list
+        current_sound_id = self.feeder_data.data['settings']['selectedSound']
+        return available_sounds[current_sound_id]
+
+    @property
+    def options(self) -> list[str]:
+        """Return list of all available sound names."""
+
+        available_sounds = self.feeder_data.sound_list
+        sound_names = list(available_sounds.values())
+        return sound_names
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+
+        available_sounds = self.feeder_data.sound_list
+        NAME_TO_SOUND_ID = {v: k for (k, v) in available_sounds.items()}
+        ha_to_petkit = NAME_TO_SOUND_ID.get(option)
+
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SELECTEDSOUND, ha_to_petkit)
+        self.feeder_data.data['settings']['selectedSound'] = ha_to_petkit
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LBCleaningInterval(CoordinatorEntity, SelectEntity):
+    """Representation of litter box cleaning interval."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + '_cleaning_interval'
+
+    @property
+    def name(self) -> str:
+        """Return name of the entity."""
+
+        return "Cleaning interval"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.lb_data.device_detail['settings']['autoIntervalMin'] == 0:
+            return 'mdi:timer-off'
+        else:
+            return 'mdi:timer'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        kitten_mode_off = self.lb_data.device_detail['settings']['kitten'] == 0
+        auto_clean = self.lb_data.device_detail['settings']['autoWork'] == 1
+        avoid_repeat = self.lb_data.device_detail['settings']['avoidRepeat'] == 1
+
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            # Only available if kitten mode is off and auto clean and avoid repeat are on
+            if (kitten_mode_off and auto_clean and avoid_repeat):
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    @property
+    def current_option(self) -> str:
+        """Return currently selected interval."""
+
+        return CLEANING_INTERVAL_NAMED[self.lb_data.device_detail['settings']['autoIntervalMin']]
+
+    @property
+    def options(self) -> list[str]:
+        """Return list of all available intervals."""
+
+        intervals = list(CLEANING_INTERVAL_NAMED.values())
+        return intervals
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+
+        ha_to_petkit = CLEANING_INTERVAL_TO_PETKIT.get(option)
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CLEANINTERVAL, ha_to_petkit)
+        self.lb_data.device_detail['settings']['autoIntervalMin'] = ha_to_petkit
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LBLitterType(CoordinatorEntity, SelectEntity):
+    """Representation of litter box litter type."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + '_litter_type'
+
+    @property
+    def name(self) -> str:
+        """Return name of the entity."""
+
+        return "Litter type"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:grain'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def current_option(self) -> str:
+        """Return currently selected type."""
+
+        return LITTER_TYPE_NAMED[self.lb_data.device_detail['settings']['sandType']]
+
+    @property
+    def options(self) -> list[str]:
+        """Return list of all available litter types."""
+
+        litter_types = list(LITTER_TYPE_NAMED.values())
+        return litter_types
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+
+        ha_to_petkit = LITTER_TYPE_TO_PETKIT.get(option)
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.SANDTYPE, ha_to_petkit)
+        self.lb_data.device_detail['settings']['sandType'] = ha_to_petkit
+        self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
