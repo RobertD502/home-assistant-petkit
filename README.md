@@ -28,8 +28,10 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 
 - **The current polling interval is set to 2 minutes. If you would like to set a different polling interval, change the `DEFAULT_SCAN_INTERVAL` in the constants.py file (in seconds).**
 
+- If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.
+
 ## Important - Please Read:
-### Note About PetKit Account: 
+### Note About PetKit Account:
 
 PetKit accounts can only be logged in on one device at a time. Using this integration will result in getting signed out of the mobile app. You can avoid this by creating a secondary account and sharing devices from the main account **(except water fountains)**. However, some device functionality is lost when using a secondary account as well as not being able to share pets between accounts. **Therefore, you will get the most out of this integration by using your original account.**
 ### If you have a water fountain:
@@ -61,7 +63,7 @@ If you want to use the PetKit app momentarily to change some settings, be sure t
 Copy the `petkit` directory, from `custom_components` in this repository,
 and place it inside your Home Assistant Core installation's `custom_components` directory. Restart Home Assistant prior to moving on to the `Setup` section.
 
-`Note`: If installing manually, in order to be alerted about new releases, you will need to subscribe to releases from this repository. 
+`Note`: If installing manually, in order to be alerted about new releases, you will need to subscribe to releases from this repository.
 
 ## Setup
 
@@ -197,7 +199,7 @@ Each water fountain has the following entities:
 **Note About Water Fountain Control**
 
 
->  If you have the BLE relay set up in the PetKit app and the main BLE relay device is online, sometimes the bluetooth connection will fail when attempting to send a command (e.g., changing mode, light brightness, etc) . If this happens, it will be noted in the Home Assistant logs. Retrying the command usually results in a subsequent successful connection. 
+>  If you have the BLE relay set up in the PetKit app and the main BLE relay device is online, sometimes the bluetooth connection will fail when attempting to send a command (e.g., changing mode, light brightness, etc) . If this happens, it will be noted in the Home Assistant logs. Retrying the command usually results in a subsequent successful connection.
 </details>
 
 ## Litter Boxes
@@ -224,7 +226,7 @@ Each litter box has the following entities:
 | `Waste bin` | `Binary Sensor` | Allows for determining if the waste bin is full.                                                                                                                                                                                         |
 | `Auto cleaning` | `Switch` | - Only available if litter box is online (Connected to PetKit's servers). <br/>- Not available if Kitten Mode is turned on.                                                                                                              |
 | `Auto odor removal` | `Switch` | Only available if litter box is online (Connected to PetKit's servers).                                                                                                                                                                  |
-| `Avoid repeat cleaning` | `Switch` | - Only available if litter box is online (Connected to PetKit's servers). <br/>- Not available if Auto Cleaning is disabled. <br/>- Not available if Kitten Mode is turned on.                                                           | 
+| `Avoid repeat cleaning` | `Switch` | - Only available if litter box is online (Connected to PetKit's servers). <br/>- Not available if Auto Cleaning is disabled. <br/>- Not available if Kitten Mode is turned on.                                                           |
 | `Child lock`| `Switch` | Only available if litter box is online (Connected to PetKit's servers).                                                                                                                                                                  |
 | `Cleaning delay` | `Number` | - Only available if litter box is online (Connected to PetKit's servers). <br/>- Not available if Auto Cleaning is disabled. <br/>- Not available if Kitten Mode is turned on.                                                           |
 | `Cleaning interval` | `Select` | - Only available if litter box is online (Connected to PetKit's servers). <br/>- Not available if Auto Cleaning is disabled. <br/>- Not available if Avoid repeat cleaning is disabled. <br/>- Not available if Kitten Mode is turned on. |
