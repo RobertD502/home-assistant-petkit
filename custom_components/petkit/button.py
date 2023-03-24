@@ -5,6 +5,7 @@ from typing import Any
 import asyncio
 
 from petkitaio.constants import LitterBoxCommand, W5Command
+from petkitaio.exceptions import BluetoothError
 from petkitaio.model import Feeder, LitterBox, W5Fountain
 
 from homeassistant.components.button import ButtonEntity
@@ -16,6 +17,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, FEEDERS, LITTER_BOXES, WATER_FOUNTAINS
 from .coordinator import PetKitDataUpdateCoordinator
+from .exceptions import PetKitBluetoothError
 
 
 async def async_setup_entry(
