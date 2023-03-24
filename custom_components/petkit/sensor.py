@@ -62,6 +62,7 @@ async def async_setup_entry(
             FeederDesiccant(coordinator, feeder_id),
             FeederBattStatus(coordinator, feeder_id),
             FeederRSSI(coordinator, feeder_id),
+            FeederError(coordinator, feeder_id),
         ))
 
         # D3 & D4
@@ -85,7 +86,6 @@ async def async_setup_entry(
                 AmountEaten(coordinator, feeder_id),
                 TimesEaten(coordinator, feeder_id),
                 FoodInBowl(coordinator, feeder_id),
-                FeederError(coordinator, feeder_id),
             ))
 
     # Litter boxes
