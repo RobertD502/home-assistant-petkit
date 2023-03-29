@@ -2,8 +2,9 @@
 ![GitHub manifest version (path)](https://img.shields.io/github/manifest-json/v/RobertD502/home-assistant-petkit?filename=custom_components%2Fpetkit%2Fmanifest.json)
 
 <a href="https://www.buymeacoffee.com/RobertD502" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="100" width="424"></a>
+<a href="https://liberapay.com/RobertD502/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg" height="100" width="300"></a>
 
-### A lot of work has been put into creating the backend and this integration. If you enjoy this integration, consider donating by clicking on the logo above.
+### A lot of work has been put into creating the backend and this integration. If you enjoy this integration, consider donating by clicking on one of the supported methods above.
 
 ***All proceeds go towards helping a local animal rescue.**
 
@@ -18,6 +19,11 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 - [Eversweet 3 Pro Water Fountain](https://www.amazon.com/PETKIT-Wireless-Fountain-Stainless-Dispenser/dp/B09QRH6L3M/)
 - [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
 
+#### Bluetooth only devices that don't use PetKit's BLE relay such as trackers (i.e., PetKit Fit) will not be supported: syncing new data from a bluetooth tracker requires the PetKit mobile app to communicate with the tracker which is not possible when your PetKit account is already in use with this integration. 
+
+## Discord Server
+
+[Join](https://discord.gg/XQaPwSBStN) the Home Assistant PetKit discord server to follow development news or to share ideas with other users.
 
 
 ## **Prior To Installation**
