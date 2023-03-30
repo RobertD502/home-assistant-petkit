@@ -106,6 +106,12 @@ class WFWater(CoordinatorEntity, BinarySensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "water_level"
+
+    @property
     def device_class(self) -> BinarySensorDeviceClass:
         """Return entity device class."""
 
@@ -171,6 +177,12 @@ class FoodLevel(CoordinatorEntity, BinarySensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "food_level"
 
     @property
     def device_class(self) -> BinarySensorDeviceClass:
@@ -254,6 +266,12 @@ class BatteryInstalled(CoordinatorEntity, BinarySensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "battery_installed"
+
+    @property
     def entity_category(self) -> EntityCategory:
         """Set category to diagnostic."""
 
@@ -317,6 +335,12 @@ class BatteryCharging(CoordinatorEntity, BinarySensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "battery"
 
     @property
     def entity_category(self) -> EntityCategory:
@@ -390,6 +414,12 @@ class LBBinFull(CoordinatorEntity, BinarySensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "wastebin"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -450,6 +480,12 @@ class LBLitterLack(CoordinatorEntity, BinarySensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "litter"
 
     @property
     def icon(self) -> str:
@@ -514,6 +550,12 @@ class LBDeodorizerLack(CoordinatorEntity, BinarySensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "deodorizer"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -574,6 +616,12 @@ class LBManuallyPaused(CoordinatorEntity, BinarySensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "manually_paused"
 
     @property
     def icon(self) -> str:
