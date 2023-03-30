@@ -1,0 +1,285 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "PetKit račun je već konfiguriran",
+            "reauth_successful": "Ponovna provjera autentičnosti bila je uspješna"
+        },
+        "error": {
+            "cannot_connect": "Povezivanje nije uspjelo",
+            "invalid_auth": "Nevažeća provjera autentičnosti. Jesu li vaše vjerodajnice točne?",
+            "no_devices": "Na vašem računu nisu pronađeni uređaji"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "PetKit e-pošta računa",
+                    "password": "PetKit lozinka računa"
+                },
+                "title": "Ispunite svoje vjerodajnice za PetKit"
+            },
+            "reauth_confirm": {
+                "data": {
+                    "email": "PetKit e-pošta računa",
+                    "password": "PetKit lozinka računa"
+                },
+                "title": "Ponovo potvrdite autentičnost svojim PetKit vjerodajnicama"
+            }
+        }
+    },
+    "entity": {
+      "binary_sensor": {
+        "water_level": {
+          "name": "Razina vode"
+        },
+        "food_level": {
+          "name": "Razina hrane"
+        },
+        "battery_installed": {
+          "name": "Baterija instalirana"
+        },
+        "battery": {
+          "name": "Baterija"
+        },
+        "wastebin": {
+          "name": "Kanta za smeće"
+        },
+        "litter": {
+          "name": "Pijesak"
+        },
+        "deodorizer": {
+          "name": "Dezodorans"
+        },
+        "manually_paused": {
+          "name": "Ručno pauzirano"
+        }
+      },
+      "button": {
+        "reset_filter": {
+          "name": "Resetiraj filter"
+        },
+        "reset_desiccant": {
+          "name": "Resetiraj sredstvo za sušenje"
+        },
+        "cancel_manual_feed": {
+          "name": "Otkažite ručno hranjenje"
+        },
+        "call_pet": {
+          "name": "Nazovi ljubimca"
+        },
+        "start_cleaning": {
+          "name": "Pokreni/Nastavi čišćenje"
+        },
+        "pause_cleaning": {
+          "name": "Pauzirajte čišćenje"
+        },
+        "odor_removal": {
+          "name": "Uklanjanje mirisa"
+        },
+        "reset_deodorizer": {
+          "name": "Resetiraj dezodorans"
+        }
+      },
+      "number": {
+        "set_weight": {
+          "name": "Postavite težinu"
+        },
+        "surplus": {
+          "name": "Višak"
+        },
+        "volume": {
+          "name": "Volumen"
+        },
+        "manual_feed": {
+          "name": "Ručno hranjenje"
+        },
+        "cleaning_delay": {
+          "name": "Odgoda čišćenja"
+        }
+      },
+      "select": {
+        "light_brightness": {
+          "name": "Svjetlina svjetla",
+          "state": {
+            "Low": "Niska",
+            "Medium": "Srednja",
+            "High": "Visoka"
+          }
+        },
+        "mode": {
+          "name": "Način rada",
+          "state": {
+            "Normal": "Normalan",
+            "Smart": "Pametan"
+          }
+        },
+        "manual_feed": {
+          "name": "Ručno hranjenje"
+        },
+        "sound": {
+          "name": "Zvuk"
+        },
+        "cleaning_interval": {
+          "name": "Interval čišćenja"
+        },
+        "litter_type": {
+          "name": "Vrsta pijeska",
+          "state": {
+            "Bentonite": "Bentonit",
+            "Tofu": "Tofu",
+            "Mixed": "Mješoviti"
+          }
+        }
+      },
+      "sensor": {
+        "energy_usage": {
+          "name": "Potrošnja energije"
+        },
+        "last_data_update": {
+          "name": "Zadnje ažuriranje podataka"
+        },
+        "filter": {
+          "name": "Filter"
+        },
+        "purified_water_today": {
+          "name": "Pročišćena voda danas"
+        },
+        "feeder_status": {
+          "name": "Status",
+          "state": {
+            "Offline": "Offline",
+            "Normal": "Normalan",
+            "On Batteries": "Na Baterije"
+          }
+        },
+        "desiccant_days_remaining": {
+          "name": "Sredstvo za sušenje dana preostalo"
+        },
+        "battery_status": {
+          "name": "Status baterije",
+          "state": {
+            "Normal": "Normalan",
+            "Low": "Nizak"
+          }
+        },
+        "dispensed": {
+          "name": "Izdano"
+        },
+        "planned": {
+          "name": "Planiran"
+        },
+        "planned_dispensed": {
+          "name": "Planirano izdano"
+        },
+        "manually_dispensed": {
+          "name": "Ručno izdano"
+        },
+        "times_dispensed": {
+          "name": "Puta izdano"
+        },
+        "rssi": {
+          "name": "RSSI"
+        },
+        "amount_eaten": {
+          "name": "Pojedena količina"
+        },
+        "times_eaten": {
+          "name": "Puta jelo"
+        },
+        "food_in_bowl": {
+          "name": "Hrana u posudi"
+        },
+        "error": {
+          "name": "Greška",
+          "state": {
+            "No Error": "Nema Greške"
+          }
+        },
+        "deodorizer_level": {
+          "name": "Razina dezodoransa"
+        },
+        "litter_level": {
+          "name": "Razina pijeska"
+        },
+        "litter_weight": {
+          "name": "Težina pijeska"
+        },
+        "times_used": {
+          "name": "Puta Korištena"
+        },
+        "average_use": {
+          "name": "Prosječna upotreba"
+        },
+        "total_use": {
+          "name": "Ukupna upotreba"
+        },
+        "last_used_by": {
+          "name": "Zadnje korištenje"
+        },
+        "last_event": {
+          "name": "Zadnji događaj"
+        },
+        "latest_weight": {
+          "name": "Najnovija težina"
+        },
+        "last_use_duration": {
+          "name": "Trajanje zadnje upotrebe"
+        }
+      },
+      "switch": {
+        "light": {
+          "name": "Svjetlo"
+        },
+        "power": {
+          "name": "Struja"
+        },
+        "do_not_disturb": {
+          "name": "Ne smetaj"
+        },
+        "indicator_light": {
+          "name": "Svjetlosni indikator"
+        },
+        "child_lock": {
+          "name": "Dječja brava"
+        },
+        "food_shortage_alarm": {
+          "name": "Alarm za nestašicu hrane"
+        },
+        "dispense_tone": {
+          "name": "Ton s dispenzom"
+        },
+        "voice_with_dispense": {
+          "name": "Glas s dispenzom"
+        },
+        "surplus_control": {
+          "name": "Kontrola viška"
+        },
+        "system_notification_sound": {
+          "name": "Zvuk obavijesti sustava"
+        },
+        "auto_odor_removal": {
+          "name": "Automatsko uklanjanje mirisa"
+        },
+        "auto_cleaning": {
+          "name": "Automatsko čišćenje"
+        },
+        "avoid_repeat_cleaning": {
+          "name": "Izbjegavajte ponavljanje čišćenja"
+        },
+        "periodic_cleaning": {
+          "name": "Periodično čišćenje"
+        },
+        "periodic_odor_removal": {
+          "name": "Povremeno uklanjanje mirisa"
+        },
+        "kitten_mode": {
+          "name": "Način mačića"
+        },
+        "display": {
+          "name": "Zaslon"
+        },
+        "light_weight_cleaning_disabled": {
+          "name": "Onemogućeno lagano čišćenje"
+        }
+      }
+    }
+}
