@@ -110,6 +110,12 @@ class WFResetFilter(CoordinatorEntity, ButtonEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "reset_filter"
+
+    @property
     def entity_category(self) -> EntityCategory:
         """Set category to config."""
 
@@ -186,6 +192,12 @@ class ResetDesiccant(CoordinatorEntity, ButtonEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "reset_desiccant"
+
+    @property
     def available(self) -> bool:
         """Only make available if device is online."""
 
@@ -254,6 +266,12 @@ class CancelManualFeed(CoordinatorEntity, ButtonEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "cancel_manual_feed"
+
+    @property
     def available(self) -> bool:
         """Only make available if device is online."""
 
@@ -313,6 +331,12 @@ class CallPet(CoordinatorEntity, ButtonEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "call_pet"
+
+    @property
     def available(self) -> bool:
         """Only make available if device is online."""
 
@@ -370,6 +394,12 @@ class LBStartCleaning(CoordinatorEntity, ButtonEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "start_cleaning"
 
     @property
     def icon(self) -> str:
@@ -440,6 +470,12 @@ class LBPauseCleaning(CoordinatorEntity, ButtonEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "pause_cleaning"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -508,6 +544,12 @@ class LBOdorRemoval(CoordinatorEntity, ButtonEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "odor_removal"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -574,6 +616,12 @@ class LBResetDeodorizer(CoordinatorEntity, ButtonEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "reset_deodorizer"
 
     @property
     def icon(self) -> str:
