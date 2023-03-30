@@ -126,6 +126,12 @@ class WFLightBrightness(CoordinatorEntity, SelectEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "light_brightness"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -228,6 +234,12 @@ class WFMode(CoordinatorEntity, SelectEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "mode"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -328,6 +340,12 @@ class ManualFeed(CoordinatorEntity, SelectEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "manual_feed"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -408,6 +426,12 @@ class Sound(CoordinatorEntity, SelectEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "sound"
 
     @property
     def icon(self) -> str:
@@ -501,6 +525,12 @@ class LBCleaningInterval(CoordinatorEntity, SelectEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "cleaning_interval"
 
     @property
     def icon(self) -> str:
@@ -600,6 +630,12 @@ class LBLitterType(CoordinatorEntity, SelectEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "litter_type"
 
     @property
     def icon(self) -> str:
