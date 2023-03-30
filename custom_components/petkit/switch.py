@@ -125,6 +125,12 @@ class WFLight(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "light"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -220,6 +226,12 @@ class WFPower(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "power"
 
     @property
     def icon(self) -> str:
@@ -332,6 +344,12 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "do_not_disturb"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -435,6 +453,12 @@ class IndicatorLight(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "indicator_light"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -524,6 +548,12 @@ class ChildLock(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "child_lock"
 
     @property
     def icon(self) -> str:
@@ -623,6 +653,12 @@ class ShortageAlarm(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "food_shortage_alarm"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -710,6 +746,12 @@ class DispenseTone(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "dispense_tone"
 
     @property
     def icon(self) -> str:
@@ -800,6 +842,12 @@ class VoiceDispense(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "voice_with_dispense"
 
     @property
     def icon(self) -> str:
@@ -894,6 +942,12 @@ class DoNotDisturb(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "do_not_disturb"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -984,6 +1038,12 @@ class SurplusControl(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "surplus_control"
 
     @property
     def icon(self) -> str:
@@ -1078,6 +1138,12 @@ class SystemNotification(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "system_notification_sound"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1168,6 +1234,12 @@ class LBAutoOdor(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "auto_odor_removal"
 
     @property
     def icon(self) -> str:
@@ -1262,6 +1334,12 @@ class LBAutoClean(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "auto_cleaning"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1349,6 +1427,12 @@ class LBAvoidRepeat(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "avoid_repeat_cleaning"
 
     @property
     def icon(self) -> str:
@@ -1447,6 +1531,12 @@ class LBDoNotDisturb(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "do_not_disturb"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1537,6 +1627,12 @@ class LBPeriodicCleaning(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "periodic_cleaning"
 
     @property
     def icon(self) -> str:
@@ -1631,6 +1727,12 @@ class LBPeriodicOdor(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "periodic_odor_removal"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1723,6 +1825,12 @@ class LBKittenMode(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "kitten_mode"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1810,6 +1918,12 @@ class LBDisplay(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "display"
 
     @property
     def icon(self) -> str:
@@ -1904,6 +2018,12 @@ class LBChildLock(CoordinatorEntity, SwitchEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "child_lock"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1994,6 +2114,12 @@ class LBLightWeight(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "light_weight_cleaning_disabled"
 
     @property
     def icon(self) -> str:
@@ -2091,6 +2217,12 @@ class LBPower(CoordinatorEntity, SwitchEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "power"
 
     @property
     def icon(self) -> str:
