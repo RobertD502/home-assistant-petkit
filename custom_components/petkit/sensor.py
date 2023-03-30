@@ -160,6 +160,12 @@ class WFEnergyUse(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "energy_usage"
+
+    @property
     def native_value(self) -> float:
         """Return total energy usage in kWh."""
 
@@ -233,6 +239,12 @@ class WFLastUpdate(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "last_data_update"
 
     @property
     def native_value(self) -> datetime:
@@ -315,6 +327,12 @@ class WFFilter(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "filter"
+
+    @property
     def native_value(self) -> int:
         """Return current filter percent left."""
 
@@ -385,6 +403,12 @@ class WFPurifiedWater(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "purified_water_today"
+
+    @property
     def native_value(self) -> int:
         """Return number of times water was purified today."""
 
@@ -453,6 +477,12 @@ class FeederStatus(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "feeder_status"
 
     @property
     def native_value(self) -> str | None:
@@ -532,6 +562,12 @@ class FeederDesiccant(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "desiccant_days_remaining"
+
+    @property
     def native_value(self) -> int:
         """Return days remaining."""
 
@@ -597,6 +633,12 @@ class FeederBattStatus(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "battery_status"
 
     @property
     def native_value(self) -> str:
@@ -680,6 +722,12 @@ class TotalDispensed(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "dispensed"
+
+    @property
     def native_value(self) -> int:
         """Return total dispensed."""
 
@@ -751,6 +799,12 @@ class TotalPlanned(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "planned"
 
     @property
     def native_value(self) -> int:
@@ -826,6 +880,12 @@ class PlannedDispensed(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "planned_dispensed"
+
+    @property
     def native_value(self) -> int:
         """Return total planned dispensed."""
 
@@ -897,6 +957,12 @@ class ManualDispensed(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "manually_dispensed"
 
     @property
     def native_value(self) -> int:
@@ -972,6 +1038,12 @@ class TimesDispensed(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "times_dispensed"
+
+    @property
     def native_value(self) -> int:
         """Return total times dispensed."""
 
@@ -1040,6 +1112,12 @@ class FeederRSSI(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "rssi"
 
     @property
     def native_value(self) -> int:
@@ -1122,6 +1200,12 @@ class AmountEaten(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "amount_eaten"
+
+    @property
     def native_value(self) -> int:
         """Return total amount eaten."""
 
@@ -1195,6 +1279,12 @@ class TimesEaten(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "times_eaten"
+
+    @property
     def native_value(self) -> int:
         """Return total times eaten."""
 
@@ -1261,6 +1351,12 @@ class FoodInBowl(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "food_in_bowl"
 
     @property
     def native_value(self) -> int:
@@ -1337,6 +1433,12 @@ class FeederError(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "error"
+
+    @property
     def native_value(self) -> str:
         """Return current error if there is one."""
 
@@ -1400,6 +1502,12 @@ class LBDeodorizerLevel(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "deodorizer_level"
 
     @property
     def icon(self) -> str:
@@ -1475,6 +1583,12 @@ class LBLitterLevel(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "litter_level"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1547,6 +1661,12 @@ class LBLitterWeight(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "litter_weight"
 
     @property
     def icon(self) -> str:
@@ -1629,6 +1749,12 @@ class LBRSSI(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "rssi"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -1709,6 +1835,12 @@ class LBError(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "error"
+
+    @property
     def native_value(self) -> str:
         """Return current error if there is one."""
 
@@ -1774,6 +1906,12 @@ class LBTimesUsed(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "times_used"
+
+    @property
     def native_value(self) -> int:
         """Return current usage count."""
 
@@ -1834,6 +1972,12 @@ class LBAverageUse(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "average_use"
 
     @property
     def native_value(self) -> int:
@@ -1904,6 +2048,12 @@ class LBTotalUse(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "total_use"
+
+    @property
     def native_value(self) -> int:
         """Return current usage time average in seconds."""
 
@@ -1972,6 +2122,12 @@ class LBLastUsedBy(CoordinatorEntity, SensorEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "last_used_by"
+
+    @property
     def native_value(self) -> str:
         """Return last pet to use the litter box."""
 
@@ -2034,6 +2190,12 @@ class LBLastEvent(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "last_event"
 
     @property
     def native_value(self) -> str:
@@ -2162,7 +2324,7 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity):
     @property
     def litter_boxes(self) -> dict[LitterBox, Any]:
         """Handle coordinator Litter Boxes data."""
-        
+
         return self.coordinator.data.litter_boxes
 
     @property
@@ -2193,6 +2355,12 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "latest_weight"
 
     @property
     def entity_picture(self) -> str:
@@ -2245,7 +2413,7 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity):
 
     def grab_recent_weight(self) -> float:
         """Grab the most recent weight."""
-        
+
         weight_dict: dict[int, int] = {}
 
         for lb_id, lb_data in self.litter_boxes.items():
@@ -2279,7 +2447,7 @@ class PetLastUseDuration(CoordinatorEntity, SensorEntity):
     @property
     def litter_boxes(self) -> dict[LitterBox, Any]:
         """Handle coordinator Litter Boxes data."""
-        
+
         return self.coordinator.data.litter_boxes
 
     @property
@@ -2310,6 +2478,12 @@ class PetLastUseDuration(CoordinatorEntity, SensorEntity):
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "last_use_duration"
 
     @property
     def entity_picture(self) -> str:
@@ -2355,7 +2529,7 @@ class PetLastUseDuration(CoordinatorEntity, SensorEntity):
 
     def grab_recent_duration(self) -> float:
         """Grab the most recent duration."""
-        
+
         duration_dict: dict[int, int] = {}
 
         for lb_id, lb_data in self.litter_boxes.items():
