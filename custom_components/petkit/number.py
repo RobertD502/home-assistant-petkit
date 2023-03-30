@@ -101,6 +101,12 @@ class PetWeight(CoordinatorEntity, NumberEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "set_weight"
+
+    @property
     def entity_picture(self) -> str:
         """Grab associated pet picture."""
 
@@ -120,7 +126,7 @@ class PetWeight(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> float:
-        """Returns current weight.""" 
+        """Returns current weight."""
 
         pet_weight = self.pet_data.data['weight']
         if self.hass.config.units is METRIC_SYSTEM:
@@ -229,6 +235,12 @@ class Surplus(CoordinatorEntity, NumberEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "surplus"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -242,7 +254,7 @@ class Surplus(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns current surplus setting.""" 
+        """Returns current surplus setting."""
 
         return self.feeder_data.data['settings']['surplus']
 
@@ -344,6 +356,12 @@ class Volume(CoordinatorEntity, NumberEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "volume"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -357,7 +375,7 @@ class Volume(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns current volume setting.""" 
+        """Returns current volume setting."""
 
         return self.feeder_data.data['settings']['volume']
 
@@ -447,6 +465,12 @@ class ManualFeed(CoordinatorEntity, NumberEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "manual_feed"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -454,7 +478,7 @@ class ManualFeed(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns lowest amount allowed.""" 
+        """Returns lowest amount allowed."""
 
         return 4
 
@@ -557,6 +581,12 @@ class LBCleaningDelay(CoordinatorEntity, NumberEntity):
         return True
 
     @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "cleaning_delay"
+
+    @property
     def icon(self) -> str:
         """Set icon."""
 
@@ -570,7 +600,7 @@ class LBCleaningDelay(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns currently set delay in minutes.""" 
+        """Returns currently set delay in minutes."""
 
         return (self.lb_data.device_detail['settings']['stillTime'] / 60)
 
