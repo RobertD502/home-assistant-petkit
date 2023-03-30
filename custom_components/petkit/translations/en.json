@@ -25,5 +25,261 @@
                 "title": "Reauthenticate with your PetKit credentials"
             }
         }
+    },
+    "entity": {
+      "binary_sensor": {
+        "water_level": {
+          "name": "Water level"
+        },
+        "food_level": {
+          "name": "Food level"
+        },
+        "battery_installed": {
+          "name": "Battery installed"
+        },
+        "battery": {
+          "name": "Battery"
+        },
+        "wastebin": {
+          "name": "Wastebin"
+        },
+        "litter": {
+          "name": "Litter"
+        },
+        "deodorizer": {
+          "name": "Deodorizer"
+        },
+        "manually_paused": {
+          "name": "Manually paused"
+        }
+      },
+      "button": {
+        "reset_filter": {
+          "name": "Reset filter"
+        },
+        "reset_desiccant": {
+          "name": "Reset desiccant"
+        },
+        "cancel_manual_feed": {
+          "name": "Cancel manual feed"
+        },
+        "call_pet": {
+          "name": "Call pet"
+        },
+        "start_cleaning": {
+          "name": "Start/Resume cleaning"
+        },
+        "pause_cleaning": {
+          "name": "Pause cleaning"
+        },
+        "odor_removal": {
+          "name": "Odor removal"
+        },
+        "reset_deodorizer": {
+          "name": "Reset deodorizer"
+        }
+      },
+      "number": {
+        "set_weight": {
+          "name": "Set weight"
+        },
+        "surplus": {
+          "name": "Surplus"
+        },
+        "volume": {
+          "name": "Volume"
+        },
+        "manual_feed": {
+          "name": "Manual feed"
+        },
+        "cleaning_delay": {
+          "name": "Cleaning delay"
+        }
+      },
+      "select": {
+        "light_brightness": {
+          "name": "Light brightness",
+          "state": {
+            "Low": "Low",
+            "Medium": "Medium",
+            "High": "High"
+          }
+        },
+        "mode": {
+          "name": "Mode",
+          "state": {
+            "Normal": "Normal",
+            "Smart": "Smart"
+          }
+        },
+        "manual_feed": {
+          "name": "Manual feed"
+        },
+        "sound": {
+          "name": "Sound"
+        },
+        "cleaning_interval": {
+          "name": "Cleaning interval"
+        },
+        "litter_type": {
+          "name": "Litter type",
+          "state": {
+            "Bentonite": "Bentonite",
+            "Tofu": "Tofu",
+            "Mixed": "Mixed"
+          }
+        }
+      },
+      "sensor": {
+        "energy_usage": {
+          "name": "Energy usage"
+        },
+        "last_data_update": {
+          "name": "Last data update"
+        },
+        "filter": {
+          "name": "Filter"
+        },
+        "purified_water_today": {
+          "name": "Purified water today"
+        },
+        "feeder_status": {
+          "name": "Status",
+          "state": {
+            "Offline": "Offline",
+            "Normal": "Normal",
+            "On Batteries": "On Batteries"
+          }
+        },
+        "desiccant_days_remaining": {
+          "name": "Desiccant days remaining"
+        },
+        "battery_status": {
+          "name": "Battery status",
+          "state": {
+            "Normal": "Normal",
+            "Low": "Low"
+          }
+        },
+        "dispensed": {
+          "name": "Dispensed"
+        },
+        "planned": {
+          "name": "Planned"
+        },
+        "planned_dispensed": {
+          "name": "Planned dispensed"
+        },
+        "manually_dispensed": {
+          "name": "Manually dispensed"
+        },
+        "times_dispensed": {
+          "name": "Times dispensed"
+        },
+        "rssi": {
+          "name": "RSSI"
+        },
+        "amount_eaten": {
+          "name": "Amount eaten"
+        },
+        "times_eaten": {
+          "name": "Times eaten"
+        },
+        "food_in_bowl": {
+          "name": "Food in bowl"
+        },
+        "error": {
+          "name": "Error",
+          "state": {
+            "No Error": "No Error"
+          }
+        },
+        "deodorizer_level": {
+          "name": "Deodorizer level"
+        },
+        "litter_level": {
+          "name": "Litter level"
+        },
+        "litter_weight": {
+          "name": "Litter weight"
+        },
+        "times_used": {
+          "name": "Times used"
+        },
+        "average_use": {
+          "name": "Average use"
+        },
+        "total_use": {
+          "name": "Total use"
+        },
+        "last_used_by": {
+          "name": "Last used by"
+        },
+        "last_event": {
+          "name": "Last event"
+        },
+        "latest_weight": {
+          "name": "Latest weight"
+        },
+        "last_use_duration": {
+          "name": "Last use duration"
+        }
+      },
+      "switch": {
+        "light": {
+          "name": "Light"
+        },
+        "power": {
+          "name": "Power"
+        },
+        "do_not_disturb": {
+          "name": "Do not disturb"
+        },
+        "indicator_light": {
+          "name": "Indicator light"
+        },
+        "child_lock": {
+          "name": "Child lock"
+        },
+        "food_shortage_alarm": {
+          "name": "Food shortage alarm"
+        },
+        "dispense_tone": {
+          "name": "Dispense tone"
+        },
+        "voice_with_dispense": {
+          "name": "Voice with dispense"
+        },
+        "surplus_control": {
+          "name": "Surplus control"
+        },
+        "system_notification_sound": {
+          "name": "System notification sound"
+        },
+        "auto_odor_removal": {
+          "name": "Auto odor removal"
+        },
+        "auto_cleaning": {
+          "name": "Auto cleaning"
+        },
+        "avoid_repeat_cleaning": {
+          "name": "Avoid repeat cleaning"
+        },
+        "periodic_cleaning": {
+          "name": "Periodic cleaning"
+        },
+        "periodic_odor_removal": {
+          "name": "Periodic odor removal"
+        },
+        "kitten_mode": {
+          "name": "Kitten mode"
+        },
+        "display": {
+          "name": "Display"
+        },
+        "light_weight_cleaning_disabled": {
+          "name": "Light weight cleaning disabled"
+        }
+      }
     }
 }
