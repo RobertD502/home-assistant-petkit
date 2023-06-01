@@ -2,5 +2,5 @@
   "name": "PetKit",
   "render_readme": true,
   "country": "US",
-  "homeassistant": "2023.1.0"
+  "homeassistant": "2023.4.0"
 }
