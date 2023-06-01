@@ -18,7 +18,7 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 - [Fresh Element Mini Pro](https://www.amazon.com/PETKIT-Automatic-Stainless-Indicator-Dispenser-2-8L/dp/B08GS1CPHH/)
 - [Eversweet 3 Pro Water Fountain](https://www.amazon.com/PETKIT-Wireless-Fountain-Stainless-Dispenser/dp/B09QRH6L3M/)
 - [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
-- [Pura MAX Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
+- [Pura MAX Litter Box with/without Pura Air deodorizer](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
 
 #### Bluetooth only devices that don't use PetKit's BLE relay such as trackers (i.e., PetKit Fit) will not be supported: syncing new data from a bluetooth tracker requires the PetKit mobile app to communicate with the tracker which is not possible when your PetKit account is already in use with this integration. 
 
