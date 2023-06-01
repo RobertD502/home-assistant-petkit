@@ -247,14 +247,73 @@ Each litter box has the following entities:
 | `Periodic odor removal` | `Switch` | Only available if litter box is online (Connected to PetKit's servers).                                                                                                                                                                  |
 | `Deodorizer level` | `Sensor` | Percent of deodorizer remaining.                                                                                                                                                                                                         |
 | `Error` | `Sensor` | Any errors being reported by the litter box.                                                                                                                                                                                             |
-| `Last event` | `Sensor` | - Last event that occured in the litter box. <br/>- sub_events attribute is used to list any events that are associated with the main event. <br/>- This sensor is used to mimic the timeline that is seen in the PetKit app.            |
+| `Last event` | `Sensor` | - Last event that occured in the litter box. <br/>- sub_events attribute is used to list any events that are associated with the main event. <br/>- This sensor is used to mimic the timeline that is seen in the PetKit app. <br/>-Please see "Last event states" section below            |
 | `Litter level` | `Sensor` | Percent of litter that is left in the litter box.                                                                                                                                                                                        |
 | `Litter weight` | `Sensor` | - Weight of litter currently in litter box. <br/>- By default this is in Kg. The unit can be changed in the settings of this entity.                                                                                                     |
 | `Manually paused` | `Binary Sensor` | Indicates if the litter box has been manually paused or not. Please see note below table for additional information.                                                                                                                     |
 | `RSSI` | `Sensor` | WiFi connection strength.                                                                                                                                                                                                                |
 
 > When manually pausing the litter box, the manually paused sensor entity will show a state of On. If cleaning isn't resumed, the litter box will (by default) resume cleaning after 10 minutes - the manually paused entity will return to a state of Off. If you manually pause a cleaning and restart Home Assistant while the litter box is paused, this sensor will have an incorrect state of Off. This is a limitation on PetKit's end as the state of the litter box is not reported by their servers. This behavior is evident when a cleaning is paused from the PetKit app, the app is force closed, and opened again. The goal of this entity is to be able to manually keep track of the state of the litter box since PetKit doesn't do that.
+  <details>
+    <summary> <b>Last event states</b> (<i>click to expand</i>)</summary>
+    <!---->
+
+  The following are all possible event/sub event states and their full descriptions
+  
+| Event/Sub event state                 | Full Description                                                                                        |
+|-------------------------------------|------------------------------------------------------------------------------------------------------|
+| no_events_yet                       | No events yet                                                                                        |
+| event_type_unknown                  | Event type unknown                                                                                   |
+| cleaning_completed                  | Cleaning completed                                                                                   |
+| dumping_over                        | Dumping Over                                                                                         |
+| reset_over                          | Reset over                                                                                           |
+| spray_over                          | Spray over                                                                                           |
+| pet_out                             | Pet out                                                                                              |
+| auto_cleaning_completed             | Auto cleaning completed                                                                              |
+| periodic_cleaning_completed         | Periodic cleaning completed                                                                          |
+| manual_cleaning_completed           | Manual cleaning completed                                                                            |
+| auto_cleaning_terminated            | Automatic cleaning terminated                                                                        |
+| periodic_cleaning_terminated        | Periodic cleaning terminated                                                                         |
+| manual_cleaning_terminated          | Manual cleaning terminated                                                                           |
+| auto_cleaning_failed_full           | Automatic cleaning failed, waste collection bin is full, please empty promptly                       |
+| auto_cleaning_failed_hall_L         | Automatic cleaning failure, the cylinder is not properly locked in place, please check               |
+| auto_cleaning_failed_hall_T         | Automatic cleaning failure, the litter box's upper cupper cover is not placed properly, please check |
+| scheduled_cleaning_failed_full      | Scheduled cleaning failed, waste collection bin is full, please empty promptly                       |
+| scheduled_cleaning_failed_hall_L    | Scheduled cleaning failure, the cylinder is not properly locked in place, please check               |
+| scheduled_cleaning_failed_hall_T    | Scheduled cleaning failure, the litter box's upper cupper cover is not placed properly, please check |
+| manual_cleaning_failed_full         | Manual cleaning failed, waste collection bin is full, please empty promptly                          |
+| manual_cleaning_failed_hall_L       | Manual cleaning failure, the cylinder is not properly locked in place, please check                  |
+| manual_cleaning_failed_hall_T       | Manual cleaning failure, the litter box's upper cupper cover is not placed properly, please check    |
+| auto_cleaning_canceled              | Automatic cleaning canceled, device in operation                                                     |
+| periodic_cleaning_canceled          | Periodic cleaning canceled, device in operation                                                      |
+| manual_cleaning_canceled            | Manual cleaning canceled, device in operation                                                        |
+| auto_cleaning_canceled_kitten       | Kitten mode is enabled, auto cleaning is canceled                                                    |
+| periodic_cleaning_canceled_kitten   | Kitten mode is enabled, periodically cleaning is canceled                                            |
+| litter_empty_completed              | Cat litter empty completed                                                                           |
+| litter_empty_terminated             | Cat litter empty terminated                                                                          |
+| litter_empty_failed_full            | Cat litter empty failed, waste collection bin is full, please empty promptly                         |
+| litter_empty_failed_hall_L          | Cat litter empty failure, the cylinder is not properly locked in place, please check                 |
+| litter_empty_failed_hall_T          | Cat litter empty failure, the litter box's cupper cover is not placed properly, please check         |
+| reset_completed                     | Device reset completed                                                                               |
+| reset_terminated                    | Device reset terminated                                                                              |
+| reset_failed_full                   | Device reset failed, waste collection bin is full, please empty promptly                             |
+| reset_failed_hall_L                 | Device reset failure, the cylinder is not properly locked in place, please check                     |
+| reset_failed_hall_T                 | Device reset failure, the litter box's cupper cover is not placed properly, please check             |
+| deodorant_finished                  | Deodorant finished                                                                                   |
+| periodic_odor_completed             | Periodic odor removal completed                                                                      |
+| manual_odor_completed               | Manual odor removal completed                                                                        |
+| deodorant_finished_liquid_lack      | Deodorant finished, not enough purifying liquid, please refill in time                               |
+| periodic_odor_completed_liquid_lack | Periodic odor removal completed, not enough purifying liquid, please refill in time                  |
+| manual_odor_completed_liquid_lack   | Manual odor removal completed, not enough purifying liquid, please refill in time                    |
+| auto_odor_failed                    | Automatic odor removal failed, odor eliminator error                                                 |
+| periodic_odor_failed                | Periodic odor removal failure, odor eliminator malfunction                                           |
+| manual_odor_failed                  | Manual odor removal failure, odor eliminator malfunction                                             |
+| no_sub_events                       | No associated sub events                                                                             |
+
+
+  </details>
 </details>
+
 
 ## Pets
 ___
