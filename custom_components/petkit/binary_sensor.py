@@ -27,37 +27,46 @@ async def async_setup_entry(
 
     for wf_id, wf_data in coordinator.data.water_fountains.items():
         # Water Fountains (W5)
-        binary_sensors.extend((
-            WFWater(coordinator, wf_id),
-        ))
+        binary_sensors.append(
+            WFWater(coordinator, wf_id)
+        )
 
     for feeder_id, feeder_data in coordinator.data.feeders.items():
         # All Feeders
-        binary_sensors.extend((
-            FoodLevel(coordinator, feeder_id),
-        ))
+        binary_sensors.append(
+            FoodLevel(coordinator, feeder_id)
+        )
 
         # D4 Feeder
         if feeder_data.type == 'd4':
-            binary_sensors.extend((
-                BatteryInstalled(coordinator, feeder_id),
-            ))
+            binary_sensors.append(
+                BatteryInstalled(coordinator, feeder_id)
+            )
 
         # D3 Feeder
         if feeder_data.type == 'd3':
-            binary_sensors.extend((
-                BatteryCharging(coordinator, feeder_id),
-            ))
+            binary_sensors.append(
+                BatteryCharging(coordinator, feeder_id)
+            )
 
     # Litter boxes
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
+        # Pura X & Pura MAX
+        if lb_data.type in ['t3', 't4']:
+            binary_sensors.extend((
+                LBBinFull(coordinator, lb_id),
+                LBLitterLack(coordinator, lb_id),
+            ))
+        # Pura X & Pura MAX with Pura Air
+        if (lb_data.type == 't3') or ('k3Device' in lb_data.device_detail):
+            binary_sensors.append(
+                LBDeodorizerLack(coordinator, lb_id)
+            )
         # Pura X
-        binary_sensors.extend((
-            LBBinFull(coordinator, lb_id),
-            LBLitterLack(coordinator, lb_id),
-            LBDeodorizerLack(coordinator, lb_id),
-            LBManuallyPaused(coordinator, lb_id),
-        ))
+        if lb_data.type == 't3':
+            binary_sensors.append(
+                LBManuallyPaused(coordinator, lb_id)
+            )
 
     async_add_entities(binary_sensors)
 
@@ -92,12 +101,6 @@ class WFWater(CoordinatorEntity, BinarySensorEntity):
         """Sets unique ID for this entity."""
 
         return str(self.wf_data.id) + '_water_level'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Water level"
 
     @property
     def has_entity_name(self) -> bool:
@@ -165,12 +168,6 @@ class FoodLevel(CoordinatorEntity, BinarySensorEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_food_level'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Food level"
 
     @property
     def has_entity_name(self) -> bool:
@@ -254,12 +251,6 @@ class BatteryInstalled(CoordinatorEntity, BinarySensorEntity):
         return str(self.feeder_data.id) + '_battery_installed'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Battery installed"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -323,12 +314,6 @@ class BatteryCharging(CoordinatorEntity, BinarySensorEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_battery_charging'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Battery"
 
     @property
     def has_entity_name(self) -> bool:
@@ -402,12 +387,6 @@ class LBBinFull(CoordinatorEntity, BinarySensorEntity):
         return str(self.lb_data.id) + '_wastebin'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Wastebin"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -468,12 +447,6 @@ class LBLitterLack(CoordinatorEntity, BinarySensorEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_litter_lack'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Litter"
 
     @property
     def has_entity_name(self) -> bool:
@@ -538,12 +511,6 @@ class LBDeodorizerLack(CoordinatorEntity, BinarySensorEntity):
         return str(self.lb_data.id) + '_deodorizer_lack'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Deodorizer"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -553,13 +520,23 @@ class LBDeodorizerLack(CoordinatorEntity, BinarySensorEntity):
     def translation_key(self) -> str:
         """Translation key for this entity."""
 
-        return "deodorizer"
+        #Pura Air
+        if 'k3Device' in self.lb_data.device_detail:
+            return "pura_air_liquid"
+        #Pura X
+        else:
+            return "deodorizer"
 
     @property
     def icon(self) -> str:
         """Set icon."""
 
-        return 'mdi:spray'
+        #Pura Air
+        if 'k3Device' in self.lb_data.device_detail:
+            return 'mdi:cup'
+        #Pura X
+        else:
+            return 'mdi:spray'
 
     @property
     def device_class(self) -> BinarySensorDeviceClass:
@@ -572,6 +549,22 @@ class LBDeodorizerLack(CoordinatorEntity, BinarySensorEntity):
         """Return True if deodorizer is empty."""
 
         return self.lb_data.device_detail['state']['liquidLack']
+
+    @property
+    def available(self) -> bool:
+        """Determine if entity is available.
+
+        Return true if there is a Pura Air
+        device associated or this is a Pura X.
+        """
+
+        if self.lb_data.type == 't4':
+            if 'k3Device' in self.lb_data.device_detail:
+                return True
+            else:
+                return False
+        else:
+            return True
 
 
 class LBManuallyPaused(CoordinatorEntity, BinarySensorEntity):
@@ -604,12 +597,6 @@ class LBManuallyPaused(CoordinatorEntity, BinarySensorEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_manually_paused'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Manually paused"
 
     @property
     def has_entity_name(self) -> bool:
