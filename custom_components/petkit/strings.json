@@ -448,7 +448,7 @@
           "light_malfunc": "Failing to turn on the light. Device malfunction, please check.",
           "light_no_device": "Failing to turn on the light. Please bind the odor removal device first.",
           "light_batt_cap": "Failing to turn on the light. Please check the battery capacity of the odor removal device.",
-          "light_low_batt": "Failing to turn on the light. Low battery capacity of odor removal device.",
+          "light_low_batt": "Failing to turn on the light. Low battery capacity of odor removal device."
         },
         "state_attributes": {
           "sub_events": {
