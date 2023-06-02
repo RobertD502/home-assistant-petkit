@@ -63,18 +63,18 @@ async def async_setup_entry(
     for feeder_id, feeder_data in coordinator.data.feeders.items():
         # D4 and Mini Feeders
         if feeder_data.type in ['d4', 'feedermini']:
-            selects.extend((
-                ManualFeed(coordinator, feeder_id),
-            ))
+            selects.append(
+                ManualFeed(coordinator, feeder_id)
+            )
         # D3 Feeder
         if feeder_data.type == 'd3':
-            selects.extend((
-                Sound(coordinator, feeder_id),
-            ))
+            selects.append(
+                Sound(coordinator, feeder_id)
+            )
 
     # Litter boxes
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
-        # Pura X
+        # Pura X & Pura MAX
         selects.extend((
             LBCleaningInterval(coordinator, lb_id),
             LBLitterType(coordinator, lb_id),
@@ -112,12 +112,6 @@ class WFLightBrightness(CoordinatorEntity, SelectEntity):
         """Sets unique ID for this entity."""
 
         return str(self.wf_data.id) + '_light_brightness'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Light brightness"
 
     @property
     def has_entity_name(self) -> bool:
@@ -222,12 +216,6 @@ class WFMode(CoordinatorEntity, SelectEntity):
         return str(self.wf_data.id) + '_mode'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Mode"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -328,12 +316,6 @@ class ManualFeed(CoordinatorEntity, SelectEntity):
         return str(self.feeder_data.id) + '_manual_feed'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Manual feed"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -416,12 +398,6 @@ class Sound(CoordinatorEntity, SelectEntity):
         return str(self.feeder_data.id) + '_sound'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Sound"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -477,7 +453,7 @@ class Sound(CoordinatorEntity, SelectEntity):
         NAME_TO_SOUND_ID = {v: k for (k, v) in available_sounds.items()}
         ha_to_petkit = NAME_TO_SOUND_ID.get(option)
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SELECTEDSOUND, ha_to_petkit)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SELECTED_SOUND, ha_to_petkit)
         self.feeder_data.data['settings']['selectedSound'] = ha_to_petkit
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
@@ -513,12 +489,6 @@ class LBCleaningInterval(CoordinatorEntity, SelectEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_cleaning_interval'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Cleaning interval"
 
     @property
     def has_entity_name(self) -> bool:
@@ -582,7 +552,7 @@ class LBCleaningInterval(CoordinatorEntity, SelectEntity):
 
         ha_to_petkit = CLEANING_INTERVAL_TO_PETKIT.get(option)
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CLEANINTERVAL, ha_to_petkit)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CLEAN_INTERVAL, ha_to_petkit)
         self.lb_data.device_detail['settings']['autoIntervalMin'] = ha_to_petkit
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
@@ -618,12 +588,6 @@ class LBLitterType(CoordinatorEntity, SelectEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_litter_type'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Litter type"
 
     @property
     def has_entity_name(self) -> bool:
@@ -676,7 +640,7 @@ class LBLitterType(CoordinatorEntity, SelectEntity):
 
         ha_to_petkit = LITTER_TYPE_TO_PETKIT.get(option)
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.SANDTYPE, ha_to_petkit)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.SAND_TYPE, ha_to_petkit)
         self.lb_data.device_detail['settings']['sandType'] = ha_to_petkit
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
