@@ -63,20 +63,35 @@ async def async_setup_entry(
 
     # Litter boxes
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
-        # Pura X
+        # Pura X & Pura MAX
         switches.extend((
-            LBAutoOdor(coordinator, lb_id),
             LBAutoClean(coordinator, lb_id),
             LBAvoidRepeat(coordinator, lb_id),
             LBDoNotDisturb(coordinator, lb_id),
             LBPeriodicCleaning(coordinator, lb_id),
-            LBPeriodicOdor(coordinator, lb_id),
             LBKittenMode(coordinator, lb_id),
             LBDisplay(coordinator, lb_id),
             LBChildLock(coordinator, lb_id),
             LBLightWeight(coordinator, lb_id),
-            LBPower(coordinator, lb_id),
+            LBPower(coordinator, lb_id)
         ))
+        # Pura X & Pura MAX with Pura Air
+        if (lb_data.type == 't3') or ('k3Device' in lb_data.device_detail):
+            switches.extend((
+                LBAutoOdor(coordinator, lb_id),
+                LBPeriodicOdor(coordinator, lb_id)
+            ))
+        # Pura MAX
+        if lb_data.type == 't4':
+            switches.extend((
+                LBContRotation(coordinator, lb_id),
+                LBDeepCleaning(coordinator, lb_id)
+            ))
+            # Pura MAX with Pura Air
+            if 'k3Device' in lb_data.device_detail:
+                switches.append(
+                    LBDeepDeodor(coordinator, lb_id)
+                )
 
     async_add_entities(switches)
 
@@ -111,12 +126,6 @@ class WFLight(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.wf_data.id) + '_light'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Light"
 
     @property
     def has_entity_name(self) -> bool:
@@ -162,7 +171,7 @@ class WFLight(CoordinatorEntity, SwitchEntity):
         """Turn light on."""
 
         try:
-            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHTON)
+            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHT_ON)
         except BluetoothError:
             raise PetKitBluetoothError(f'Bluetooth connection to {self.wf_data.data["name"]} failed. Please try turning on the light again.')
         else:
@@ -175,7 +184,7 @@ class WFLight(CoordinatorEntity, SwitchEntity):
         """Turn light off."""
 
         try:
-            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHTOFF)
+            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHT_OFF)
         except BluetoothError:
             raise PetKitBluetoothError(f'Bluetooth connection to {self.wf_data.data["name"]} failed. Please try turning off the light again.')
         else:
@@ -214,12 +223,6 @@ class WFPower(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.wf_data.id) + '_power'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Power"
 
     @property
     def has_entity_name(self) -> bool:
@@ -332,12 +335,6 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
         return str(self.wf_data.id) + '_disturb'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Do not disturb"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -387,7 +384,7 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
         """Turn DND on."""
 
         try:
-            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DONOTDISTURB)
+            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DO_NOT_DISTURB)
         except BluetoothError:
             raise PetKitBluetoothError(f'Bluetooth connection to {self.wf_data.data["name"]} failed. Please try turning on Do Not Disturb again.')
         else:
@@ -400,7 +397,7 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
         """Turn DND off."""
 
         try:
-            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DONOTDISTURBOFF)
+            await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DO_NOT_DISTURB_OFF)
         except BluetoothError:
             raise PetKitBluetoothError(f'Bluetooth connection to {self.wf_data.data["name"]} failed. Please try turning off Do Not Disturb again.')
         else:
@@ -439,12 +436,6 @@ class IndicatorLight(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_indicator_light'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Indicator light"
 
     @property
     def has_entity_name(self) -> bool:
@@ -486,9 +477,9 @@ class IndicatorLight(CoordinatorEntity, SwitchEntity):
         """Turn indicator light on."""
 
         if self.feeder_data.type == 'feedermini':
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINIINDICATORLIGHT, 1)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_INDICATOR_LIGHT, 1)
         else:
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.INDICATORLIGHT, 1)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.INDICATOR_LIGHT, 1)
 
         self.feeder_data.data['settings']['lightMode'] = 1
         self.async_write_ha_state()
@@ -498,9 +489,9 @@ class IndicatorLight(CoordinatorEntity, SwitchEntity):
         """Turn indicator light off."""
 
         if self.feeder_data.type == 'feedermini':
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINIINDICATORLIGHT, 0)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_INDICATOR_LIGHT, 0)
         else:
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.INDICATORLIGHT, 0)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.INDICATOR_LIGHT, 0)
 
         self.feeder_data.data['settings']['lightMode'] = 0
         self.async_write_ha_state()
@@ -536,12 +527,6 @@ class ChildLock(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_child_lock'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Child lock"
 
     @property
     def has_entity_name(self) -> bool:
@@ -589,9 +574,9 @@ class ChildLock(CoordinatorEntity, SwitchEntity):
         """Turn child lock on."""
 
         if self.feeder_data.type == 'feedermini':
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINICHILDLOCK, 1)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_CHILD_LOCK, 1)
         else:
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.CHILDLOCK, 1)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.CHILD_LOCK, 1)
 
         self.feeder_data.data['settings']['manualLock'] = 1
         self.async_write_ha_state()
@@ -601,9 +586,9 @@ class ChildLock(CoordinatorEntity, SwitchEntity):
         """Turn child lock off."""
 
         if self.feeder_data.type == 'feedermini':
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINICHILDLOCK, 0)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_CHILD_LOCK, 0)
         else:
-            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.CHILDLOCK, 0)
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.CHILD_LOCK, 0)
 
         self.feeder_data.data['settings']['manualLock'] = 0
         self.async_write_ha_state()
@@ -639,12 +624,6 @@ class ShortageAlarm(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_food_shortage_alarm'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Food shortage alarm"
 
     @property
     def has_entity_name(self) -> bool:
@@ -691,7 +670,7 @@ class ShortageAlarm(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn food shortage alarm on."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SHORTAGEALARM, 1)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SHORTAGE_ALARM, 1)
         self.feeder_data.data['settings']['foodWarn'] = 1
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
@@ -699,7 +678,7 @@ class ShortageAlarm(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn food shortage alarm off."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SHORTAGEALARM, 0)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SHORTAGE_ALARM, 0)
         self.feeder_data.data['settings']['foodWarn'] = 0
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
@@ -734,12 +713,6 @@ class DispenseTone(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_dispense_tone'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Dispense tone"
 
     @property
     def has_entity_name(self) -> bool:
@@ -786,7 +759,7 @@ class DispenseTone(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn food shortage alarm on."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DISPENSETONE, 1)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DISPENSE_TONE, 1)
         self.feeder_data.data['settings']['feedSound'] = 1
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
@@ -794,7 +767,7 @@ class DispenseTone(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn food shortage alarm off."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DISPENSETONE, 0)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DISPENSE_TONE, 0)
         self.feeder_data.data['settings']['feedSound'] = 0
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
@@ -830,12 +803,6 @@ class VoiceDispense(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_voice_dispense'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Voice with dispense"
 
     @property
     def has_entity_name(self) -> bool:
@@ -882,7 +849,7 @@ class VoiceDispense(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn voice with dispense on."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SOUNDENABLE, 1)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SOUND_ENABLE, 1)
 
         self.feeder_data.data['settings']['soundEnable'] = 1
         self.async_write_ha_state()
@@ -891,7 +858,7 @@ class VoiceDispense(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn voice with dispense off."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SOUNDENABLE, 0)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SOUND_ENABLE, 0)
 
         self.feeder_data.data['settings']['soundEnable'] = 0
         self.async_write_ha_state()
@@ -928,12 +895,6 @@ class DoNotDisturb(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_do_not_disturb'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Do not disturb"
 
     @property
     def has_entity_name(self) -> bool:
@@ -980,7 +941,7 @@ class DoNotDisturb(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn DND on."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DONOTDISTURB, 1)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DO_NOT_DISTURB, 1)
 
         self.feeder_data.data['settings']['disturbMode'] = 1
         self.async_write_ha_state()
@@ -989,7 +950,7 @@ class DoNotDisturb(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn DND off."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DONOTDISTURB, 0)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DO_NOT_DISTURB, 0)
 
         self.feeder_data.data['settings']['disturbMode'] = 0
         self.async_write_ha_state()
@@ -1026,12 +987,6 @@ class SurplusControl(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_surplus_control'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Surplus control"
 
     @property
     def has_entity_name(self) -> bool:
@@ -1078,7 +1033,7 @@ class SurplusControl(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn surplus control on."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SURPLUSCONTROL, 1)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SURPLUS_CONTROL, 1)
 
         self.feeder_data.data['settings']['surplusControl'] = 1
         self.async_write_ha_state()
@@ -1087,7 +1042,7 @@ class SurplusControl(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn surplus control off."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SURPLUSCONTROL, 0)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SURPLUS_CONTROL, 0)
 
         self.feeder_data.data['settings']['surplusControl'] = 0
         self.async_write_ha_state()
@@ -1124,12 +1079,6 @@ class SystemNotification(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.feeder_data.id) + '_system_notification'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "System notification sound"
 
     @property
     def has_entity_name(self) -> bool:
@@ -1176,7 +1125,7 @@ class SystemNotification(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn system notification on."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SYSTEMSOUND, 1)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SYSTEM_SOUND, 1)
 
         self.feeder_data.data['settings']['systemSoundEnable'] = 1
         self.async_write_ha_state()
@@ -1185,7 +1134,7 @@ class SystemNotification(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn system notification off."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SYSTEMSOUND, 0)
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.SYSTEM_SOUND, 0)
 
         self.feeder_data.data['settings']['systemSoundEnable'] = 0
         self.async_write_ha_state()
@@ -1222,12 +1171,6 @@ class LBAutoOdor(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_auto_odor'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Auto odor removal"
 
     @property
     def has_entity_name(self) -> bool:
@@ -1267,14 +1210,21 @@ class LBAutoOdor(CoordinatorEntity, SwitchEntity):
         """Only make available if device is online."""
 
         if self.lb_data.device_detail['state']['pim'] != 0:
-            return True
+            # Make Sure Pura MAX has Pura Air associated with it
+            if self.lb_data.type == 't4':
+                if 'k3Device' in self.lb_data.device_detail:
+                    return True
+                else:
+                    return False
+            else:
+                return True
         else:
             return False
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn auto odor removal on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTOODOR, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTO_ODOR, 1)
 
         self.lb_data.device_detail['settings']['autoRefresh'] = 1
         self.async_write_ha_state()
@@ -1283,7 +1233,7 @@ class LBAutoOdor(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn auto odor removal off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTOODOR, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTO_ODOR, 0)
 
         self.lb_data.device_detail['settings']['autoRefresh'] = 0
         self.async_write_ha_state()
@@ -1320,12 +1270,6 @@ class LBAutoClean(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_auto_clean'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Auto cleaning"
 
     @property
     def has_entity_name(self) -> bool:
@@ -1369,7 +1313,7 @@ class LBAutoClean(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn auto cleaning on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTOCLEAN, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTO_CLEAN, 1)
 
         self.lb_data.device_detail['settings']['autoWork'] = 1
         self.async_write_ha_state()
@@ -1378,7 +1322,7 @@ class LBAutoClean(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn auto cleaning off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTOCLEAN, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AUTO_CLEAN, 0)
 
         self.lb_data.device_detail['settings']['autoWork'] = 0
         self.async_write_ha_state()
@@ -1415,12 +1359,6 @@ class LBAvoidRepeat(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_avoid_repeat'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Avoid repeat cleaning"
 
     @property
     def has_entity_name(self) -> bool:
@@ -1471,7 +1409,7 @@ class LBAvoidRepeat(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn avoid repeat cleaning on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AVOIDREPEATCLEAN, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AVOID_REPEAT_CLEAN, 1)
 
         self.lb_data.device_detail['settings']['avoidRepeat'] = 1
         self.async_write_ha_state()
@@ -1480,7 +1418,7 @@ class LBAvoidRepeat(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn avoid repeat cleaning off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AVOIDREPEATCLEAN, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.AVOID_REPEAT_CLEAN, 0)
 
         self.lb_data.device_detail['settings']['avoidRepeat'] = 0
         self.async_write_ha_state()
@@ -1519,12 +1457,6 @@ class LBDoNotDisturb(CoordinatorEntity, SwitchEntity):
         return str(self.lb_data.id) + '_dnd'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Do not disturb"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -1561,7 +1493,7 @@ class LBDoNotDisturb(CoordinatorEntity, SwitchEntity):
     def available(self) -> bool:
         """Only make available if device is online."""
 
-        if (self.lb_data.device_detail['state']['pim'] != 0):
+        if self.lb_data.device_detail['state']['pim'] != 0:
             return True
         else:
             return False
@@ -1569,7 +1501,7 @@ class LBDoNotDisturb(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn dnd on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DONOTDISTURB, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DO_NOT_DISTURB, 1)
 
         self.lb_data.device_detail['settings']['disturbMode'] = 1
         self.async_write_ha_state()
@@ -1578,7 +1510,7 @@ class LBDoNotDisturb(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn dnd off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DONOTDISTURB, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DO_NOT_DISTURB, 0)
 
         self.lb_data.device_detail['settings']['disturbMode'] = 0
         self.async_write_ha_state()
@@ -1615,12 +1547,6 @@ class LBPeriodicCleaning(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_periodic_cleaning'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Periodic cleaning"
 
     @property
     def has_entity_name(self) -> bool:
@@ -1667,7 +1593,7 @@ class LBPeriodicCleaning(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn periodic cleaning on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODICCLEAN, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODIC_CLEAN, 1)
 
         self.lb_data.device_detail['settings']['fixedTimeClear'] = 1
         self.async_write_ha_state()
@@ -1676,7 +1602,7 @@ class LBPeriodicCleaning(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn periodic cleaning off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODICCLEAN, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODIC_CLEAN, 0)
 
         self.lb_data.device_detail['settings']['fixedTimeClear'] = 0
         self.async_write_ha_state()
@@ -1715,12 +1641,6 @@ class LBPeriodicOdor(CoordinatorEntity, SwitchEntity):
         return str(self.lb_data.id) + '_periodic_odor'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Periodic odor removal"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -1757,15 +1677,22 @@ class LBPeriodicOdor(CoordinatorEntity, SwitchEntity):
     def available(self) -> bool:
         """Only make available if device is online."""
 
-        if (self.lb_data.device_detail['state']['pim'] != 0):
-            return True
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            # Make sure Pura MAX has associated Pura Air
+            if self.lb_data.type == 't4':
+                if 'k3Device' in self.lb_data.device_detail:
+                    return True
+                else:
+                    return False
+            else:
+                return True
         else:
             return False
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn periodic odor removal on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODICODOR, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODIC_ODOR, 1)
 
         self.lb_data.device_detail['settings']['fixedTimeRefresh'] = 1
         self.async_write_ha_state()
@@ -1774,7 +1701,7 @@ class LBPeriodicOdor(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn periodic odor removal off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODICODOR, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.PERIODIC_ODOR, 0)
 
         self.lb_data.device_detail['settings']['fixedTimeRefresh'] = 0
         self.async_write_ha_state()
@@ -1813,12 +1740,6 @@ class LBKittenMode(CoordinatorEntity, SwitchEntity):
         return str(self.lb_data.id) + '_kitten_mode'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Kitten mode"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -1852,7 +1773,7 @@ class LBKittenMode(CoordinatorEntity, SwitchEntity):
     def available(self) -> bool:
         """Only make available if device is online."""
 
-        if (self.lb_data.device_detail['state']['pim'] != 0):
+        if self.lb_data.device_detail['state']['pim'] != 0:
             return True
         else:
             return False
@@ -1860,7 +1781,7 @@ class LBKittenMode(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn kitten mode on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.KITTENMODE, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.KITTEN_MODE, 1)
 
         self.lb_data.device_detail['settings']['kitten'] = 1
         self.async_write_ha_state()
@@ -1869,7 +1790,7 @@ class LBKittenMode(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn kitten mode off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.KITTENMODE, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.KITTEN_MODE, 0)
 
         self.lb_data.device_detail['settings']['kitten'] = 0
         self.async_write_ha_state()
@@ -1908,12 +1829,6 @@ class LBDisplay(CoordinatorEntity, SwitchEntity):
         return str(self.lb_data.id) + '_display'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Display"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -1950,7 +1865,7 @@ class LBDisplay(CoordinatorEntity, SwitchEntity):
     def available(self) -> bool:
         """Only make available if device is online."""
 
-        if (self.lb_data.device_detail['state']['pim'] != 0):
+        if self.lb_data.device_detail['state']['pim'] != 0:
             return True
         else:
             return False
@@ -2006,12 +1921,6 @@ class LBChildLock(CoordinatorEntity, SwitchEntity):
         return str(self.lb_data.id) + '_child_lock'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Child lock"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -2048,7 +1957,7 @@ class LBChildLock(CoordinatorEntity, SwitchEntity):
     def available(self) -> bool:
         """Only make available if device is online."""
 
-        if (self.lb_data.device_detail['state']['pim'] != 0):
+        if self.lb_data.device_detail['state']['pim'] != 0:
             return True
         else:
             return False
@@ -2056,7 +1965,7 @@ class LBChildLock(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn child lock on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CHILDLOCK, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CHILD_LOCK, 1)
 
         self.lb_data.device_detail['settings']['manualLock'] = 1
         self.async_write_ha_state()
@@ -2065,7 +1974,7 @@ class LBChildLock(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn child lock off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CHILDLOCK, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CHILD_LOCK, 0)
 
         self.lb_data.device_detail['settings']['manualLock'] = 0
         self.async_write_ha_state()
@@ -2102,12 +2011,6 @@ class LBLightWeight(CoordinatorEntity, SwitchEntity):
         """Sets unique ID for this entity."""
 
         return str(self.lb_data.id) + '_light_weight'
-
-    @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Light weight cleaning disabled"
 
     @property
     def has_entity_name(self) -> bool:
@@ -2147,9 +2050,9 @@ class LBLightWeight(CoordinatorEntity, SwitchEntity):
         auto_clean = self.lb_data.device_detail['settings']['autoWork'] == 1
         avoid_repeat = self.lb_data.device_detail['settings']['avoidRepeat'] == 1
 
-        if (self.lb_data.device_detail['state']['pim'] != 0):
+        if self.lb_data.device_detail['state']['pim'] != 0:
             # Kitten mode must be off and auto cleaning and avoid repeat must be on
-            if (kitten_mode_off and auto_clean and avoid_repeat):
+            if kitten_mode_off and auto_clean and avoid_repeat:
                 return True
             else:
                 return False
@@ -2159,7 +2062,7 @@ class LBLightWeight(CoordinatorEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs) -> None:
         """Turn light weight disabler on."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DISABLELIGHTWEIGHT, 1)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DISABLE_LIGHT_WEIGHT, 1)
 
         self.lb_data.device_detail['settings']['underweight'] = 1
         self.async_write_ha_state()
@@ -2168,7 +2071,7 @@ class LBLightWeight(CoordinatorEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn light weight disabler off."""
 
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DISABLELIGHTWEIGHT, 0)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DISABLE_LIGHT_WEIGHT, 0)
 
         self.lb_data.device_detail['settings']['underweight'] = 0
         self.async_write_ha_state()
@@ -2207,12 +2110,6 @@ class LBPower(CoordinatorEntity, SwitchEntity):
         return str(self.lb_data.id) + '_power'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Power"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
@@ -2243,7 +2140,7 @@ class LBPower(CoordinatorEntity, SwitchEntity):
     def available(self) -> bool:
         """Only make available if device is online."""
 
-        if (self.lb_data.device_detail['state']['pim'] != 0):
+        if self.lb_data.device_detail['state']['pim'] != 0:
             return True
         else:
             return False
@@ -2263,5 +2160,276 @@ class LBPower(CoordinatorEntity, SwitchEntity):
         await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.POWER)
 
         self.lb_data.device_detail['state']['power'] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LBContRotation(CoordinatorEntity, SwitchEntity):
+    """Representation of litter box continuous rotation setting."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + '_cont_rotation'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "cont_rotation"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:rotate-3d-variant'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if continuous rotation is on."""
+
+        return self.lb_data.device_detail['settings']['downpos'] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn continuous rotation on."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CONT_ROTATION, 1)
+
+        self.lb_data.device_detail['settings']['downpos'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn continuous rotation off."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.CONT_ROTATION, 0)
+
+        self.lb_data.device_detail['settings']['downpos'] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LBDeepCleaning(CoordinatorEntity, SwitchEntity):
+    """Representation of litter box deep cleaning setting."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + '_deep_cleaning'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "deep_cleaning"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:vacuum'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if deep cleaning is on."""
+
+        return self.lb_data.device_detail['settings']['deepClean'] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn deep cleaning on."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DEEP_CLEAN, 1)
+
+        self.lb_data.device_detail['settings']['deepClean'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn deep cleaning off."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DEEP_CLEAN, 0)
+
+        self.lb_data.device_detail['settings']['deepClean'] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LBDeepDeodor(CoordinatorEntity, SwitchEntity):
+    """Representation of litter box deep deodorization setting."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + '_deep_deodor'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "deep_deodor"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:spray-bottle'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if deep deodorization is on."""
+
+        return self.lb_data.device_detail['settings']['deepRefresh'] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            # Make sure Pura Air is still associated with litter box
+            if 'k3Device' in self.lb_data.device_detail:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn deep deodorization on."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DEEP_REFRESH, 1)
+
+        self.lb_data.device_detail['settings']['deepRefresh'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn deep deodorization off."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DEEP_REFRESH, 0)
+
+        self.lb_data.device_detail['settings']['deepRefresh'] = 0
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
