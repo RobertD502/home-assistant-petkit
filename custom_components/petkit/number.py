@@ -35,9 +35,9 @@ async def async_setup_entry(
 
     # Pets
     for pet_id, pet_data in coordinator.data.pets.items():
-        numbers.extend((
-            PetWeight(coordinator, pet_id),
-        ))
+        numbers.append(
+            PetWeight(coordinator, pet_id)
+        )
 
     for feeder_id, feeder_data in coordinator.data.feeders.items():
         # Only D3 Feeder
@@ -48,12 +48,11 @@ async def async_setup_entry(
                 ManualFeed(coordinator, feeder_id),
             ))
 
-    # Litter boxes
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
-        # Pura X
-        numbers.extend((
-            LBCleaningDelay(coordinator, lb_id),
-        ))
+        # Pura X & Pura MAX
+        numbers.append(
+            LBCleaningDelay(coordinator, lb_id)
+        )
 
     async_add_entities(numbers)
 
@@ -89,16 +88,16 @@ class PetWeight(CoordinatorEntity, NumberEntity):
         return self.pet_data.id + '_set_weight'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Set weight"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "set_weight"
 
     @property
     def entity_picture(self) -> str:
@@ -120,7 +119,7 @@ class PetWeight(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> float:
-        """Returns current weight.""" 
+        """Returns current weight."""
 
         pet_weight = self.pet_data.data['weight']
         if self.hass.config.units is METRIC_SYSTEM:
@@ -217,16 +216,16 @@ class Surplus(CoordinatorEntity, NumberEntity):
         return str(self.feeder_data.id) + '_surplus'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Surplus"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "surplus"
 
     @property
     def icon(self) -> str:
@@ -242,7 +241,7 @@ class Surplus(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns current surplus setting.""" 
+        """Returns current surplus setting."""
 
         return self.feeder_data.data['settings']['surplus']
 
@@ -332,16 +331,16 @@ class Volume(CoordinatorEntity, NumberEntity):
         return str(self.feeder_data.id) + '_volume'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Volume"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "volume"
 
     @property
     def icon(self) -> str:
@@ -357,7 +356,7 @@ class Volume(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns current volume setting.""" 
+        """Returns current volume setting."""
 
         return self.feeder_data.data['settings']['volume']
 
@@ -435,16 +434,16 @@ class ManualFeed(CoordinatorEntity, NumberEntity):
         return str(self.feeder_data.id) + '_manual_feed'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Manual feed"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "manual_feed"
 
     @property
     def icon(self) -> str:
@@ -454,7 +453,7 @@ class ManualFeed(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns lowest amount allowed.""" 
+        """Returns lowest amount allowed."""
 
         return 4
 
@@ -545,16 +544,16 @@ class LBCleaningDelay(CoordinatorEntity, NumberEntity):
         return str(self.lb_data.id) + '_cleaning_delay'
 
     @property
-    def name(self) -> str:
-        """Return name of the entity."""
-
-        return "Cleaning delay"
-
-    @property
     def has_entity_name(self) -> bool:
         """Indicate that entity has name defined."""
 
         return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "cleaning_delay"
 
     @property
     def icon(self) -> str:
@@ -570,13 +569,13 @@ class LBCleaningDelay(CoordinatorEntity, NumberEntity):
 
     @property
     def native_value(self) -> int:
-        """Returns currently set delay in minutes.""" 
+        """Returns currently set delay in minutes."""
 
         return (self.lb_data.device_detail['settings']['stillTime'] / 60)
 
     @property
-    def native_unit_of_measurement(self) -> UnitOfMass:
-        """Return grams."""
+    def native_unit_of_measurement(self) -> UnitOfTime:
+        """Return minutes."""
 
         return UnitOfTime.MINUTES
 
@@ -624,7 +623,7 @@ class LBCleaningDelay(CoordinatorEntity, NumberEntity):
         """Update the current value."""
 
         seconds = int(value * 60)
-        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DELAYCLEANTIME, seconds)
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DELAY_CLEAN_TIME, seconds)
         self.lb_data.device_detail['settings']['stillTime'] = seconds
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()

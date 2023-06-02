@@ -1,0 +1,643 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "PetKit račun je već konfiguriran",
+            "reauth_successful": "Ponovna provjera autentičnosti bila je uspješna"
+        },
+        "error": {
+            "cannot_connect": "Povezivanje nije uspjelo",
+            "invalid_auth": "Nevažeća provjera autentičnosti. Jesu li vaše vjerodajnice točne?",
+            "no_devices": "Na vašem računu nisu pronađeni uređaji",
+            "server_busy": "PetKit serveri su zauzeti. Molimo pokušajte ponovo kasnije."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "PetKit e-pošta računa",
+                    "password": "PetKit lozinka računa"
+                },
+                "title": "Ispunite svoje vjerodajnice za PetKit"
+            },
+            "reauth_confirm": {
+                "data": {
+                    "email": "PetKit e-pošta računa",
+                    "password": "PetKit lozinka računa"
+                },
+                "title": "Ponovo potvrdite autentičnost svojim PetKit vjerodajnicama"
+            }
+        }
+    },
+    "entity": {
+      "binary_sensor": {
+        "water_level": {
+          "name": "Razina vode"
+        },
+        "food_level": {
+          "name": "Razina hrane"
+        },
+        "battery_installed": {
+          "name": "Baterija instalirana"
+        },
+        "battery": {
+          "name": "Baterija"
+        },
+        "wastebin": {
+          "name": "Kanta za smeće"
+        },
+        "litter": {
+          "name": "Pijesak"
+        },
+        "deodorizer": {
+          "name": "Dezodorans"
+        },
+        "manually_paused": {
+          "name": "Ručno pauzirano"
+        },
+        "pura_air_liquid": {
+          "name": "Pura Air tekućina"
+        }
+      },
+      "button": {
+        "reset_filter": {
+          "name": "Resetiraj filter"
+        },
+        "reset_desiccant": {
+          "name": "Resetiraj sredstvo za sušenje"
+        },
+        "cancel_manual_feed": {
+          "name": "Otkažite ručno hranjenje"
+        },
+        "call_pet": {
+          "name": "Nazovi ljubimca"
+        },
+        "start_cleaning": {
+          "name": "Pokreni/Nastavi čišćenje"
+        },
+        "pause_cleaning": {
+          "name": "Pauzirajte čišćenje"
+        },
+        "odor_removal": {
+          "name": "Uklanjanje mirisa"
+        },
+        "reset_deodorizer": {
+          "name": "Resetiraj dezodorans"
+        },
+        "reset_pura_air_liquid": {
+          "name": "Resetiraj Pura Air tekućinu"
+        },
+        "n50_reset": {
+          "name": "Resetiraj N50 eliminator mirisa"
+        },
+        "light_on": {
+          "name": "Upali svjetlo"
+        },
+        "start_maintenance": {
+          "name": "Započni održavanje"
+        },
+        "exit_maintenance": {
+          "name": "Izlaz iz održavanja"
+        },
+        "pause_exit_maintenance": {
+          "name": "Pauzirajte izlazak iz moda održavanja"
+        },
+        "resume_exit_maintenance": {
+          "name": "Nastavak izlaska iz moda održavanja"
+        },
+        "dump_litter": {
+          "name": "Baci mačji pijesak"
+        },
+        "pause_dump_litter": {
+          "name": "Pauziraj odlaganje mačjeg pijeska"
+        },
+        "resume_dump_litter": {
+          "name": "Nastavi s odlaganjem mačjeg pijeska"
+        }
+      },
+      "number": {
+        "set_weight": {
+          "name": "Postavite težinu"
+        },
+        "surplus": {
+          "name": "Višak"
+        },
+        "volume": {
+          "name": "Volumen"
+        },
+        "manual_feed": {
+          "name": "Ručno hranjenje"
+        },
+        "cleaning_delay": {
+          "name": "Odgoda čišćenja"
+        }
+      },
+      "select": {
+        "light_brightness": {
+          "name": "Svjetlina svjetla",
+          "state": {
+            "low": "Niska",
+            "medium": "Srednja",
+            "high": "Visoka"
+          }
+        },
+        "mode": {
+          "name": "Način rada",
+          "state": {
+            "normal": "Normalan",
+            "smart": "Pametan"
+          }
+        },
+        "manual_feed": {
+          "name": "Ručno hranjenje"
+        },
+        "sound": {
+          "name": "Zvuk"
+        },
+        "cleaning_interval": {
+          "name": "Interval čišćenja"
+        },
+        "litter_type": {
+          "name": "Vrsta pijeska",
+          "state": {
+            "bentonite": "Bentonit",
+            "tofu": "Tofu",
+            "mixed": "Mješoviti"
+          }
+        }
+      },
+      "sensor": {
+        "energy_usage": {
+          "name": "Potrošnja energije"
+        },
+        "last_data_update": {
+          "name": "Zadnje ažuriranje podataka"
+        },
+        "filter": {
+          "name": "Filter"
+        },
+        "purified_water_today": {
+          "name": "Pročišćena voda danas"
+        },
+        "feeder_status": {
+          "name": "Status",
+          "state": {
+            "offline": "Offline",
+            "normal": "Normalan",
+            "on_batteries": "Na Baterije"
+          }
+        },
+        "desiccant_days_remaining": {
+          "name": "Sredstvo za sušenje dana preostalo"
+        },
+        "battery_status": {
+          "name": "Status baterije",
+          "state": {
+            "normal": "Normalan",
+            "low": "Nizak"
+          }
+        },
+        "dispensed": {
+          "name": "Izdano"
+        },
+        "planned": {
+          "name": "Planirano"
+        },
+        "planned_dispensed": {
+          "name": "Planirano izdano"
+        },
+        "manually_dispensed": {
+          "name": "Ručno izdano"
+        },
+        "times_dispensed": {
+          "name": "Puta izdano"
+        },
+        "rssi": {
+          "name": "RSSI"
+        },
+        "amount_eaten": {
+          "name": "Pojedena količina"
+        },
+        "times_eaten": {
+          "name": "Puta jelo"
+        },
+        "food_in_bowl": {
+          "name": "Hrana u posudi"
+        },
+        "error": {
+          "name": "Greška",
+          "state": {
+            "no_error": "Nema Greške"
+          }
+        },
+        "deodorizer_level": {
+          "name": "Razina dezodoransa"
+        },
+        "litter_level": {
+          "name": "Razina pijeska"
+        },
+        "litter_weight": {
+          "name": "Težina pijeska"
+        },
+        "times_used": {
+          "name": "Puta Korištena"
+        },
+        "average_use": {
+          "name": "Prosječna upotreba"
+        },
+        "total_use": {
+          "name": "Ukupna upotreba"
+        },
+        "last_used_by": {
+          "name": "Zadnje korištenje",
+          "state": {
+            "no_record_yet": "Još nema zapisa",
+            "unknown_pet": "Nepoznati kućni ljubimac"
+          }
+        },
+        "last_event": {
+          "name": "Zadnji događaj",
+          "state": {
+            "no_events_yet": "Još nema događaja",
+            "event_type_unknown": "Vrsta događaja nepoznata",
+            "cleaning_completed": "Čišćenje završeno",
+            "dumping_over": "Izbacivanje gotovo",
+            "reset_over": "Ponovno postavljanje gotovo",
+            "spray_over": "Prskanje gotovo",
+            "pet_out": "Kućni ljubimac je izašao",
+            "auto_cleaning_completed": "Automatsko čišćenje dovršeno",
+            "periodic_cleaning_completed": "Periodično čišćenje završeno",
+            "manual_cleaning_completed": "Ručno čišćenje završeno",
+            "auto_cleaning_terminated": "Automatsko čišćenje prekinuto",
+            "periodic_cleaning_terminated": "Periodično čišćenje prekinuto",
+            "manual_cleaning_terminated": "Ručno čišćenje prekinuto",
+            "auto_cleaning_failed_full": "Automatsko čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+            "auto_cleaning_failed_hall_l": "Automatsko čišćenje nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+            "auto_cleaning_failed_hall_t": "Automatsko čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "scheduled_cleaning_failed_full": "Planirano čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+            "scheduled_cleaning_failed_hall_l": "Planirano čišćenje nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+            "scheduled_cleaning_failed_hall_t": "Planirano čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "manual_cleaning_failed_full": "Ručno čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+            "manual_cleaning_failed_hall_l": "Ručno čišćenje nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+            "manual_cleaning_failed_hall_t": "Ručno čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "auto_cleaning_canceled": "Automatsko čišćenje otkazano, uređaj radi",
+            "periodic_cleaning_canceled": "Periodično čišćenje otkazano, uređaj u radu",
+            "manual_cleaning_canceled": "Ručno čišćenje otkazano, uređaj u radu",
+            "auto_cleaning_canceled_kitten": "Način mačića je omogućen, automatsko čišćenje je poništeno",
+            "periodic_cleaning_canceled_kitten": "Način mačića je omogućen, povremeno čišćenje je otkazano",
+            "litter_empty_completed": "Pražnjenje pijeska završeno",
+            "litter_empty_terminated": "Pražnjenje pijeska prekinuto",
+            "litter_empty_failed_full": "Pražnjenje mačjeg pijeska nije uspjelo, kanta za sakupljanje otpada je puna, ispraznite odmah",
+            "litter_empty_failed_hall_l": "Pražnjenje mačjeg pijeska nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+            "litter_empty_failed_hall_t": "Pražnjenje mačjeg pijeska nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "reset_completed": "Resetiranje uređaja dovršeno",
+            "reset_terminated": "Resetiranje uređaja prekinuto",
+            "reset_failed_full": "Resetiranje uređaja nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+            "reset_failed_hall_l": "Resetiranje uređaja nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+            "reset_failed_hall_t": "Resetiranje uređaja nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "deodorant_finished": "Dezodorans je gotov",
+            "periodic_odor_completed": "Periodično uklanjanje mirisa završeno",
+            "manual_odor_completed": "Ručno uklanjanje mirisa dovršeno",
+            "deodorant_finished_liquid_lack": "Dezodorans je gotov, nema dovoljno tekućine za čišćenje, dopunite na vrijeme",
+            "periodic_odor_completed_liquid_lack": "Periodično uklanjanje neugodnih mirisa je završeno, nema dovoljno tekućine za pročišćavanje, dopunite na vrijeme",
+            "manual_odor_completed_liquid_lack": "Ručno uklanjanje neugodnih mirisa dovršeno, nema dovoljno tekućine za pročišćavanje, dopunite na vrijeme",
+            "auto_odor_failed": "Automatsko uklanjanje mirisa nije uspjelo, pogreška eliminatora mirisa",
+            "periodic_odor_failed": "Periodično uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa",
+            "manual_odor_failed": "Ručno uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa"
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Još nema događaja",
+                "event_type_unknown": "Vrsta događaja nepoznata",
+                "cleaning_completed": "Čišćenje završeno",
+                "dumping_over": "Izbacivanje gotovo",
+                "reset_over": "Ponovno postavljanje gotovo",
+                "spray_over": "Prskanje gotovo",
+                "pet_out": "Kućni ljubimac je izašao",
+                "auto_cleaning_completed": "Automatsko čišćenje dovršeno",
+                "periodic_cleaning_completed": "Periodično čišćenje završeno",
+                "manual_cleaning_completed": "Ručno čišćenje završeno",
+                "auto_cleaning_terminated": "Automatsko čišćenje prekinuto",
+                "periodic_cleaning_terminated": "Periodično čišćenje prekinuto",
+                "manual_cleaning_terminated": "Ručno čišćenje prekinuto",
+                "auto_cleaning_failed_full": "Automatsko čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+                "auto_cleaning_failed_hall_l": "Automatsko čišćenje nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+                "auto_cleaning_failed_hall_t": "Automatsko čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "scheduled_cleaning_failed_full": "Planirano čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+                "scheduled_cleaning_failed_hall_l": "Planirano čišćenje nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+                "scheduled_cleaning_failed_hall_t": "Planirano čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "manual_cleaning_failed_full": "Ručno čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+                "manual_cleaning_failed_hall_l": "Ručno čišćenje nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+                "manual_cleaning_failed_hall_t": "Ručno čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "auto_cleaning_canceled": "Automatsko čišćenje otkazano, uređaj radi",
+                "periodic_cleaning_canceled": "Periodično čišćenje otkazano, uređaj u radu",
+                "manual_cleaning_canceled": "Ručno čišćenje otkazano, uređaj u radu",
+                "auto_cleaning_canceled_kitten": "Način mačića je omogućen, automatsko čišćenje je poništeno",
+                "periodic_cleaning_canceled_kitten": "Način mačića je omogućen, povremeno čišćenje je otkazano",
+                "litter_empty_completed": "Pražnjenje pijeska završeno",
+                "litter_empty_terminated": "Pražnjenje pijeska prekinuto",
+                "litter_empty_failed_full": "Pražnjenje mačjeg pijeska nije uspjelo, kanta za sakupljanje otpada je puna, ispraznite odmah",
+                "litter_empty_failed_hall_l": "Pražnjenje mačjeg pijeska nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+                "litter_empty_failed_hall_t": "Pražnjenje mačjeg pijeska nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "reset_completed": "Resetiranje uređaja dovršeno",
+                "reset_terminated": "Resetiranje uređaja prekinuto",
+                "reset_failed_full": "Resetiranje uređaja nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+                "reset_failed_hall_l": "Resetiranje uređaja nije uspjelo, cilindar nije pravilno zaključan na mjestu, molimo provjerite",
+                "reset_failed_hall_t": "Resetiranje uređaja nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "deodorant_finished": "Dezodorans je gotov",
+                "periodic_odor_completed": "Periodično uklanjanje mirisa završeno",
+                "manual_odor_completed": "Ručno uklanjanje mirisa dovršeno",
+                "deodorant_finished_liquid_lack": "Dezodorans je gotov, nema dovoljno tekućine za čišćenje, dopunite na vrijeme",
+                "periodic_odor_completed_liquid_lack": "Periodično uklanjanje neugodnih mirisa je završeno, nema dovoljno tekućine za pročišćavanje, dopunite na vrijeme",
+                "manual_odor_completed_liquid_lack": "Ručno uklanjanje neugodnih mirisa dovršeno, nema dovoljno tekućine za pročišćavanje, dopunite na vrijeme",
+                "auto_odor_failed": "Automatsko uklanjanje mirisa nije uspjelo, pogreška eliminatora mirisa",
+                "periodic_odor_failed": "Periodično uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa",
+                "manual_odor_failed": "Ručno uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa",
+                "no_sub_events": "Nema povezanih poddogađaja"
+              }
+            }
+          }
+        },
+        "latest_weight": {
+          "name": "Najnovija težina"
+        },
+        "last_use_duration": {
+          "name": "Trajanje zadnje upotrebe"
+        },
+        "pura_air_battery": {
+          "name": "Pura Air baterija"
+        },
+        "pura_air_liquid": {
+          "name": "Pura Air tekućina"
+        },
+        "n50_odor_eliminator": {
+          "name": "N50 eliminator mirisa"
+        },
+        "max_last_event": {
+          "name": "Last event",
+          "state": {
+            "no_events_yet": "Još nema događaja",
+            "event_type_unknown": "Vrsta događaja nepoznata",
+            "cleaning_completed": "Čišćenje završeno",
+            "dumping_over": "Izbacivanje gotovo",
+            "reset_over": "Ponovno postavljanje gotovo",
+            "spray_over": "Prskanje gotovo",
+            "light_over": "Svjetlo gotovo",
+            "pet_out": "Kućni ljubimac je izašao",
+            "auto_cleaning_completed": "Automatsko čišćenje dovršeno",
+            "periodic_cleaning_completed": "Periodično čišćenje završeno",
+            "manual_cleaning_completed": "Ručno čišćenje završeno",
+            "auto_cleaning_terminated": "Automatsko čišćenje prekinuto",
+            "periodic_cleaning_terminated": "Periodično čišćenje prekinuto",
+            "manual_cleaning_terminated": "Ručno čišćenje prekinuto",
+            "auto_cleaning_failed_full": "Automatsko čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+            "auto_cleaning_failed_hall_t": "Automatsko čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "auto_cleaning_failed_falldown": "Automatsko čišćenje nije uspjelo, kutija s pijeskom je srušena, molimo provjerite.",
+            "auto_cleaning_failed_other": "Automatsko čišćenje nije uspjelo, kvar uređaja, molimo provjerite.",
+            "scheduled_cleaning_failed_full": "Planirano čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+            "scheduled_cleaning_failed_hall_t": "Planirano čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "scheduled_cleaning_failed_falldown": "Zakazano čišćenje nije uspjelo, kutija za otpatke je srušena, molimo provjerite.",
+            "scheduled_cleaning_failed_other": "Zakazano čišćenje nije uspjelo, kvar uređaja, molimo provjerite.",
+            "manual_cleaning_failed_full": "Ručno čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+            "manual_cleaning_failed_hall_t": "Ručno čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "manual_cleaning_failed_falldown": "Ručno čišćenje nije uspjelo, kutija s pijeskom je srušena, molimo provjerite.",
+            "manual_cleaning_failed_other": "Ručno čišćenje nije uspjelo, kvar uređaja, molimo provjerite.",
+            "auto_cleaning_canceled": "Automatsko čišćenje otkazano, uređaj radi",
+            "periodic_cleaning_canceled": "Periodično čišćenje otkazano, uređaj u radu",
+            "manual_cleaning_canceled": "Ručno čišćenje otkazano, uređaj u radu",
+            "auto_cleaning_failed_maintenance": "Automatsko čišćenje nije uspjelo, uređaj je u načinu rada za održavanje",
+            "periodic_cleaning_failed_maintenance": "Povremeno čišćenje nije uspjelo, uređaj je u načinu rada za održavanje",
+            "auto_cleaning_canceled_kitten": "Način mačića je omogućen, automatsko čišćenje je poništeno",
+            "periodic_cleaning_canceled_kitten": "Način mačića je omogućen, povremeno čišćenje je otkazano",
+            "litter_empty_completed": "Pražnjenje pijeska završeno",
+            "litter_empty_terminated": "Pražnjenje pijeska prekinuto",
+            "litter_empty_failed_full": "Pražnjenje mačjeg pijeska nije uspjelo, kanta za sakupljanje otpada je puna, ispraznite odmah",
+            "litter_empty_failed_hall_t": "Pražnjenje mačjeg pijeska nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "litter_empty_failed_falldown": "Praznjenje pijeska za mačke nije uspjelo, kutija s pijeskom je srušena, molimo provjerite",
+            "litter_empty_failed_other": "Pražnjenje mačjeg pijeska nije uspjelo, kvar uređaja, molimo provjerite.",
+            "reset_completed": "Resetiranje uređaja dovršeno",
+            "reset_terminated": "Resetiranje uređaja prekinuto",
+            "reset_failed_full": "Resetiranje uređaja nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+            "reset_failed_hall_t": "Resetiranje uređaja nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+            "reset_failed_falldown": "Resetiranje uređaja nije uspjelo, kutija s pijeskom je srušena, molimo provjerite.",
+            "reset_failed_other": "Resetiranje uređaja nije uspjelo, kvar uređaja, molimo provjerite.",
+            "maintenance_mode": "Moda održavanje",
+            "deodorant_finished": "Dezodorans je gotov",
+            "periodic_odor_completed": "Periodično uklanjanje mirisa završeno",
+            "manual_odor_completed": "Ručno uklanjanje mirisa dovršeno",
+            "auto_odor_terminated": "Automatsko uklanjanje mirisa je prekinuto.",
+            "periodic_odor_terminated": "Periodično uklanjanje mirisa prekinuto.",
+            "manual_odor_terminated": "Ručno uklanjanje mirisa prekinuto.",
+            "auto_odor_failed": "Automatsko uklanjanje mirisa nije uspjelo, pogreška eliminatora mirisa",
+            "periodic_odor_failed": "Periodično uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa",
+            "manual_odor_failed": "Ručno uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa",
+            "auto_odor_canceled": "Automatsko uklanjanje mirisa je otkazano, uređaj radi.",
+            "periodic_odor_canceled": "Otkazano je periodično uklanjanje mirisa. Kutija za otpatke radi.",
+            "manual_odor_canceled": "Otkazano ručno uklanjanje neugodnih mirisa. Kutija za otpatke radi.",
+            "auto_odor_failed_device": "Automatsko uklanjanje mirisa nije uspjelo, nije spojen pametni sprej.",
+            "periodic_odor_failed_device": "Povremeno uklanjanje mirisa nije uspjelo. Uređaj za uklanjanje mirisa isključen.",
+            "manual_odor_failed_device": "Ručno uklanjanje mirisa nije uspjelo. Uređaj za uklanjanje mirisa isključen.",
+            "auto_odor_failed_batt": "Automatsko uklanjanje mirisa nije uspjelo, potvrdite da je baterija pametnog spreja dovoljna.",
+            "periodic_odor_failed_batt": "Povremeno uklanjanje mirisa nije uspjelo. Provjerite ima li uređaj za uklanjanje mirisa dovoljno baterije.",
+            "manual_odor_failed_batt": "Ručno uklanjanje mirisa nije uspjelo. Provjerite ima li uređaj za uklanjanje mirisa dovoljno baterije.",
+            "auto_odor_failed_low_batt": "Automatsko uklanjanje mirisa nije uspjelo, baterija je slaba.",
+            "periodic_odor_failed_low_batt": "Povremeno uklanjanje mirisa nije uspjelo. Niska baterija uređaja za uklanjanje mirisa.",
+            "manual_odor_failed_low_batt": "Ručno uklanjanje mirisa nije uspjelo. Niska baterija uređaja za uklanjanje mirisa.",
+            "cat_stopped_odor": "Vaša mačka koristi kutiju s pijeskom, dezodoriranje je otkazano",
+            "light_on": "Svjetlo je upaljeno",
+            "light_already_on": "Svjetlo je upaljeno. Nema potrebe za ponovnim uključivanjem.",
+            "light_malfunc": "Neuspjeh upaliti svjetlo. Kvar uređaja, molimo provjerite.",
+            "light_no_device": "Neuspjeh upaliti svjetlo. Prvo spoji uređaj za uklanjanje mirisa.",
+            "light_batt_cap": "Neuspjeh upaliti svjetlo. Provjerite kapacitet baterije uređaja za uklanjanje mirisa.",
+            "light_low_batt": "Neuspjeh upaliti svjetlo. Mali kapacitet baterije uređaja za uklanjanje mirisa."
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Još nema događaja",
+                "event_type_unknown": "Vrsta događaja nepoznata",
+                "cleaning_completed": "Čišćenje završeno",
+                "dumping_over": "Izbacivanje gotovo",
+                "reset_over": "Ponovno postavljanje gotovo",
+                "spray_over": "Prskanje gotovo",
+                "light_over": "Svjetlo gotovo",
+                "pet_out": "Kućni ljubimac je izašao",
+                "auto_cleaning_completed": "Automatsko čišćenje dovršeno",
+                "periodic_cleaning_completed": "Periodično čišćenje završeno",
+                "manual_cleaning_completed": "Ručno čišćenje završeno",
+                "auto_cleaning_terminated": "Automatsko čišćenje prekinuto",
+                "periodic_cleaning_terminated": "Periodično čišćenje prekinuto",
+                "manual_cleaning_terminated": "Ručno čišćenje prekinuto",
+                "auto_cleaning_failed_full": "Automatsko čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+                "auto_cleaning_failed_hall_t": "Automatsko čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "auto_cleaning_failed_falldown": "Automatsko čišćenje nije uspjelo, kutija s pijeskom je srušena, molimo provjerite.",
+                "auto_cleaning_failed_other": "Automatsko čišćenje nije uspjelo, kvar uređaja, molimo provjerite.",
+                "scheduled_cleaning_failed_full": "Planirano čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+                "scheduled_cleaning_failed_hall_t": "Planirano čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "scheduled_cleaning_failed_falldown": "Zakazano čišćenje nije uspjelo, kutija za otpatke je srušena, molimo provjerite.",
+                "scheduled_cleaning_failed_other": "Zakazano čišćenje nije uspjelo, kvar uređaja, molimo provjerite.",
+                "manual_cleaning_failed_full": "Ručno čišćenje nije uspjelo, kanta za sakupljanje otpada je puna, molimo da je odmah ispraznite",
+                "manual_cleaning_failed_hall_t": "Ručno čišćenje nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "manual_cleaning_failed_falldown": "Ručno čišćenje nije uspjelo, kutija s pijeskom je srušena, molimo provjerite.",
+                "manual_cleaning_failed_other": "Ručno čišćenje nije uspjelo, kvar uređaja, molimo provjerite.",
+                "auto_cleaning_canceled": "Automatsko čišćenje otkazano, uređaj radi",
+                "periodic_cleaning_canceled": "Periodično čišćenje otkazano, uređaj u radu",
+                "manual_cleaning_canceled": "Ručno čišćenje otkazano, uređaj u radu",
+                "auto_cleaning_failed_maintenance": "Automatsko čišćenje nije uspjelo, uređaj je u načinu rada za održavanje",
+                "periodic_cleaning_failed_maintenance": "Povremeno čišćenje nije uspjelo, uređaj je u načinu rada za održavanje",
+                "auto_cleaning_canceled_kitten": "Način mačića je omogućen, automatsko čišćenje je poništeno",
+                "periodic_cleaning_canceled_kitten": "Način mačića je omogućen, povremeno čišćenje je otkazano",
+                "litter_empty_completed": "Pražnjenje pijeska završeno",
+                "litter_empty_terminated": "Pražnjenje pijeska prekinuto",
+                "litter_empty_failed_full": "Pražnjenje mačjeg pijeska nije uspjelo, kanta za sakupljanje otpada je puna, ispraznite odmah",
+                "litter_empty_failed_hall_t": "Pražnjenje mačjeg pijeska nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "litter_empty_failed_falldown": "Praznjenje pijeska za mačke nije uspjelo, kutija s pijeskom je srušena, molimo provjerite",
+                "litter_empty_failed_other": "Pražnjenje mačjeg pijeska nije uspjelo, kvar uređaja, molimo provjerite.",
+                "reset_completed": "Resetiranje uređaja dovršeno",
+                "reset_terminated": "Resetiranje uređaja prekinuto",
+                "reset_failed_full": "Resetiranje uređaja nije uspjelo, kanta za sakupljanje otpada je puna, odmah je ispraznite",
+                "reset_failed_hall_t": "Resetiranje uređaja nije uspjelo, gornji poklopac kutije s pijeskom nije pravilno postavljen, molimo provjerite",
+                "reset_failed_falldown": "Resetiranje uređaja nije uspjelo, kutija s pijeskom je srušena, molimo provjerite.",
+                "reset_failed_other": "Resetiranje uređaja nije uspjelo, kvar uređaja, molimo provjerite.",
+                "maintenance_mode": "Moda održavanje",
+                "deodorant_finished": "Dezodorans je gotov",
+                "periodic_odor_completed": "Periodično uklanjanje mirisa završeno",
+                "manual_odor_completed": "Ručno uklanjanje mirisa dovršeno",
+                "auto_odor_terminated": "Automatsko uklanjanje mirisa je prekinuto.",
+                "periodic_odor_terminated": "Periodično uklanjanje mirisa prekinuto.",
+                "manual_odor_terminated": "Ručno uklanjanje mirisa prekinuto.",
+                "auto_odor_failed": "Automatsko uklanjanje mirisa nije uspjelo, pogreška eliminatora mirisa",
+                "periodic_odor_failed": "Periodično uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa",
+                "manual_odor_failed": "Ručno uklanjanje mirisa nije uspjelo, kvar eliminatora mirisa",
+                "auto_odor_canceled": "Automatsko uklanjanje mirisa je otkazano, uređaj radi.",
+                "periodic_odor_canceled": "Otkazano je periodično uklanjanje mirisa. Kutija za otpatke radi.",
+                "manual_odor_canceled": "Otkazano ručno uklanjanje neugodnih mirisa. Kutija za otpatke radi.",
+                "auto_odor_failed_device": "Automatsko uklanjanje mirisa nije uspjelo, nije spojen pametni sprej.",
+                "periodic_odor_failed_device": "Povremeno uklanjanje mirisa nije uspjelo. Uređaj za uklanjanje mirisa isključen.",
+                "manual_odor_failed_device": "Ručno uklanjanje mirisa nije uspjelo. Uređaj za uklanjanje mirisa isključen.",
+                "auto_odor_failed_batt": "Automatsko uklanjanje mirisa nije uspjelo, potvrdite da je baterija pametnog spreja dovoljna.",
+                "periodic_odor_failed_batt": "Povremeno uklanjanje mirisa nije uspjelo. Provjerite ima li uređaj za uklanjanje mirisa dovoljno baterije.",
+                "manual_odor_failed_batt": "Ručno uklanjanje mirisa nije uspjelo. Provjerite ima li uređaj za uklanjanje mirisa dovoljno baterije.",
+                "auto_odor_failed_low_batt": "Automatsko uklanjanje mirisa nije uspjelo, baterija je slaba.",
+                "periodic_odor_failed_low_batt": "Povremeno uklanjanje mirisa nije uspjelo. Niska baterija uređaja za uklanjanje mirisa.",
+                "manual_odor_failed_low_batt": "Ručno uklanjanje mirisa nije uspjelo. Niska baterija uređaja za uklanjanje mirisa.",
+                "cat_stopped_odor": "Vaša mačka koristi kutiju s pijeskom, dezodoriranje je otkazano",
+                "light_on": "Svjetlo je upaljeno",
+                "light_already_on": "Svjetlo je upaljeno. Nema potrebe za ponovnim uključivanjem.",
+                "light_malfunc": "Neuspjeh upaliti svjetlo. Kvar uređaja, molimo provjerite.",
+                "light_no_device": "Neuspjeh upaliti svjetlo. Prvo spoji uređaj za uklanjanje mirisa.",
+                "light_batt_cap": "Neuspjeh upaliti svjetlo. Provjerite kapacitet baterije uređaja za uklanjanje mirisa.",
+                "light_low_batt": "Neuspjeh upaliti svjetlo. Mali kapacitet baterije uređaja za uklanjanje mirisa.",
+                "no_sub_events": "Nema povezanih poddogađaja"
+              }
+            }
+          }
+        },
+        "max_work_state": {
+          "name": "State",
+          "state": {
+            "cleaning_litter_box": "Trenutno čistim mačji pijesak",
+            "cleaning_litter_box_paused": "Čišćenje mačjeg pijeska pauzirano",
+            "cleaning_paused_pet_entered": "Čišćenje kutije s pijeskom pauzirano: ljubimac je ušao dok je radio, aktivirani su senzori protiv prignječenja, uređaj je prestao raditi. Provjerite uređaj što prije.",
+            "cleaning_paused_system_error": "Pauzirano čišćenje kutije za mačji pijesak: pogreška sustava, radnja pauzirana",
+            "cleaning_paused_pet_approach": "Pauzirano čišćenje kutije za pijesak za mačke: Vaša mačka se približava, operacija je pauzirana",
+            "cleaning_paused_pet_using": "Pauzirano čišćenje kutije za mačji pijesak: Vaša mačka koristi uređaj, postupak je pauziran",
+            "resetting_device": "Ponovno postavljanje uređaja",
+            "litter_box_paused": "Kutija za otpatke zastala",
+            "paused_pet_entered": "Kutija za mačji pijesak pauzirana: Kućni ljubimac je ušao dok je bio u radu, aktivirani su senzori protiv prignječenja, uređaj je prestao raditi. Provjerite uređaj što prije.",
+            "paused_system_error": "Kutija za mačji pijesak pauzirana: pogreška sustava, rad je pauziran",
+            "paused_pet_approach": "Kutija za mačji pijesak pauzirana: Vaša mačka se približava, operacija je pauzirana",
+            "paused_pet_using": "Kutija za mačji pijesak pauzirana: Vaša mačka koristi uređaj, rad je pauziran",
+            "dumping_litter": "Odlaganje mačjeg pijeska",
+            "dumping_litter_paused": "Odlaganje mačjeg pijeska zaustavljeno",
+            "dumping_paused_pet_entered": "Pauzirano odbacivanje mačjeg pijeska: ljubimac je ušao dok je radio, aktivirani su senzori protiv prignječenja, uređaj je prestao raditi. Provjerite uređaj što prije.",
+            "dumping_paused_system_error": "Odlaganje mačjeg pijeska pauzirano: Sistemska pogreška, radnja pauzirana",
+            "dumping_paused_pet_approach": "Odlaganje pijeska za mačke pauzirano: Vaša mačka se približava, radnja je pauzirana",
+            "dumping_paused_pet_using": "Pauzirano odbacivanje mačjeg pijeska: Vaša mačka koristi uređaj, postupak je pauziran",
+            "resetting": "Resetovanje",
+            "leveling": "Izravnavanje pijeska za mačke, pričekajte.",
+            "calibrating": "Kalibracija kutije za otpatke, molimo pričekajte.",
+            "maintenance_mode": "U načinu održavanja",
+            "maintenance_paused_pet_entered": "Način rada za održavanje pauziran: ljubimac je ušao tijekom rada, aktivirani su senzori protiv prignječenja, uređaj je prestao raditi. Provjerite uređaj što prije.",
+            "maintenance_paused_cover": "Način rada za održavanje pauziran: Gornji poklopac nije instaliran, rad je pauziran",
+            "maintenance_paused_system_error": "Način održavanja pauziran: Sistemska pogreška, rad pauziran",
+            "maintenance_paused_pet_approach": "Način održavanja pauziran: Vaša mačka se približava, rad je pauziran",
+            "maintenance_paused_pet_using": "Način održavanja pauziran: Vaša mačka koristi uređaj, rad je pauziran",
+            "maintenance_paused": "Način rada održavanja pauziran",
+            "exit_maintenance": "Izlaz iz načina održavanja",
+            "maintenance_exit_paused_pet_entered": "Izlazak iz načina održavanja pauziran: ljubimac je ušao tijekom rada, aktivirani su senzori protiv prignječenja, uređaj je prestao raditi. Provjerite uređaj što prije.",
+            "maintenance_exit_paused_cover": "Izlazak iz načina održavanja pauziran: Gornji poklopac nije postavljen, rad je pauziran",
+            "maintenance_exit_paused_system_error": "Izlazak iz načina održavanja pauziran: Sistemska pogreška, rad je pauziran",
+            "maintenance_exit_paused_pet_approach": "Izlazak iz načina održavanja pauziran: Vaša mačka se približava, rad je pauziran",
+            "maintenance_exit_paused_pet_using": "Izlazak iz načina održavanja pauziran: Vaša mačka koristi uređaj, rad je pauziran",
+            "maintenance_exit_paused": "Izlazak iz načina održavanja pauziran",
+            "idle": "Besposlen"
+          }
+        }
+      },
+      "switch": {
+        "light": {
+          "name": "Svjetlo"
+        },
+        "power": {
+          "name": "Struja"
+        },
+        "do_not_disturb": {
+          "name": "Ne smetaj"
+        },
+        "indicator_light": {
+          "name": "Svjetlosni indikator"
+        },
+        "child_lock": {
+          "name": "Dječja brava"
+        },
+        "food_shortage_alarm": {
+          "name": "Alarm za nestašicu hrane"
+        },
+        "dispense_tone": {
+          "name": "Ton s dispenzom"
+        },
+        "voice_with_dispense": {
+          "name": "Glas s dispenzom"
+        },
+        "surplus_control": {
+          "name": "Kontrola viška"
+        },
+        "system_notification_sound": {
+          "name": "Zvuk obavijesti sustava"
+        },
+        "auto_odor_removal": {
+          "name": "Automatsko uklanjanje mirisa"
+        },
+        "auto_cleaning": {
+          "name": "Automatsko čišćenje"
+        },
+        "avoid_repeat_cleaning": {
+          "name": "Izbjegavajte ponavljanje čišćenja"
+        },
+        "periodic_cleaning": {
+          "name": "Periodično čišćenje"
+        },
+        "periodic_odor_removal": {
+          "name": "Povremeno uklanjanje mirisa"
+        },
+        "kitten_mode": {
+          "name": "Način mačića"
+        },
+        "display": {
+          "name": "Zaslon"
+        },
+        "light_weight_cleaning_disabled": {
+          "name": "Onemogućeno lagano čišćenje"
+        },
+        "cont_rotation": {
+          "name": "Kontinuirana rotacija"
+        },
+        "deep_cleaning": {
+          "name": "Temeljito čišćenje"
+        },
+        "deep_deodor": {
+          "name": "Temeljita dezodoracija"
+        }
+      }
+    }
+}

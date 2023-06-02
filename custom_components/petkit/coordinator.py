@@ -4,7 +4,7 @@ from __future__ import annotations
 from datetime import timedelta
 
 from petkitaio import PetKitClient
-from petkitaio.exceptions import AuthError, PetKitError
+from petkitaio.exceptions import AuthError, PetKitError, ServerError
 from petkitaio.model import PetKitData
 
 
@@ -44,8 +44,9 @@ class PetKitDataUpdateCoordinator(DataUpdateCoordinator):
 
         try:
             data = await self.client.get_petkit_data()
+            LOGGER.debug(f'Found the following PetKit devices/pets: {data}')
         except AuthError as error:
             raise ConfigEntryAuthFailed(error) from error
-        except PetKitError as error:
+        except (ServerError, PetKitError) as error:
             raise UpdateFailed(error) from error
         return data
