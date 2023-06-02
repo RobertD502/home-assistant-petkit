@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from petkitaio.exceptions import AuthError
+from petkitaio.exceptions import AuthError, ServerError
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -55,6 +55,8 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "cannot_connect"
             except NoDevicesError:
                 errors["base"] = "no_devices"
+            except ServerError:
+                errors["base"] = "server_busy"
             else:
                 assert self.entry is not None
 
@@ -94,6 +96,8 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "cannot_connect"
             except NoDevicesError:
                 errors["base"] = "no_devices"
+            except ServerError:
+                errors["base"] = "server_busy"
             else:
                 await self.async_set_unique_id(email)
                 self._abort_if_unique_id_configured()
