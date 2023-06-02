@@ -7,7 +7,8 @@
         "error": {
             "cannot_connect": "Failed to connect",
             "invalid_auth": "Invalid authentication. Are your credentials correct?",
-            "no_devices": "No devices found on account"
+            "no_devices": "No devices found on account",
+            "server_busy": "PetKit servers are busy. Please try again later."
         },
         "step": {
             "user": {
@@ -51,6 +52,9 @@
         },
         "manually_paused": {
           "name": "Manually paused"
+        },
+        "pura_air_liquid": {
+          "name": "Pura Air liquid"
         }
       },
       "button": {
@@ -77,6 +81,36 @@
         },
         "reset_deodorizer": {
           "name": "Reset deodorizer"
+        },
+        "reset_pura_air_liquid": {
+          "name": "Reset Pura Air liquid"
+        },
+        "n50_reset": {
+          "name": "Reset N50 odor eliminator"
+        },
+        "light_on": {
+          "name": "Turn light ON"
+        },
+        "start_maintenance": {
+          "name": "Start maintenance mode"
+        },
+        "exit_maintenance": {
+          "name": "Exit maintenance mode"
+        },
+        "pause_exit_maintenance": {
+          "name": "Pause exiting maintenance mode"
+        },
+        "resume_exit_maintenance": {
+          "name": "Resume exiting maintenance mode"
+        },
+        "dump_litter": {
+          "name": "Dump litter"
+        },
+        "pause_dump_litter": {
+          "name": "Pause litter dumping"
+        },
+        "resume_dump_litter": {
+          "name": "Resume litter dumping"
         }
       },
       "number": {
@@ -100,16 +134,16 @@
         "light_brightness": {
           "name": "Light brightness",
           "state": {
-            "Low": "Low",
-            "Medium": "Medium",
-            "High": "High"
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
           }
         },
         "mode": {
           "name": "Mode",
           "state": {
-            "Normal": "Normal",
-            "Smart": "Smart"
+            "normal": "Normal",
+            "smart": "Smart"
           }
         },
         "manual_feed": {
@@ -124,9 +158,9 @@
         "litter_type": {
           "name": "Litter type",
           "state": {
-            "Bentonite": "Bentonite",
-            "Tofu": "Tofu",
-            "Mixed": "Mixed"
+            "bentonite": "Bentonite",
+            "tofu": "Tofu",
+            "mixed": "Mixed"
           }
         }
       },
@@ -146,9 +180,9 @@
         "feeder_status": {
           "name": "Status",
           "state": {
-            "Offline": "Offline",
-            "Normal": "Normal",
-            "On Batteries": "On Batteries"
+            "offline": "Offline",
+            "normal": "Normal",
+            "on_batteries": "On Batteries"
           }
         },
         "desiccant_days_remaining": {
@@ -157,8 +191,8 @@
         "battery_status": {
           "name": "Battery status",
           "state": {
-            "Normal": "Normal",
-            "Low": "Low"
+            "normal": "Normal",
+            "low": "Low"
           }
         },
         "dispensed": {
@@ -191,7 +225,7 @@
         "error": {
           "name": "Error",
           "state": {
-            "No Error": "No Error"
+            "no_error": "No Error"
           }
         },
         "deodorizer_level": {
@@ -213,16 +247,331 @@
           "name": "Total use"
         },
         "last_used_by": {
-          "name": "Last used by"
+          "name": "Last used by",
+          "state": {
+            "no_record_yet": "No record yet",
+            "unknown_pet": "Unknown pet"
+          }
         },
         "last_event": {
-          "name": "Last event"
+          "name": "Last event",
+          "state": {
+            "no_events_yet": "No events yet",
+            "event_type_unknown": "Event type unknown",
+            "cleaning_completed": "Cleaning completed",
+            "dumping_over": "Dumping Over",
+            "reset_over": "Reset over",
+            "spray_over": "Spray over",
+            "pet_out": "Pet out",
+            "auto_cleaning_completed": "Auto cleaning completed",
+            "periodic_cleaning_completed": "Periodic cleaning completed",
+            "manual_cleaning_completed": "Manual cleaning completed",
+            "auto_cleaning_terminated": "Automatic cleaning terminated",
+            "periodic_cleaning_terminated": "Periodic cleaning terminated",
+            "manual_cleaning_terminated": "Manual cleaning terminated",
+            "auto_cleaning_failed_full": "Automatic cleaning failed, waste collection bin is full, please empty promptly",
+            "auto_cleaning_failed_hall_L": "Automatic cleaning failure, the cylinder is not properly locked in place, please check",
+            "auto_cleaning_failed_hall_T": "Automatic cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+            "scheduled_cleaning_failed_full": "Scheduled cleaning failed, waste collection bin is full, please empty promptly",
+            "scheduled_cleaning_failed_hall_L": "Scheduled cleaning failure, the cylinder is not properly locked in place, please check",
+            "scheduled_cleaning_failed_hall_T": "Scheduled cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+            "manual_cleaning_failed_full": "Manual cleaning failed, waste collection bin is full, please empty promptly",
+            "manual_cleaning_failed_hall_L": "Manual cleaning failure, the cylinder is not properly locked in place, please check",
+            "manual_cleaning_failed_hall_T": "Manual cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+            "auto_cleaning_canceled": "Automatic cleaning canceled, device in operation",
+            "periodic_cleaning_canceled": "Periodic cleaning canceled, device in operation",
+            "manual_cleaning_canceled": "Manual cleaning canceled, device in operation",
+            "auto_cleaning_canceled_kitten": "Kitten mode is enabled, auto cleaning is canceled",
+            "periodic_cleaning_canceled_kitten": "Kitten mode is enabled, periodically cleaning is canceled",
+            "litter_empty_completed": "Cat litter empty completed",
+            "litter_empty_terminated": "Cat litter empty terminated",
+            "litter_empty_failed_full": "Cat litter empty failed, waste collection bin is full, please empty promptly",
+            "litter_empty_failed_hall_L": "Cat litter empty failure, the cylinder is not properly locked in place, please check",
+            "litter_empty_failed_hall_T": "Cat litter empty failure, the litter box's cupper cover is not placed properly, please check",
+            "reset_completed": "Device reset completed",
+            "reset_terminated": "Device reset terminated",
+            "reset_failed_full": "Device reset failed, waste collection bin is full, please empty promptly",
+            "reset_failed_hall_L": "Device reset failure, the cylinder is not properly locked in place, please check",
+            "reset_failed_hall_T": "Device reset failure, the litter box's cupper cover is not placed properly, please check",
+            "deodorant_finished": "Deodorant finished",
+            "periodic_odor_completed": "Periodic odor removal completed",
+            "manual_odor_completed": "Manual odor removal completed",
+            "deodorant_finished_liquid_lack": "Deodorant finished, not enough purifying liquid, please refill in time",
+            "periodic_odor_completed_liquid_lack": "Periodic odor removal completed, not enough purifying liquid, please refill in time",
+            "manual_odor_completed_liquid_lack": "Manual odor removal completed, not enough purifying liquid, please refill in time",
+            "auto_odor_failed": "Automatic odor removal failed, odor eliminator error",
+            "periodic_odor_failed": "Periodic odor removal failure, odor eliminator malfunction",
+            "manual_odor_failed": "Manual odor removal failure, odor eliminator malfunction"
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "No events yet",
+                "event_type_unknown": "Event type unknown",
+                "cleaning_completed": "Cleaning completed",
+                "dumping_over": "Dumping Over",
+                "reset_over": "Reset over",
+                "spray_over": "Spray over",
+                "pet_out": "Pet out",
+                "auto_cleaning_completed": "Auto cleaning completed",
+                "periodic_cleaning_completed": "Periodic cleaning completed",
+                "manual_cleaning_completed": "Manual cleaning completed",
+                "auto_cleaning_terminated": "Automatic cleaning terminated",
+                "periodic_cleaning_terminated": "Periodic cleaning terminated",
+                "manual_cleaning_terminated": "Manual cleaning terminated",
+                "auto_cleaning_failed_full": "Automatic cleaning failed, waste collection bin is full, please empty promptly",
+                "auto_cleaning_failed_hall_L": "Automatic cleaning failure, the cylinder is not properly locked in place, please check",
+                "auto_cleaning_failed_hall_T": "Automatic cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+                "scheduled_cleaning_failed_full": "Scheduled cleaning failed, waste collection bin is full, please empty promptly",
+                "scheduled_cleaning_failed_hall_L": "Scheduled cleaning failure, the cylinder is not properly locked in place, please check",
+                "scheduled_cleaning_failed_hall_T": "Scheduled cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+                "manual_cleaning_failed_full": "Manual cleaning failed, waste collection bin is full, please empty promptly",
+                "manual_cleaning_failed_hall_L": "Manual cleaning failure, the cylinder is not properly locked in place, please check",
+                "manual_cleaning_failed_hall_T": "Manual cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+                "auto_cleaning_canceled": "Automatic cleaning canceled, device in operation",
+                "periodic_cleaning_canceled": "Periodic cleaning canceled, device in operation",
+                "manual_cleaning_canceled": "Manual cleaning canceled, device in operation",
+                "auto_cleaning_canceled_kitten": "Kitten mode is enabled, auto cleaning is canceled",
+                "periodic_cleaning_canceled_kitten": "Kitten mode is enabled, periodically cleaning is canceled",
+                "litter_empty_completed": "Cat litter empty completed",
+                "litter_empty_terminated": "Cat litter empty terminated",
+                "litter_empty_failed_full": "Cat litter empty failed, waste collection bin is full, please empty promptly",
+                "litter_empty_failed_hall_L": "Cat litter empty failure, the cylinder is not properly locked in place, please check",
+                "litter_empty_failed_hall_T": "Cat litter empty failure, the litter box's cupper cover is not placed properly, please check",
+                "reset_completed": "Device reset completed",
+                "reset_terminated": "Device reset terminated",
+                "reset_failed_full": "Device reset failed, waste collection bin is full, please empty promptly",
+                "reset_failed_hall_L": "Device reset failure, the cylinder is not properly locked in place, please check",
+                "reset_failed_hall_T": "Device reset failure, the litter box's cupper cover is not placed properly, please check",
+                "deodorant_finished": "Deodorant finished",
+                "periodic_odor_completed": "Periodic odor removal completed",
+                "manual_odor_completed": "Manual odor removal completed",
+                "deodorant_finished_liquid_lack": "Deodorant finished, not enough purifying liquid, please refill in time",
+                "periodic_odor_completed_liquid_lack": "Periodic odor removal completed, not enough purifying liquid, please refill in time",
+                "manual_odor_completed_liquid_lack": "Manual odor removal completed, not enough purifying liquid, please refill in time",
+                "auto_odor_failed": "Automatic odor removal failed, odor eliminator error",
+                "periodic_odor_failed": "Periodic odor removal failure, odor eliminator malfunction",
+                "manual_odor_failed": "Manual odor removal failure, odor eliminator malfunction",
+                "no_sub_events": "No associated sub events"
+              }
+            }
+          }
         },
         "latest_weight": {
           "name": "Latest weight"
         },
         "last_use_duration": {
           "name": "Last use duration"
+        },
+        "pura_air_battery": {
+          "name": "Pura Air battery"
+        },
+        "pura_air_liquid": {
+          "name": "Pura Air liquid"
+        },
+        "n50_odor_eliminator": {
+          "name": "N50 odor eliminator"
+        },
+        "max_last_event": {
+          "name": "Last event",
+          "state": {
+            "no_events_yet": "No events yet",
+            "event_type_unknown": "Event type unknown",
+            "cleaning_completed": "Cleaning completed",
+            "dumping_over": "Dumping Over",
+            "reset_over": "Reset over",
+            "spray_over": "Spray over",
+            "light_over": "Light over",
+            "pet_out": "Pet out",
+            "auto_cleaning_completed": "Auto cleaning completed",
+            "periodic_cleaning_completed": "Periodic cleaning completed",
+            "manual_cleaning_completed": "Manual cleaning completed",
+            "auto_cleaning_terminated": "Automatic cleaning terminated",
+            "periodic_cleaning_terminated": "Periodic cleaning terminated",
+            "manual_cleaning_terminated": "Manual cleaning terminated",
+            "auto_cleaning_failed_full": "Automatic cleaning failed, waste collection bin is full, please empty promptly",
+            "auto_cleaning_failed_hall_T": "Automatic cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+            "auto_cleaning_failed_falldown": "Automatic cleaning failure, the litter box has been knocked down, please check.",
+            "auto_cleaning_failed_other": "Automatic cleaning failure, device malfunction, please check.",
+            "scheduled_cleaning_failed_full": "Scheduled cleaning failed, waste collection bin is full, please empty promptly",
+            "scheduled_cleaning_failed_hall_T": "Scheduled cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+            "scheduled_cleaning_failed_falldown": "Scheduled cleaning failure, the litter box has been knocked down, please check.",
+            "scheduled_cleaning_failed_other": "Scheduled cleaning failure, device malfunction, please check.",
+            "manual_cleaning_failed_full": "Manual cleaning failed, waste collection bin is full, please empty promptly",
+            "manual_cleaning_failed_hall_T": "Manual cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+            "manual_cleaning_failed_falldown": "Manual cleaning failure, the litter box has been knocked down, please check.",
+            "manual_cleaning_failed_other": "Manual cleaning failure, device malfunction, please check.",
+            "auto_cleaning_canceled": "Automatic cleaning canceled, device in operation",
+            "periodic_cleaning_canceled": "Periodic cleaning canceled, device in operation",
+            "manual_cleaning_canceled": "Manual cleaning canceled, device in operation",
+            "auto_cleaning_failed_maintenance": "Automatic cleaning failed, the device is in maintenance mode",
+            "periodic_cleaning_failed_maintenance": "Periodically cleaning failed, the device is in maintenance mode",
+            "auto_cleaning_canceled_kitten": "Kitten mode is enabled, auto cleaning is canceled",
+            "periodic_cleaning_canceled_kitten": "Kitten mode is enabled, periodically cleaning is canceled",
+            "litter_empty_completed": "Cat litter empty completed",
+            "litter_empty_terminated": "Cat litter empty terminated",
+            "litter_empty_failed_full": "Cat litter empty failed, waste collection bin is full, please empty promptly",
+            "litter_empty_failed_hall_T": "Cat litter empty failure, the litter box's cupper cover is not placed properly, please check",
+            "litter_empty_failed_falldown": "Cat litter empty failure, the litter box has been knocked down, please check",
+            "litter_empty_failed_other": "Cat litter empty failure, device malfunction, please check.",
+            "reset_completed": "Device reset completed",
+            "reset_terminated": "Device reset terminated",
+            "reset_failed_full": "Device reset failed, waste collection bin is full, please empty promptly",
+            "reset_failed_hall_T": "Device reset failure, the litter box's cupper cover is not placed properly, please check",
+            "reset_failed_falldown": "Device reset failure, the litter box has been knocked down, please check.",
+            "reset_failed_other": "Device reset failure, device malfunction, please check.",
+            "maintenance_mode": "Maintenance mode",
+            "deodorant_finished": "Deodorant finished",
+            "periodic_odor_completed": "Periodic odor removal completed",
+            "manual_odor_completed": "Manual odor removal completed",
+            "auto_odor_terminated": "Automatic odor removal has been terminated.",
+            "periodic_odor_terminated": "Periodic odor removal terminated.",
+            "manual_odor_terminated": "Manual odor removal terminated.",
+            "auto_odor_failed": "Automatic odor removal failed, odor eliminator error",
+            "periodic_odor_failed": "Periodic odor removal failure, odor eliminator malfunction",
+            "manual_odor_failed": "Manual odor removal failure, odor eliminator malfunction",
+            "auto_odor_canceled": "Automatic odor removal has been canceled, the device is running.",
+            "periodic_odor_canceled": "Periodic odor removal canceled. Litter Box is working.",
+            "manual_odor_canceled": "Manual odor removal canceled. Litter Box is working.",
+            "auto_odor_failed_device": "Automatic odor removal failed, no smart spray is connected.",
+            "periodic_odor_failed_device": "Periodic odor removal failed. Odor Removal Device disconnected.",
+            "manual_odor_failed_device": "Manual odor removal failed. Odor Removal Device disconnected.",
+            "auto_odor_failed_batt": "Automatic odor removal failed, please confirm that the battery of smart spray is sufficient.",
+            "periodic_odor_failed_batt": "Periodic odor removal failed. Please make sure the Odor Removal Device has sufficient battery.",
+            "manual_odor_failed_batt": "Manual odor removal failed. Please make sure the Odor Removal Device has sufficient battery.",
+            "auto_odor_failed_low_batt": "Automatic odor removal failed, battery is low.",
+            "periodic_odor_failed_low_batt": "Periodic odor removal failed. Odor Removal Device battery low.",
+            "manual_odor_failed_low_batt": "Manual odor removal failed. Odor Removal Device battery low.",
+            "cat_stopped_odor": "Your cat is using the litter box, deodorization has been canceled",
+            "light_on": "The light is ON",
+            "light_already_on": "The light is on. There is no need to turn on again.",
+            "light_malfunc": "Failing to turn on the light. Device malfunction, please check.",
+            "light_no_device": "Failing to turn on the light. Please bind the odor removal device first.",
+            "light_batt_cap": "Failing to turn on the light. Please check the battery capacity of the odor removal device.",
+            "light_low_batt": "Failing to turn on the light. Low battery capacity of odor removal device."
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "No events yet",
+                "event_type_unknown": "Event type unknown",
+                "cleaning_completed": "Cleaning completed",
+                "dumping_over": "Dumping Over",
+                "reset_over": "Reset over",
+                "spray_over": "Spray over",
+                "light_over": "Light over",
+                "pet_out": "Pet out",
+                "auto_cleaning_completed": "Auto cleaning completed",
+                "periodic_cleaning_completed": "Periodic cleaning completed",
+                "manual_cleaning_completed": "Manual cleaning completed",
+                "auto_cleaning_terminated": "Automatic cleaning terminated",
+                "periodic_cleaning_terminated": "Periodic cleaning terminated",
+                "manual_cleaning_terminated": "Manual cleaning terminated",
+                "auto_cleaning_failed_full": "Automatic cleaning failed, waste collection bin is full, please empty promptly",
+                "auto_cleaning_failed_hall_T": "Automatic cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+                "auto_cleaning_failed_falldown": "Automatic cleaning failure, the litter box has been knocked down, please check.",
+                "auto_cleaning_failed_other": "Automatic cleaning failure, device malfunction, please check.",
+                "scheduled_cleaning_failed_full": "Scheduled cleaning failed, waste collection bin is full, please empty promptly",
+                "scheduled_cleaning_failed_hall_T": "Scheduled cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+                "scheduled_cleaning_failed_falldown": "Scheduled cleaning failure, the litter box has been knocked down, please check.",
+                "scheduled_cleaning_failed_other": "Scheduled cleaning failure, device malfunction, please check.",
+                "manual_cleaning_failed_full": "Manual cleaning failed, waste collection bin is full, please empty promptly",
+                "manual_cleaning_failed_hall_T": "Manual cleaning failure, the litter box's upper cupper cover is not placed properly, please check",
+                "manual_cleaning_failed_falldown": "Manual cleaning failure, the litter box has been knocked down, please check.",
+                "manual_cleaning_failed_other": "Manual cleaning failure, device malfunction, please check.",
+                "auto_cleaning_canceled": "Automatic cleaning canceled, device in operation",
+                "periodic_cleaning_canceled": "Periodic cleaning canceled, device in operation",
+                "manual_cleaning_canceled": "Manual cleaning canceled, device in operation",
+                "auto_cleaning_failed_maintenance": "Automatic cleaning failed, the device is in maintenance mode",
+                "periodic_cleaning_failed_maintenance": "Periodically cleaning failed, the device is in maintenance mode",
+                "auto_cleaning_canceled_kitten": "Kitten mode is enabled, auto cleaning is canceled",
+                "periodic_cleaning_canceled_kitten": "Kitten mode is enabled, periodically cleaning is canceled",
+                "litter_empty_completed": "Cat litter empty completed",
+                "litter_empty_terminated": "Cat litter empty terminated",
+                "litter_empty_failed_full": "Cat litter empty failed, waste collection bin is full, please empty promptly",
+                "litter_empty_failed_hall_T": "Cat litter empty failure, the litter box's cupper cover is not placed properly, please check",
+                "litter_empty_failed_falldown": "Cat litter empty failure, the litter box has been knocked down, please check",
+                "litter_empty_failed_other": "Cat litter empty failure, device malfunction, please check.",
+                "reset_completed": "Device reset completed",
+                "reset_terminated": "Device reset terminated",
+                "reset_failed_full": "Device reset failed, waste collection bin is full, please empty promptly",
+                "reset_failed_hall_T": "Device reset failure, the litter box's cupper cover is not placed properly, please check",
+                "reset_failed_falldown": "Device reset failure, the litter box has been knocked down, please check.",
+                "reset_failed_other": "Device reset failure, device malfunction, please check.",
+                "maintenance_mode": "Maintenance mode",
+                "deodorant_finished": "Deodorant finished",
+                "periodic_odor_completed": "Periodic odor removal completed",
+                "manual_odor_completed": "Manual odor removal completed",
+                "auto_odor_terminated": "Automatic odor removal has been terminated.",
+                "periodic_odor_terminated": "Periodic odor removal terminated.",
+                "manual_odor_terminated": "Manual odor removal terminated.",
+                "auto_odor_failed": "Automatic odor removal failed, odor eliminator error",
+                "periodic_odor_failed": "Periodic odor removal failure, odor eliminator malfunction",
+                "manual_odor_failed": "Manual odor removal failure, odor eliminator malfunction",
+                "auto_odor_canceled": "Automatic odor removal has been canceled, the device is running.",
+                "periodic_odor_canceled": "Periodic odor removal canceled. Litter Box is working.",
+                "manual_odor_canceled": "Manual odor removal canceled. Litter Box is working.",
+                "auto_odor_failed_device": "Automatic odor removal failed, no smart spray is connected.",
+                "periodic_odor_failed_device": "Periodic odor removal failed. Odor Removal Device disconnected.",
+                "manual_odor_failed_device": "Manual odor removal failed. Odor Removal Device disconnected.",
+                "auto_odor_failed_batt": "Automatic odor removal failed, please confirm that the battery of smart spray is sufficient.",
+                "periodic_odor_failed_batt": "Periodic odor removal failed. Please make sure the Odor Removal Device has sufficient battery.",
+                "manual_odor_failed_batt": "Manual odor removal failed. Please make sure the Odor Removal Device has sufficient battery.",
+                "auto_odor_failed_low_batt": "Automatic odor removal failed, battery is low.",
+                "periodic_odor_failed_low_batt": "Periodic odor removal failed. Odor Removal Device battery low.",
+                "manual_odor_failed_low_batt": "Manual odor removal failed. Odor Removal Device battery low.",
+                "cat_stopped_odor": "Your cat is using the litter box, deodorization has been canceled",
+                "light_on": "The light is ON",
+                "light_already_on": "The light is on. There is no need to turn on again.",
+                "light_malfunc": "Failing to turn on the light. Device malfunction, please check.",
+                "light_no_device": "Failing to turn on the light. Please bind the odor removal device first.",
+                "light_batt_cap": "Failing to turn on the light. Please check the battery capacity of the odor removal device.",
+                "light_low_batt": "Failing to turn on the light. Low battery capacity of odor removal device.",
+                "no_sub_events": "No associated sub events"
+              }
+            }
+          }
+        },
+        "max_work_state": {
+          "name": "State",
+          "state": {
+            "cleaning_litter_box": "Cleaning litter box",
+            "cleaning_litter_box_paused": "Litter box cleaning paused",
+            "cleaning_paused_pet_entered": "Litter box cleaning paused: Pet entered while in operation, anti-pinch sensors activated, device stopped working. Please check the device ASAP.",
+            "cleaning_paused_system_error": "Litter box cleaning paused: System error, operation paused",
+            "cleaning_paused_pet_approach": "Litter box cleaning paused: Your cat is approaching, operation paused",
+            "cleaning_paused_pet_using": "Litter box cleaning paused: Your cat is using the device, operation paused",
+            "resetting_device": "Resetting device",
+            "litter_box_paused": "Litter box paused",
+            "paused_pet_entered": "Litter box paused: Pet entered while in operation, anti-pinch sensors activated, device stopped working. Please check the device ASAP.",
+            "paused_system_error": "Litter box paused: System error, operation paused",
+            "paused_pet_approach": "Litter box paused: Your cat is approaching, operation paused",
+            "paused_pet_using": "Litter box paused: Your cat is using the device, operation paused",
+            "dumping_litter": "Dumping cat litter",
+            "dumping_litter_paused": "Dumping cat litter paused",
+            "dumping_paused_pet_entered": "Dumping cat litter paused: Pet entered while in operation, anti-pinch sensors activated, device stopped working. Please check the device ASAP.",
+            "dumping_paused_system_error": "Dumping cat litter paused: System error, operation paused",
+            "dumping_paused_pet_approach": "Dumping cat litter paused: Your cat is approaching, operation paused",
+            "dumping_paused_pet_using": "Dumping cat litter paused: Your cat is using the device, operation paused",
+            "resetting": "Resetting",
+            "leveling": "Leveling cat litter, please wait.",
+            "calibrating": "Calibrating litter box, please wait.",
+            "maintenance_mode": "In maintenance mode",
+            "maintenance_paused_pet_entered": "Maintenance mode paused: Pet entered while in operation, anti-pinch sensors activated, device stopped working. Please check the device ASAP.",
+            "maintenance_paused_cover": "Maintenance mode paused: The top cover is not installed, operation paused",
+            "maintenance_paused_system_error": "Maintenance mode paused: System error, operation paused",
+            "maintenance_paused_pet_approach": "Maintenance mode paused: Your cat is approaching, operation paused",
+            "maintenance_paused_pet_using": "Maintenance mode paused: Your cat is using the device, operation paused",
+            "maintenance_paused": "Maintenance mode paused",
+            "exit_maintenance": "Exiting maintenance mode",
+            "maintenance_exit_paused_pet_entered": "Maintenance mode exiting paused: Pet entered while in operation, anti-pinch sensors activated, device stopped working. Please check the device ASAP.",
+            "maintenance_exit_paused_cover": "Maintenance mode exiting paused: The top cover is not installed, operation paused",
+            "maintenance_exit_paused_system_error": "Maintenance mode exiting paused: System error, operation paused",
+            "maintenance_exit_paused_pet_approach": "Maintenance mode exiting paused: Your cat is approaching, operation paused",
+            "maintenance_exit_paused_pet_using": "Maintenance mode exiting paused: Your cat is using the device, operation paused",
+            "maintenance_exit_paused": "Maintenance mode exiting paused",
+            "idle": "Idle"
+          }
         }
       },
       "switch": {
@@ -279,6 +628,15 @@
         },
         "light_weight_cleaning_disabled": {
           "name": "Light weight cleaning disabled"
+        },
+        "cont_rotation": {
+          "name": "Continuous rotation"
+        },
+        "deep_cleaning": {
+          "name": "Deep cleaning"
+        },
+        "deep_deodor": {
+          "name": "Deep deodorization"
         }
       }
     }
