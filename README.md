@@ -17,6 +17,7 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 - [Fresh Element Solo](https://www.amazon.com/PETKIT-Automatic-Dispenser-Compatible-Freeze-Dried/dp/B09158J9PF/)
 - [Fresh Element Mini Pro](https://www.amazon.com/PETKIT-Automatic-Stainless-Indicator-Dispenser-2-8L/dp/B08GS1CPHH/)
 - [Eversweet 3 Pro Water Fountain](https://www.amazon.com/PETKIT-Wireless-Fountain-Stainless-Dispenser/dp/B09QRH6L3M/)
+- [Eversweet 5 Mini Water Fountain](https://www.petkit.nl/products/eversweet-5-mini-binnen-2-weken-geleverd)
 - [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
 - [Pura MAX Litter Box with/without Pura Air deodorizer](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
 
@@ -188,7 +189,7 @@ Each Feeder has the following entities:
 ___
 
 <details>
-  <summary> <b>Eversweet 3 Pro</b> (<i>click to expand</i>)</summary>
+  <summary> <b>Eversweet 3 Pro/5 Mini</b> (<i>click to expand</i>)</summary>
   <!---->
 <br/>
 Each water fountain has the following entities:

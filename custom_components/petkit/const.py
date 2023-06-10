@@ -62,8 +62,10 @@ WF_MODE_COMMAND = {
 }
 
 WATER_FOUNTAINS = {
-    'w5': 'Eversweet 3 Pro',
+    2: 'Eversweet 5 Mini',
+    4: 'Eversweet 3 Pro',
 }
+
 
 FEEDERS = {
     'd3': 'Fresh Element Infinity',
