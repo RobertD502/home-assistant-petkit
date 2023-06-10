@@ -110,7 +110,7 @@ class WFResetFilter(CoordinatorEntity, ButtonEntity):
             "identifiers": {(DOMAIN, self.wf_data.id)},
             "name": self.wf_data.data['name'],
             "manufacturer": "PetKit",
-            "model": WATER_FOUNTAINS[self.wf_data.type],
+            "model": WATER_FOUNTAINS.get(self.wf_data.data["typeCode"], "Unidentified Water Fountain") if "typeCode" in self.wf_data.data else "Unidentified Water Fountain",
             "sw_version": f'{self.wf_data.data["hardware"]}.{self.wf_data.data["firmware"]}'
         }
 
