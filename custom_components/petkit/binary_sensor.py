@@ -32,16 +32,25 @@ async def async_setup_entry(
         )
 
     for feeder_id, feeder_data in coordinator.data.feeders.items():
-        # All Feeders
-        binary_sensors.append(
-            FoodLevel(coordinator, feeder_id)
-        )
 
-        # D4 Feeder
-        if feeder_data.type == 'd4':
+        #All feeders except D4s
+        if feeder_data.type != 'd4s':
+            binary_sensors.append(
+                FoodLevel(coordinator, feeder_id)
+            )
+
+        # D4 and D4s feeders
+        if feeder_data.type in ['d4', 'd4s']:
             binary_sensors.append(
                 BatteryInstalled(coordinator, feeder_id)
             )
+
+        # D4s Feeder
+        if feeder_data.type == 'd4s':
+            binary_sensors.extend((
+                FoodLevelHopper1(coordinator, feeder_id),
+                FoodLevelHopper2(coordinator, feeder_id)
+                ))
 
         # D3 Feeder
         if feeder_data.type == 'd3':
@@ -270,7 +279,7 @@ class BatteryInstalled(CoordinatorEntity, BinarySensorEntity):
 
     @property
     def is_on(self) -> bool:
-        """Return True if food needs to be added."""
+        """Return True if battery installed."""
 
         if self.feeder_data.data['state']['batteryPower'] == 1:
             return True
@@ -627,3 +636,139 @@ class LBManuallyPaused(CoordinatorEntity, BinarySensorEntity):
         """Return True if deodorizer is empty."""
 
         return self.lb_data.manually_paused
+
+
+class FoodLevelHopper1(CoordinatorEntity, BinarySensorEntity):
+    """Representation of Feeder lack of food warning for Hopper 1."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_food_level_hopper_1'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "food_level_hopper_one"
+
+    @property
+    def device_class(self) -> BinarySensorDeviceClass:
+        """Return entity device class."""
+
+        return BinarySensorDeviceClass.PROBLEM
+
+    @property
+    def is_on(self) -> bool:
+        """Return True if food needs to be added."""
+
+        if self.feeder_data.data['state']['food1'] < 1:
+            return True
+        else:
+            return False
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.feeder_data.data['state']['food1'] == 0:
+            return 'mdi:food-drumstick-off'
+        else:
+            return 'mdi:food-drumstick'
+
+
+class FoodLevelHopper2(CoordinatorEntity, BinarySensorEntity):
+    """Representation of Feeder lack of food warning for Hopper 2."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_food_level_hopper_2'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "food_level_hopper_two"
+
+    @property
+    def device_class(self) -> BinarySensorDeviceClass:
+        """Return entity device class."""
+
+        return BinarySensorDeviceClass.PROBLEM
+
+    @property
+    def is_on(self) -> bool:
+        """Return True if food needs to be added."""
+
+        if self.feeder_data.data['state']['food2'] < 1:
+            return True
+        else:
+            return False
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.feeder_data.data['state']['food2'] == 0:
+            return 'mdi:food-drumstick-off'
+        else:
+            return 'mdi:food-drumstick'

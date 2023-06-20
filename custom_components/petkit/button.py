@@ -42,8 +42,8 @@ async def async_setup_entry(
             ResetDesiccant(coordinator, feeder_id)
         )
 
-        # D3 and D4
-        if feeder_data.type in ['d3', 'd4']:
+        # D3, D4, and D4s
+        if feeder_data.type in ['d3', 'd4', 'd4s']:
             buttons.append(
                 CancelManualFeed(coordinator, feeder_id)
             )
@@ -52,6 +52,12 @@ async def async_setup_entry(
         if feeder_data.type == 'd3':
             buttons.append(
                 CallPet(coordinator, feeder_id)
+            )
+
+        # D4s
+        if feeder_data.type == 'd4s':
+            buttons.append(
+                FoodReplenished(coordinator, feeder_id)
             )
 
     # Litter boxes
@@ -1293,4 +1299,73 @@ class MAXResumeDumping(CoordinatorEntity, ButtonEntity):
 
         await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.RESUME_LITTER_DUMP)
         await asyncio.sleep(1.5)
+        await self.coordinator.async_request_refresh()
+
+
+class FoodReplenished(CoordinatorEntity, ButtonEntity):
+    """Representation of food replenished command button."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_food_replenished'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "food_replenished"
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    async def async_press(self) -> None:
+        """Handle the button press."""
+
+        await self.coordinator.client.food_replenished(self.feeder_data)
+
+        self.feeder_data.data['state']['food1'] = 1
+        self.feeder_data.data['state']['food2'] = 1
+        self.async_write_ha_state()
         await self.coordinator.async_request_refresh()

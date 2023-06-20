@@ -55,6 +55,12 @@
         },
         "pura_air_liquid": {
           "name": "Pura Air tekućina"
+        },
+        "food_level_hopper_one": {
+          "name": "Spremnik za razinu hrane 1"
+        },
+        "food_level_hopper_two": {
+          "name": "Spremnik za razinu hrane 2"
         }
       },
       "button": {
@@ -111,6 +117,9 @@
         },
         "resume_dump_litter": {
           "name": "Nastavi s odlaganjem mačjeg pijeska"
+        },
+        "food_replenished": {
+          "name": "Hrana dopunjena"
         }
       },
       "number": {
@@ -128,6 +137,9 @@
         },
         "cleaning_delay": {
           "name": "Odgoda čišćenja"
+        },
+        "min_eating_duration": {
+          "name": "Minimalno trajanje obroka"
         }
       },
       "select": {
@@ -572,6 +584,33 @@
             "maintenance_exit_paused": "Izlazak iz načina održavanja pauziran",
             "idle": "Besposlen"
           }
+        },
+        "avg_eating_time": {
+          "name": "Prosječno vrijeme jela"
+        },
+        "manually_dispensed_hopp_one": {
+          "name": "Spremnik za ručno doziranje 1"
+        },
+        "manually_dispensed_hopp_two": {
+          "name": "Spremnik za ručno doziranje 2"
+        },
+        "planned_hopp_one": {
+          "name": "Planirani spremnik 1"
+        },
+        "planned_hopp_two": {
+          "name": "Planirani spremnik 2"
+        },
+        "planned_dispensed_hopp_one": {
+          "name": "Planirani spremnik za doziranje 1"
+        },
+        "planned_dispensed_hopp_two": {
+          "name": "Planirani spremnik za doziranje 2"
+        },
+        "dispensed_hopp_one": {
+          "name": "Spremnik za doziranje 1"
+        },
+        "dispensed_hopp_two": {
+          "name": "Spremnik za doziranje 2"
         }
       },
       "switch": {
@@ -637,6 +676,11 @@
         },
         "deep_deodor": {
           "name": "Temeljita dezodoracija"
+        }
+      },
+      "text": {
+        "manual_feed": {
+          "name": "Manual feed"
         }
       }
     }

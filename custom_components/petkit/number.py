@@ -48,6 +48,12 @@ async def async_setup_entry(
                 ManualFeed(coordinator, feeder_id),
             ))
 
+        # Only D4s Feeder
+        if feeder_data.type == 'd4s':
+            numbers.append(
+                MinEatingDuration(coordinator, feeder_id)
+            )
+
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
         # Pura X & Pura MAX
         numbers.append(
@@ -625,5 +631,114 @@ class LBCleaningDelay(CoordinatorEntity, NumberEntity):
         seconds = int(value * 60)
         await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DELAY_CLEAN_TIME, seconds)
         self.lb_data.device_detail['settings']['stillTime'] = seconds
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class MinEatingDuration(CoordinatorEntity, NumberEntity):
+    """Representation of D4s shortest eating duration."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_min_eating_duration'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "min_eating_duration"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:clock-digital'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def native_value(self) -> int:
+        """Returns current timer setting."""
+
+        return self.feeder_data.data['settings']['shortest']
+
+    @property
+    def native_unit_of_measurement(self) -> UnitOfMass:
+        """Return seconds."""
+
+        return UnitOfTime.SECONDS
+
+    @property
+    def mode(self) -> NumberMode:
+        """Return slider mode."""
+
+        return NumberMode.SLIDER
+
+    @property
+    def native_min_value(self) -> int:
+        """Return minimum allowed value."""
+
+        return 3
+
+    @property
+    def native_max_value(self) -> int:
+        """Return max value allowed."""
+
+        return 60
+
+    @property
+    def native_step(self) -> int:
+        """Return stepping by 1 second."""
+
+        return 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_set_native_value(self, value: int) -> None:
+        """Update the current value."""
+
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MIN_EAT_DURATION, int(value))
+        self.feeder_data.data['settings']['shortest'] = value
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
