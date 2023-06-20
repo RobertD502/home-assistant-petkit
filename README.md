@@ -12,12 +12,20 @@ ___
 
 Custom Home Assistant component for controlling and monitoring PetKit devices and pets.
 
-`Currently Supported Devices:`
+### Currently Supported Devices
+
+`Feeders`:
 - [Fresh Element Infinity](https://www.amazon.com/PETKIT-Automatic-Stainless-Programmable-Dispenser/dp/B09JFK8BCQ)
 - [Fresh Element Solo](https://www.amazon.com/PETKIT-Automatic-Dispenser-Compatible-Freeze-Dried/dp/B09158J9PF/)
 - [Fresh Element Mini Pro](https://www.amazon.com/PETKIT-Automatic-Stainless-Indicator-Dispenser-2-8L/dp/B08GS1CPHH/)
+- [Fresh Element Gemini](https://www.amazon.com/PETKIT-Automatic-Combination-Dispenser-Stainless/dp/B0BF56RTQH)
+
+`Water Fountains`:
+- [Eversweet Solo 2 Water Fountain](https://www.amazon.com/PETKIT-EVERSWEET-Wireless-Visualization-Dispenser-2L/dp/B0B3RWF653)
 - [Eversweet 3 Pro Water Fountain](https://www.amazon.com/PETKIT-Wireless-Fountain-Stainless-Dispenser/dp/B09QRH6L3M/)
 - [Eversweet 5 Mini Water Fountain](https://www.petkit.nl/products/eversweet-5-mini-binnen-2-weken-geleverd)
+
+`Litter Boxes`:
 - [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
 - [Pura MAX Litter Box with/without Pura Air deodorizer](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
 
@@ -185,11 +193,51 @@ Each Feeder has the following entities:
 > Friendly Note: Mini feeders have a bug when batteries are installed that has never been addressed by PetKit. This can result in your device locking up until the batteries are removed and feeder is power cycled. I am not sure what triggers this bug, but as a safety measure I don't install batteries into mini feeders.
 </details>
 
+<details>
+  <summary> <b>Fresh Element Gemini</b> (<i>click to expand</i>)</summary>
+  <!---->
+<br/>
+Each Feeder has the following entities:
+<br/>
+
+| Entity                      | Entity Type     | Additional Comments                                                                                                                                                                                   |
+|-----------------------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Cancel manual feed`        | `Button`        | - Only available if your feeder is online (connected to PetKit's servers). <br/>- Will cancel a manual feeding that is currently in progress.                                                         |
+| `Indicator light`           | `Switch`        | Only available if your feeder is online (connected to PetKit's servers).                                                                                                                              |
+| `Manual feed`               | `Text`        | - Allows setting the amount of portions to dispense immediately from hopper 1 and 2. <br/>- Only available if your feeder is online (connected to PetKit's servers). <br/>- Valid text is in the form `number,number`. For example, setting a value of 1,2 will dispense one portion from hopper 1 and 2 portions from hopper 2. Allowed portion sizes for each hooper range from and include 0 to 10.                                                          |
+| `Desiccant days remaining`  | `Sensor`        | Number of days left before the desiccant needs to be replaced.                                                                                                                                        |
+| `Food level hopper 1`                | `Binary Sensor` | Allows for determining if there is a food shortage in hopper 1.                                                                                                                                                   |
+| `Food level hopper 2`                | `Binary Sensor` | Allows for determining if there is a food shortage in hopper 2.                                                                                                                                                   |
+| `Child lock`                | `Switch`        | Only available if your feeder is online (connected to PetKit's servers).                                                                                                                              |
+| `Dispense tone`             | `Switch`        | Only available if your feeder is online (connected to PetKit's servers).                                                                                                                              |
+| `Food replenished`             | `Button`        | Tells the PetKit servers that you have replenished hopper 1 and 2 with food. If you don't do this after replenishing food, the food level for hoppers 1 and 2 won't update until a manual feeding is sent or until the next scheduled feeding.                                                                                                                              |
+| `Food shortage alarm`       | `Switch`        | Only available if your feeder is online (connected to PetKit's servers).                                                                                                                              |
+| `Minimum eating duration`       | `Number`        | Minimum amount of time, in seconds, pet has to eat food before it is recorded.                                                                                                                              |
+| `Reset desiccant`           | `Button`        | - Allows you to reset the desiccant back to 30 days after replacing it. <br/>- Only available if your feeder is online (connected to PetKit's servers).                                               |
+| `Average eating time`           | `Sensor`        | Average amount of time pet(s) have spent eating food.                                               |
+| `Battery installed`         | `Binary Sensor` | If batteries are removed or installed, power cycling the feeder is required for the status to update.                                                                                                 |
+| `Battery status`            | `Sensor`        | - Will only become available when feeder is running on batteries. <br/>- Indicates the battery level (Normal or Low).                                                                                 |
+| `Dispensed hopper 1`                 | `Sensor`        | Amount of portions dispensed from hopper 1 today.                                                                                                                                                            |
+| `Dispensed hopper 2`                 | `Sensor`        | Amount of portions dispensed from hopper 2 today.                                                                                                                                                            |
+| `Error`                     | `Sensor`        | Identifies any errors reported by the feeder.                                                                                                                                                                                                                                                                                          |
+| `Manually dispensed hopper 1`        | `Sensor`        | Amount of portions manually dispensed from hopper 1 today.                                                                                                                                                   |
+| `Manually dispensed hopper 2`        | `Sensor`        | Amount of portions manually dispensed from hopper 2 today.                                                                                                                                                   |
+| `Planned dispensed hopper 1`         | `Sensor`        | Of the planned amount that is to be dispensed today, amount of portions that have been dispensed from hopper 1.                                                                                                  |
+| `Planned dispensed hopper 2`         | `Sensor`        | Of the planned amount that is to be dispensed today, amount of portions that have been dispensed from hopper 2.                                                                                                  |
+| `Planned hopper 1`                   | `Sensor`        | Amount of portions that the feeder plans to dispense from hopper 1 today.                                                                                                                                    |
+| `Planned hopper 2`                   | `Sensor`        | Amount of portions that the feeder plans to dispense from hopper 2 today.                                                                                                                                    |
+| `RSSI`                      | `Sensor`        | WiFi connection strength.                                                                                                                                                                             |
+| `Status`                    | `Sensor`        | `Normal` = Feeder is connected to PetKit's servers <br/>`Offline` = Feeder is not connected to PetKit servers <br/>`On Batteries` = If installed, feeder is currently being powered by the batteries. |
+| `Times dispensed`           | `Sensor`        | Number of times food has been dispensed today.                                                                                                                                                        |
+| `Times eaten`           | `Sensor`        | Number of times pet(s) ate today.                                                                                                                                                        |
+
+</details>
+
 ## Water Fountains
 ___
 
 <details>
-  <summary> <b>Eversweet 3 Pro/5 Mini</b> (<i>click to expand</i>)</summary>
+  <summary> <b>Eversweet 3 Pro/5 Mini/Solo 2</b> (<i>click to expand</i>)</summary>
   <!---->
 <br/>
 Each water fountain has the following entities:
