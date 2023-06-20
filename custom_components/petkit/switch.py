@@ -45,8 +45,8 @@ async def async_setup_entry(
             ChildLock(coordinator, feeder_id),
         ))
 
-        # D4 Feeder
-        if feeder_data.type == 'd4':
+        # D4 and D4s Feeder
+        if feeder_data.type in ['d4', 'd4s']:
             switches.extend((
                 ShortageAlarm(coordinator, feeder_id),
                 DispenseTone(coordinator, feeder_id),
@@ -743,9 +743,12 @@ class DispenseTone(CoordinatorEntity, SwitchEntity):
 
     @property
     def is_on(self) -> bool:
-        """Determine if food shortage alarm is on."""
+        """Determine if food dispense tone is on."""
 
-        return self.feeder_data.data['settings']['feedSound'] == 1
+        if self.feeder_data.type == 'd4s':
+            return self.feeder_data.data['settings']['feedTone'] == 1
+        else:
+            return self.feeder_data.data['settings']['feedSound'] == 1
 
     @property
     def available(self) -> bool:
@@ -757,18 +760,34 @@ class DispenseTone(CoordinatorEntity, SwitchEntity):
             return False
 
     async def async_turn_on(self, **kwargs) -> None:
-        """Turn food shortage alarm on."""
+        """Turn dispense tone on."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DISPENSE_TONE, 1)
-        self.feeder_data.data['settings']['feedSound'] = 1
+        if self.feeder_data.type == 'd4s':
+            setting = FeederSetting.FEED_TONE
+        else:
+            setting = FeederSetting.DISPENSE_TONE
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, setting, 1)
+
+        if self.feeder_data.type == 'd4s':
+            self.feeder_data.data['settings']['feedTone'] = 1
+        else:
+            self.feeder_data.data['settings']['feedSound'] = 1
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
 
     async def async_turn_off(self, **kwargs) -> None:
-        """Turn food shortage alarm off."""
+        """Turn dispense tone off."""
 
-        await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.DISPENSE_TONE, 0)
-        self.feeder_data.data['settings']['feedSound'] = 0
+        if self.feeder_data.type == 'd4s':
+            setting = FeederSetting.FEED_TONE
+        else:
+            setting = FeederSetting.DISPENSE_TONE
+        await self.coordinator.client.update_feeder_settings(self.feeder_data, setting, 0)
+
+        if self.feeder_data.type == 'd4s':
+            self.feeder_data.data['settings']['feedTone'] = 0
+        else:
+            self.feeder_data.data['settings']['feedSound'] = 0
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
 
