@@ -55,6 +55,12 @@
       },
       "pura_air_liquid": {
         "name": "Pura Air liquid"
+      },
+      "food_level_hopper_one": {
+        "name": "Food level hopper 1"
+      },
+      "food_level_hopper_two": {
+        "name": "Food level hopper 2"
       }
     },
     "button": {
@@ -111,6 +117,9 @@
       },
       "resume_dump_litter": {
         "name": "Resume litter dumping"
+      },
+      "food_replenished": {
+        "name": "Food replenished"
       }
     },
     "number": {
@@ -128,6 +137,9 @@
       },
       "cleaning_delay": {
         "name": "Cleaning delay"
+      },
+      "min_eating_duration": {
+        "name": "Minimum eating duration"
       }
     },
     "select": {
@@ -572,6 +584,33 @@
           "maintenance_exit_paused": "Maintenance mode exiting paused",
           "idle": "Idle"
         }
+      },
+      "avg_eating_time": {
+        "name": "Average eating time"
+      },
+      "manually_dispensed_hopp_one": {
+        "name": "Manually dispensed hopper 1"
+      },
+      "manually_dispensed_hopp_two": {
+        "name": "Manually dispensed hopper 2"
+      },
+      "planned_hopp_one": {
+        "name": "Planned hopper 1"
+      },
+      "planned_hopp_two": {
+        "name": "Planned hopper 2"
+      },
+      "planned_dispensed_hopp_one": {
+        "name": "Planned dispensed hopper 1"
+      },
+      "planned_dispensed_hopp_two": {
+        "name": "Planned dispensed hopper 2"
+      },
+      "dispensed_hopp_one": {
+        "name": "Dispensed hopper 1"
+      },
+      "dispensed_hopp_two": {
+        "name": "Dispensed hopper 2"
       }
     },
     "switch": {
@@ -637,6 +676,11 @@
       },
       "deep_deodor": {
         "name": "Deep deodorization"
+      }
+    },
+    "text": {
+      "manual_feed": {
+        "name": "Manual feed"
       }
     }
   }
