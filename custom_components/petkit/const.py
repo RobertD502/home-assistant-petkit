@@ -21,6 +21,7 @@ PLATFORMS = [
     Platform.SELECT,
     Platform.SENSOR,
     Platform.SWITCH,
+    Platform.TEXT
 ]
 
 DEFAULT_NAME = "PetKit"
@@ -64,12 +65,14 @@ WF_MODE_COMMAND = {
 WATER_FOUNTAINS = {
     2: 'Eversweet 5 Mini',
     4: 'Eversweet 3 Pro',
+    5: 'Eversweet Solo 2'
 }
 
 
 FEEDERS = {
     'd3': 'Fresh Element Infinity',
     'd4': 'Fresh Element Solo',
+    'd4s': 'Fresh Element Gemini',
     'feedermini': 'Fresh Element Mini Pro',
 }
 
