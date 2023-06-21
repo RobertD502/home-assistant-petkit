@@ -122,6 +122,21 @@
         "name": "Food replenished"
       }
     },
+    "fan": {
+      "purifier": {
+        "name": "Purifier",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "Auto",
+              "silent": "Silent",
+              "standard": "Standard",
+              "strong": "Strong"
+            }
+          }
+        }
+      }
+    },
     "number": {
       "set_weight": {
         "name": "Set weight"
@@ -611,6 +626,18 @@
       },
       "dispensed_hopp_two": {
         "name": "Dispensed hopper 2"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "air_purified": {
+        "name": "Air purified"
+      },
+      "liquid": {
+        "name": "Liquid"
       }
     },
     "switch": {
@@ -676,6 +703,9 @@
       },
       "deep_deodor": {
         "name": "Deep deodorization"
+      },
+      "prompt_tone": {
+        "name": "Prompt tone"
       }
     },
     "text": {
