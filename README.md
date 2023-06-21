@@ -14,20 +14,24 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 
 ### Currently Supported Devices
 
-`Feeders`:
+`Feeders`
 - [Fresh Element Infinity](https://www.amazon.com/PETKIT-Automatic-Stainless-Programmable-Dispenser/dp/B09JFK8BCQ)
 - [Fresh Element Solo](https://www.amazon.com/PETKIT-Automatic-Dispenser-Compatible-Freeze-Dried/dp/B09158J9PF/)
 - [Fresh Element Mini Pro](https://www.amazon.com/PETKIT-Automatic-Stainless-Indicator-Dispenser-2-8L/dp/B08GS1CPHH/)
 - [Fresh Element Gemini](https://www.amazon.com/PETKIT-Automatic-Combination-Dispenser-Stainless/dp/B0BF56RTQH)
 
-`Water Fountains`:
+`Litter Boxes`
+- [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
+- [Pura MAX Litter Box with/without Pura Air deodorizer](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
+
+`Purifiers`
+- [Air Magicube](https://www.instachew.com/product-page/petkit-air-magicube-smart-odor-eliminator)
+
+`Water Fountains`
 - [Eversweet Solo 2 Water Fountain](https://www.amazon.com/PETKIT-EVERSWEET-Wireless-Visualization-Dispenser-2L/dp/B0B3RWF653)
 - [Eversweet 3 Pro Water Fountain](https://www.amazon.com/PETKIT-Wireless-Fountain-Stainless-Dispenser/dp/B09QRH6L3M/)
 - [Eversweet 5 Mini Water Fountain](https://www.petkit.nl/products/eversweet-5-mini-binnen-2-weken-geleverd)
 
-`Litter Boxes`:
-- [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
-- [Pura MAX Litter Box with/without Pura Air deodorizer](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
 
 #### Bluetooth only devices that don't use PetKit's BLE relay such as trackers (i.e., PetKit Fit) will not be supported: syncing new data from a bluetooth tracker requires the PetKit mobile app to communicate with the tracker which is not possible when your PetKit account is already in use with this integration. 
 
@@ -561,6 +565,30 @@ Each litter box has the following entities:
 | idle                                 | Idle                                                                                                                                                 |
 
   </details>    
+</details>
+
+## Purifiers
+___
+
+<details>
+  <summary> <b>Air Magicube</b> (<i>click to expand</i>)</summary>
+  <!---->
+<br/>
+Each purifier has the following entities:
+<br/>
+
+| Entity            | Entity Type | Additional Comments                                                                                                                                                                                                   |
+|-------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Indicator light` | `Switch`    | Only available if your purifier is online (connected to PetKit's servers)                                                                                                                                             |
+| `Prompt tone`     | `Switch`    | Only available if your purifier is online (connected to PetKit's servers).                                                                                                                                            |
+| `Purifier`        | `Fan`       | - Only available if purifier is online (Connected to PetKit's servers). <br/>- Can turn the purifier `On` and `Off` and view/change the current mode to one of the following: `auto`, `silent`, `standard`, `strong`. |
+| `Air purified`    | `Sensor`    |                                                                                                                                                                                                                       |
+| `Humidity`        | `Sensor`    |                                                                                                                                                                                                                       |
+| `Temperature`     | `Sensor`    |                                                                                                                                                                                                                       |
+| `Error`           | `Sensor`    | Displays any error messages. `Note:` Even though it isn't really an error, An error message is displayed by PetKit if the purifier is in standby mode.                                                                |
+| `Liquid`          | `Sensor`    | Percent of purifying liquid that remains in the purifier.                                                                                                                                                             |
+| `RSSI`            | `Sensor`    | WiFi connection strength.                                                                                                                                                                                             |
+
 </details>
 
 ## Pets
