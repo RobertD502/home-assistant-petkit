@@ -122,6 +122,21 @@
           "name": "Hrana dopunjena"
         }
       },
+      "fan": {
+        "purifier": {
+          "name": "Pročistač",
+          "state_attributes": {
+            "preset_mode": {
+              "state": {
+                "auto": "Auto",
+                "silent": "Tiho",
+                "standard": "Standard",
+                "strong": "Jak"
+              }
+            }
+          }
+        }
+      },
       "number": {
         "set_weight": {
           "name": "Postavite težinu"
@@ -611,6 +626,18 @@
         },
         "dispensed_hopp_two": {
           "name": "Spremnik za doziranje 2"
+        },
+        "humidity": {
+          "name": "Vlažnost"
+        },
+        "temperature": {
+          "name": "Temperatura"
+        },
+        "air_purified": {
+          "name": "Pročišćeni zrak"
+        },
+        "liquid": {
+          "name": "Tekućina"
         }
       },
       "switch": {
@@ -676,6 +703,9 @@
         },
         "deep_deodor": {
           "name": "Temeljita dezodoracija"
+        },
+        "prompt_tone": {
+          "name": "Ton"
         }
       },
       "text": {

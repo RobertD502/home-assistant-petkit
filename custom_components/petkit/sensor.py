@@ -5,7 +5,7 @@ from datetime import datetime
 from math import floor as floor
 from typing import Any
 
-from petkitaio.model import Feeder, LitterBox, Pet, W5Fountain
+from petkitaio.model import Feeder, LitterBox, Pet, Purifier, W5Fountain
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -18,7 +18,9 @@ from homeassistant.const import(
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     UnitOfEnergy,
     UnitOfMass,
+    UnitOfTemperature,
     UnitOfTime,
+    UnitOfVolume
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
@@ -30,6 +32,7 @@ from .const import (
     DOMAIN,
     FEEDERS,
     LITTER_BOXES,
+    PURIFIERS,
     WATER_FOUNTAINS
 )
 from .coordinator import PetKitDataUpdateCoordinator
@@ -152,6 +155,16 @@ async def async_setup_entry(
                 PetLastUseDuration(coordinator, pet_id),
             ))
 
+    #Purifiers
+    for purifier_id, purifier_data in coordinator.data.purifiers.items():
+        sensors.extend((
+            PurifierError(coordinator, purifier_id),
+            PurifierHumidity(coordinator, purifier_id),
+            PurifierTemperature(coordinator, purifier_id),
+            AirPurified(coordinator, purifier_id),
+            PurifierRSSI(coordinator, purifier_id),
+            PurifierLiquid(coordinator, purifier_id)
+        ))
     async_add_entities(sensors)
 
 
@@ -3593,3 +3606,426 @@ class TotalDispensedHopper2(CoordinatorEntity, SensorEntity):
         """Set icon."""
 
         return 'mdi:food-drumstick'
+
+
+class PurifierError(CoordinatorEntity, SensorEntity):
+    """Representation of Purifier error."""
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_purifier_error'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "error"
+
+    @property
+    def native_value(self) -> str:
+        """Return current error if there is one."""
+
+        if 'errorMsg' in self.purifier_data.device_detail['state']:
+            return self.purifier_data.device_detail['state']['errorMsg']
+        else:
+            return 'no_error'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to diagnostic."""
+
+        return EntityCategory.DIAGNOSTIC
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:alert-circle'
+
+
+class PurifierHumidity(CoordinatorEntity, SensorEntity):
+    """ Representation of Purifier Humidity """
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_purifier_humidity'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "humidity"
+
+    @property
+    def native_value(self) -> int:
+        """ Return current humidity """
+
+        return round((self.purifier_data.device_detail['state']['humidity'] / 10))
+
+    @property
+    def native_unit_of_measurement(self) -> str:
+        """ Return percent as the native unit """
+
+        return PERCENTAGE
+
+    @property
+    def device_class(self) -> SensorDeviceClass:
+        """ Return entity device class """
+
+        return SensorDeviceClass.HUMIDITY
+
+    @property
+    def state_class(self) -> SensorStateClass:
+        """ Return the type of state class """
+
+        return SensorStateClass.MEASUREMENT
+
+
+class PurifierTemperature(CoordinatorEntity, SensorEntity):
+    """ Representation of Purifier Temperature """
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_purifier_temperature'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "temperature"
+
+    @property
+    def native_value(self) -> int:
+        """ Return current temperature in Celsius """
+
+        return round((self.purifier_data.device_detail['state']['temp'] / 10))
+
+    @property
+    def native_unit_of_measurement(self) -> UnitOfTemperature:
+        """ Return Celsius as the native unit """
+
+        return UnitOfTemperature.CELSIUS
+
+    @property
+    def device_class(self) -> SensorDeviceClass:
+        """ Return entity device class """
+
+        return SensorDeviceClass.TEMPERATURE
+
+    @property
+    def state_class(self) -> SensorStateClass:
+        """ Return the type of state class """
+
+        return SensorStateClass.MEASUREMENT
+
+
+class AirPurified(CoordinatorEntity, SensorEntity):
+    """ Representation of amount of air purified."""
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_air_purified'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "air_purified"
+
+    @property
+    def native_value(self) -> int:
+        """Return amount of air purified in cubic meters."""
+
+        return round(self.purifier_data.device_detail['state']['refresh'])
+
+    @property
+    def native_unit_of_measurement(self) -> UnitOfVolume:
+        """ Return cubic meters as the native unit """
+
+        return UnitOfVolume.CUBIC_METERS
+
+    @property
+    def device_class(self) -> SensorDeviceClass:
+        """ Return entity device class """
+
+        return SensorDeviceClass.VOLUME
+
+    @property
+    def state_class(self) -> SensorStateClass:
+        """ Return the type of state class """
+
+        return SensorStateClass.MEASUREMENT
+
+
+class PurifierRSSI(CoordinatorEntity, SensorEntity):
+    """Representation of purifier WiFi connection strength."""
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_rssi'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "rssi"
+
+    @property
+    def native_value(self) -> int:
+        """Return RSSI measurement."""
+
+        return self.purifier_data.device_detail['state']['wifi']['rsq']
+
+    @property
+    def state_class(self) -> SensorStateClass:
+        """Return the type of state class."""
+
+        return SensorStateClass.MEASUREMENT
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to diagnostic."""
+
+        return EntityCategory.DIAGNOSTIC
+
+    @property
+    def native_unit_of_measurement(self) -> str:
+        """Return dBm as the native unit."""
+
+        return SIGNAL_STRENGTH_DECIBELS_MILLIWATT
+
+    @property
+    def device_class(self) -> SensorDeviceClass:
+        """Return entity device class."""
+
+        return SensorDeviceClass.SIGNAL_STRENGTH
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:wifi'
+
+
+class PurifierLiquid(CoordinatorEntity, SensorEntity):
+    """Representation of purifier liquid left."""
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_liquid'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "liquid"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:cup-water'
+
+    @property
+    def native_value(self) -> int:
+        """Return current percentage left"""
+
+        return self.purifier_data.device_detail['state']['liquid']
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to diagnostic."""
+
+        return EntityCategory.DIAGNOSTIC
+
+    @property
+    def state_class(self) -> SensorStateClass:
+        """Return the type of state class."""
+
+        return SensorStateClass.MEASUREMENT
+
+    @property
+    def native_unit_of_measurement(self) -> str:
+        """Return percent as the native unit."""
+
+        return PERCENTAGE

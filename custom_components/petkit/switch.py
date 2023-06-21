@@ -4,9 +4,9 @@ from __future__ import annotations
 from typing import Any
 import asyncio
 
-from petkitaio.constants import FeederSetting, LitterBoxCommand, LitterBoxSetting, W5Command
+from petkitaio.constants import FeederSetting, LitterBoxCommand, LitterBoxSetting, PurifierSetting, W5Command
 from petkitaio.exceptions import BluetoothError
-from petkitaio.model import Feeder, LitterBox, W5Fountain
+from petkitaio.model import Feeder, LitterBox, Purifier, W5Fountain
 
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
@@ -15,7 +15,7 @@ from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, FEEDERS, LITTER_BOXES, WATER_FOUNTAINS
+from .const import DOMAIN, FEEDERS, LITTER_BOXES, PURIFIERS, WATER_FOUNTAINS
 from .coordinator import PetKitDataUpdateCoordinator
 from .exceptions import PetKitBluetoothError
 
@@ -92,6 +92,13 @@ async def async_setup_entry(
                 switches.append(
                     LBDeepDeodor(coordinator, lb_id)
                 )
+
+    # Purifiers
+    for purifier_id, purifier_data in coordinator.data.purifiers.items():
+        switches.extend((
+            PurifierLight(coordinator, purifier_id),
+            PurifierTone(coordinator, purifier_id)
+        ))
 
     async_add_entities(switches)
 
@@ -2450,5 +2457,177 @@ class LBDeepDeodor(CoordinatorEntity, SwitchEntity):
         await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.DEEP_REFRESH, 0)
 
         self.lb_data.device_detail['settings']['deepRefresh'] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class PurifierLight(CoordinatorEntity, SwitchEntity):
+    """Representation of Purifier indicator light switch."""
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_indicator_light'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "indicator_light"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return 'mdi:lightbulb'
+        else:
+            return 'mdi:lightbulb-off'
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if indicator light is on."""
+
+        return self.purifier_data.device_detail['settings']['lightMode'] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.purifier_data.device_detail['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn indicator light on."""
+
+        await self.coordinator.client.update_purifier_settings(self.purifier_data, PurifierSetting.LIGHT, 1)
+
+        self.purifier_data.device_detail['settings']['lightMode'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn indicator light off."""
+
+        await self.coordinator.client.update_purifier_settings(self.purifier_data, PurifierSetting.LIGHT, 0)
+
+        self.purifier_data.device_detail['settings']['lightMode'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class PurifierTone(CoordinatorEntity, SwitchEntity):
+    """Representation of purifier tone switch."""
+
+    def __init__(self, coordinator, purifier_id):
+        super().__init__(coordinator)
+        self.purifier_id = purifier_id
+
+    @property
+    def purifier_data(self) -> Purifier:
+        """Handle coordinator Purifier data."""
+
+        return self.coordinator.data.purifiers[self.purifier_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.purifier_data.id)},
+            "name": self.purifier_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": PURIFIERS[self.purifier_data.type],
+            "sw_version": f'{self.purifier_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.purifier_data.id) + '_tone'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "prompt_tone"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return 'mdi:ear-hearing'
+        else:
+            return 'mdi:ear-hearing-off'
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if prompt tone is on."""
+
+        return self.purifier_data.device_detail['settings']['sound'] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.purifier_data.device_detail['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn prompt tone on."""
+
+        await self.coordinator.client.update_purifier_settings(self.purifier_data, PurifierSetting.SOUND, 1)
+
+        self.purifier_data.device_detail['settings']['sound'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn prompt tone off."""
+
+        await self.coordinator.client.update_purifier_settings(self.purifier_data, PurifierSetting.SOUND, 0)
+
+        self.purifier_data.device_detail['settings']['sound'] = 1
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()

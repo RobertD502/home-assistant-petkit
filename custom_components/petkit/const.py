@@ -5,7 +5,7 @@ import logging
 
 from aiohttp.client_exceptions import ClientConnectionError
 from petkitaio.exceptions import AuthError, PetKitError
-from petkitaio.constants import W5Command
+from petkitaio.constants import W5Command, PurifierCommand
 
 from homeassistant.const import Platform
 
@@ -17,6 +17,7 @@ DOMAIN = "petkit"
 PLATFORMS = [
     Platform.BINARY_SENSOR,
     Platform.BUTTON,
+    Platform.FAN,
     Platform.NUMBER,
     Platform.SELECT,
     Platform.SENSOR,
@@ -66,6 +67,26 @@ WATER_FOUNTAINS = {
     2: 'Eversweet 5 Mini',
     4: 'Eversweet 3 Pro',
     5: 'Eversweet Solo 2'
+}
+
+PURIFIERS = {
+    'k2': 'Air Magicube'
+}
+
+PURIFIER_MODE_TO_COMMAND = {
+    'auto': PurifierCommand.AUTO_MODE,
+    'silent': PurifierCommand.SILENT_MODE,
+    'standard': PurifierCommand.STANDARD_MODE,
+    'strong': PurifierCommand.STRONG_MODE
+}
+
+PURIFIER_MODES = ['auto', 'silent', 'standard', 'strong']
+
+PURIFIER_MODE_NAMED = {
+    0: 'auto',
+    1: 'silent',
+    2: 'standard',
+    3: 'strong'
 }
 
 
