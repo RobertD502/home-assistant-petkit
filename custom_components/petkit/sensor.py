@@ -3874,7 +3874,7 @@ class AirPurified(CoordinatorEntity, SensorEntity):
     def state_class(self) -> SensorStateClass:
         """ Return the type of state class """
 
-        return SensorStateClass.MEASUREMENT
+        return SensorStateClass.TOTAL
 
 
 class PurifierRSSI(CoordinatorEntity, SensorEntity):
