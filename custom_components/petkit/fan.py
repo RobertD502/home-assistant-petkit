@@ -15,6 +15,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
     DOMAIN,
+    PETKIT_COORDINATOR,
     PURIFIERS,
     PURIFIER_MODES,
     PURIFIER_MODE_NAMED,
@@ -29,7 +30,7 @@ async def async_setup_entry(
 ) -> None:
     """Set Up PetKit Fan Entities."""
 
-    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][PETKIT_COORDINATOR]
 
     fans = []
 
