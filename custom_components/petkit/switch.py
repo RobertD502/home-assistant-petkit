@@ -15,7 +15,7 @@ from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, FEEDERS, LITTER_BOXES, PURIFIERS, WATER_FOUNTAINS
+from .const import DOMAIN, FEEDERS, LITTER_BOXES, PETKIT_COORDINATOR, PURIFIERS, WATER_FOUNTAINS
 from .coordinator import PetKitDataUpdateCoordinator
 from .exceptions import PetKitBluetoothError
 
@@ -25,7 +25,7 @@ async def async_setup_entry(
 ) -> None:
     """Set Up PetKit Switch Entities."""
 
-    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][PETKIT_COORDINATOR]
 
     switches = []
 

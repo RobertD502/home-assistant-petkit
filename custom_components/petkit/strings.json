@@ -5,14 +5,18 @@
         "title": "Fill in your PetKit credentials",
         "data": {
           "email": "PetKit account email",
-          "password": "PetKit account password"
+          "password": "PetKit account password",
+          "asia_account": "PetKit Asia account",
+          "polling_interval": "Polling interval (seconds)"
         }
       },
       "reauth_confirm": {
         "title": "Reauthenticate with your PetKit credentials",
         "data": {
           "email": "PetKit account email",
-          "password": "PetKit account password"
+          "password": "PetKit account password",
+          "asia_account": "PetKit Asia account",
+          "polling_interval": "Polling interval (seconds)"
         }
       }
     },
@@ -25,6 +29,16 @@
     "abort": {
       "already_configured": "PetKit account is already configured",
       "reauth_successful": "Reauthentication was successful"
+    }
+  },
+  "options": {
+    "step": {
+      "petkit_options": {
+        "data": {
+          "asia_account": "PetKit Asia account",
+          "polling_interval": "Polling interval (seconds)"
+        }
+      }
     }
   },
   "entity": {

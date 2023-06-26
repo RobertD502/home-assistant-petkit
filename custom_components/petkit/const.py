@@ -12,7 +12,6 @@ from homeassistant.const import Platform
 LOGGER = logging.getLogger(__package__)
 
 
-DEFAULT_SCAN_INTERVAL = 120
 DOMAIN = "petkit"
 PLATFORMS = [
     Platform.BINARY_SENSOR,
@@ -26,7 +25,11 @@ PLATFORMS = [
 ]
 
 DEFAULT_NAME = "PetKit"
+ASIA_ACCOUNT = "asia_account"
+PETKIT_COORDINATOR = "petkit_coordinator"
+POLLING_INTERVAL = "polling_interval"
 TIMEOUT = 20
+UPDATE_LISTENER = "update_listener"
 
 PETKIT_ERRORS = (
     asyncio.TimeoutError,

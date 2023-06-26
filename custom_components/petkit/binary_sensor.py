@@ -12,7 +12,7 @@ from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, FEEDERS, LITTER_BOXES, WATER_FOUNTAINS
+from .const import DOMAIN, FEEDERS, LITTER_BOXES, PETKIT_COORDINATOR, WATER_FOUNTAINS
 from .coordinator import PetKitDataUpdateCoordinator
 
 
@@ -21,7 +21,7 @@ async def async_setup_entry(
 ) -> None:
     """Set Up PetKit Binary Sensor Entities."""
 
-    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][PETKIT_COORDINATOR]
 
     binary_sensors = []
 

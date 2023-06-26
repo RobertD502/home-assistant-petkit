@@ -13,13 +13,14 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import LOGGER, PETKIT_ERRORS, TIMEOUT
 
 
-async def async_validate_api(hass: HomeAssistant, email: str, password: str) -> bool:
+async def async_validate_api(hass: HomeAssistant, email: str, password: str, asia_account: bool) -> bool:
     """Get data from API."""
 
     client = PetKitClient(
         email,
         password,
         session=async_get_clientsession(hass),
+        asia_account=asia_account,
         timeout=TIMEOUT,
     )
 

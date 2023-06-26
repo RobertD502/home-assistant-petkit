@@ -32,6 +32,7 @@ from .const import (
     DOMAIN,
     FEEDERS,
     LITTER_BOXES,
+    PETKIT_COORDINATOR,
     PURIFIERS,
     WATER_FOUNTAINS
 )
@@ -51,7 +52,7 @@ async def async_setup_entry(
 ) -> None:
     """Set Up PetKit Sensor Entities."""
 
-    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][PETKIT_COORDINATOR]
 
     sensors = []
 

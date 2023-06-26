@@ -14,18 +14,32 @@
             "user": {
                 "data": {
                     "email": "PetKit e-pošta računa",
-                    "password": "PetKit lozinka računa"
+                    "password": "PetKit lozinka računa",
+                    "asia_account": "PetKit Asia račun",
+                    "polling_interval": "Interval prozivanja (sekunde)"
                 },
                 "title": "Ispunite svoje vjerodajnice za PetKit"
             },
             "reauth_confirm": {
                 "data": {
                     "email": "PetKit e-pošta računa",
-                    "password": "PetKit lozinka računa"
+                    "password": "PetKit lozinka računa",
+                    "asia_account": "PetKit Asia račun",
+                    "polling_interval": "Interval prozivanja (sekunde)"
                 },
                 "title": "Ponovo potvrdite autentičnost svojim PetKit vjerodajnicama"
             }
         }
+    },
+    "options": {
+      "step": {
+        "petkit_options": {
+          "data": {
+            "asia_account": "PetKit Asia račun",
+            "polling_interval": "Interval prozivanja (sekunde)"
+          }
+        }
+      }
     },
     "entity": {
       "binary_sensor": {

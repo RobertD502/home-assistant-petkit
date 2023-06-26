@@ -15,7 +15,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DEFAULT_SCAN_INTERVAL, DOMAIN, LOGGER, TIMEOUT
+from .const import ASIA_ACCOUNT, DOMAIN, LOGGER, POLLING_INTERVAL, TIMEOUT
 
 
 class PetKitDataUpdateCoordinator(DataUpdateCoordinator):
@@ -30,13 +30,14 @@ class PetKitDataUpdateCoordinator(DataUpdateCoordinator):
             entry.data[CONF_EMAIL],
             entry.data[CONF_PASSWORD],
             session=async_get_clientsession(hass),
+            asia_account=entry.options[ASIA_ACCOUNT],
             timeout=TIMEOUT,
         )
         super().__init__(
             hass,
             LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(seconds=DEFAULT_SCAN_INTERVAL),
+            update_interval=timedelta(seconds=entry.options[POLLING_INTERVAL]),
         )
 
     async def _async_update_data(self) -> PetKitData:

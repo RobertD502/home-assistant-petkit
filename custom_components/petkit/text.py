@@ -12,6 +12,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import (
     DOMAIN,
     FEEDERS,
+    PETKIT_COORDINATOR
 )
 from .coordinator import PetKitDataUpdateCoordinator
 
@@ -21,7 +22,7 @@ async def async_setup_entry(
 ) -> None:
     """Set Up PetKit Text Entities."""
 
-    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][PETKIT_COORDINATOR]
 
     text_entities = []
 
@@ -95,7 +96,7 @@ class ManualFeed(CoordinatorEntity, TextEntity):
     @property
     def native_max(self) -> int:
         """Max number of characters."""
-        
+
         return 5
 
     @property

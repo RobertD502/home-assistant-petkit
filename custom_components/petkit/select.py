@@ -27,6 +27,7 @@ from .const import(
     LITTER_TYPE_NAMED,
     MANUAL_FEED_NAMED,
     MINI_FEEDER_MANUAL_FEED_OPTIONS,
+    PETKIT_COORDINATOR,
     WATER_FOUNTAINS,
     WF_MODE_COMMAND,
     WF_MODE_NAMED,
@@ -49,7 +50,7 @@ async def async_setup_entry(
 ) -> None:
     """Set Up PetKit Select Entities."""
 
-    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: PetKitDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][PETKIT_COORDINATOR]
 
     selects = []
 

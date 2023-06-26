@@ -46,9 +46,7 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 
 - **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration.**
 
-- **The current polling interval is set to 2 minutes. If you would like to set a different polling interval, change the `DEFAULT_SCAN_INTERVAL` in the constants.py file (in seconds).**
-
-- If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.
+- **If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.**
 
 ## Important - Please Read:
 ### Note About PetKit Account:
@@ -96,6 +94,9 @@ Alternatively, follow the steps below:
 1. Navigate to the Home Assistant Integrations page (Settings --> Devices & Services)
 2. Click the `+ ADD INTEGRATION` button in the lower right-hand corner
 3. Search for `PetKit`
+4. If using a PetKit Asia account, be sure the PetKit Asia account option is checked.
+
+**The current polling interval is set to 2 minutes. If you would like to set a different polling interval, change the polling interval option (via the UI). Keep in mind, setting the polling interval too short may result in your account getting rate limited/blocked.**
 
 # Devices
 
