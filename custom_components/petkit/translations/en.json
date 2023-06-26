@@ -14,18 +14,32 @@
             "user": {
                 "data": {
                     "email": "PetKit account email",
-                    "password": "PetKit account password"
+                    "password": "PetKit account password",
+                    "asia_account": "PetKit Asia account",
+                    "polling_interval": "Polling interval (seconds)"
                 },
                 "title": "Fill in your PetKit credentials"
             },
             "reauth_confirm": {
                 "data": {
                     "email": "PetKit account email",
-                    "password": "PetKit account password"
+                    "password": "PetKit account password",
+                    "asia_account": "PetKit Asia account",
+                    "polling_interval": "Polling interval (seconds)"
                 },
                 "title": "Reauthenticate with your PetKit credentials"
             }
         }
+    },
+    "options": {
+      "step": {
+        "petkit_options": {
+          "data": {
+            "asia_account": "PetKit Asia account",
+            "polling_interval": "Polling interval (seconds)"
+          }
+        }
+      }
     },
     "entity": {
       "binary_sensor": {
