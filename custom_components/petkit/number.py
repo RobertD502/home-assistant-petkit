@@ -54,6 +54,12 @@ async def async_setup_entry(
                 MinEatingDuration(coordinator, feeder_id)
             )
 
+        # Fresh Element Feeder
+        if feeder_data.type == 'feeder':
+            numbers.append(
+                FreshElementManualFeed(coordinator, feeder_id)
+            )
+
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
         # Pura X & Pura MAX
         numbers.append(
@@ -742,3 +748,113 @@ class MinEatingDuration(CoordinatorEntity, NumberEntity):
         self.feeder_data.data['settings']['shortest'] = value
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
+
+
+class FreshElementManualFeed(CoordinatorEntity, NumberEntity):
+    """Representation of Fresh Element feeder manual feeding."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_manual_feed'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "manual_feed"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:bowl-mix'
+
+    @property
+    def native_value(self) -> int:
+        """Returns lowest amount allowed."""
+
+        return 0
+
+    @property
+    def native_unit_of_measurement(self) -> UnitOfMass:
+        """Return grams."""
+
+        return UnitOfMass.GRAMS
+
+    @property
+    def device_class(self) -> NumberDeviceClass:
+        """Return weight device class."""
+
+        return NumberDeviceClass.WEIGHT
+
+    @property
+    def mode(self) -> NumberMode:
+        """Return slider mode."""
+
+        return NumberMode.SLIDER
+
+    @property
+    def native_min_value(self) -> int:
+        """Return minimum allowed value."""
+
+        return 0
+
+    @property
+    def native_max_value(self) -> int:
+        """Return max value allowed."""
+
+        return 400
+
+    @property
+    def native_step(self) -> int:
+        """Return stepping by 1."""
+
+        return 20
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_set_native_value(self, value: int) -> None:
+        """Update the current value."""
+
+        if (value < 20) or (value > 400):
+            raise PetKitError(f'{self.feeder_data.data["name"]} can only accept manual feeding amounts between 20 to 400 grams')
+        else:
+            await self.coordinator.client.manual_feeding(self.feeder_data, int(value))
+            await self.coordinator.async_request_refresh()
