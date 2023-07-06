@@ -19,6 +19,7 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 - [Fresh Element Solo](https://www.amazon.com/PETKIT-Automatic-Dispenser-Compatible-Freeze-Dried/dp/B09158J9PF/)
 - [Fresh Element Mini Pro](https://www.amazon.com/PETKIT-Automatic-Stainless-Indicator-Dispenser-2-8L/dp/B08GS1CPHH/)
 - [Fresh Element Gemini](https://www.amazon.com/PETKIT-Automatic-Combination-Dispenser-Stainless/dp/B0BF56RTQH)
+- [Fresh Element](https://petkit.us/products/petkit-element-wi-fi-enabled-smart-pet-food-container-feeder)
 
 `Litter Boxes`
 - [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
@@ -237,6 +238,36 @@ Each Feeder has the following entities:
 | `Times eaten`           | `Sensor`        | Number of times pet(s) ate today.                                                                                                                                                        |
 
 </details>
+
+
+<details>
+  <summary> <b>Fresh Element</b> (<i>click to expand</i>)</summary>
+  <!---->
+<br/>
+Each Feeder has the following entities:
+<br/>
+
+| Entity                     | Entity Type     | Additional Comments                                                                                                                                                                                   |
+|----------------------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Cancel manual feed`       | `Button`        | - Only available if your feeder is online (connected to PetKit's servers). <br/>- Will cancel a manual feeding that is currently in progress.                                                         |
+| `Indicator light`          | `Switch`        | Only available if your feeder is online (connected to PetKit's servers).                                                                                                                              |
+| `Manual feed`              | `Number`        | - Allows setting the amount of food (grams) to dispense immediately. <br/>- Only available if your feeder is online (connected to PetKit's servers).                                                  |
+| `Desiccant days remaining` | `Sensor`        | Number of days left before the desiccant needs to be replaced.                                                                                                                                        |
+| `Food level`               | `Binary Sensor` | Allows for determining if there is a food shortage.                                                                                                                                                   |
+| `Child lock`               | `Switch`        | Only available if your feeder is online (connected to PetKit's servers).                                                                                                                              |
+| `Reset desiccant`          | `Button`        | - Allows you to reset the desiccant back to 30 days after replacing it. <br/>- Only available if your feeder is online (connected to PetKit's servers).                                               |
+| `Start calibration`        | `Button`        | See note at the bottom of the table for description provided by PetKit.                                                                                                                               |
+| `Stop calibration`         | `Button`        |                                                                                                                                                                                                       |
+| `Battery status`           | `Sensor`        | - Will only become available when feeder is running on batteries. <br/>- Indicates the battery level (Normal or Low).                                                                                 |
+| `Error`                    | `Sensor`        | Identifies any errors reported by the feeder.                                                                                                                                                         |
+| `Food Left`                | `Sensor`        | Identifies the amount of food, as a percentage, left in the feeder.                                                                                                                                   |
+| `RSSI`                     | `Sensor`        | WiFi connection strength.                                                                                                                                                                             |
+| `Status`                   | `Sensor`        | `Normal` = Feeder is connected to PetKit's servers <br/>`Offline` = Feeder is not connected to PetKit servers <br/>`On Batteries` = If installed, feeder is currently being powered by the batteries. |
+
+> Feeder Calibration: Calibration is required after every installation and removal of batteries from the feeder. Prior to calibration, be sure to clean out all of the food from the feeder as the calibration process will empty any food that is left in the feeder.
+
+</details>
+
 
 ## Water Fountains
 ___
