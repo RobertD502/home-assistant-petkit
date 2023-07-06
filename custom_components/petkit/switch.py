@@ -485,6 +485,8 @@ class IndicatorLight(CoordinatorEntity, SwitchEntity):
 
         if self.feeder_data.type == 'feedermini':
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_INDICATOR_LIGHT, 1)
+        elif self.feeder_data.type == 'feeder':
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.FRESH_ELEMENT_INDICATOR_LIGHT, 1)
         else:
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.INDICATOR_LIGHT, 1)
 
@@ -497,6 +499,8 @@ class IndicatorLight(CoordinatorEntity, SwitchEntity):
 
         if self.feeder_data.type == 'feedermini':
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_INDICATOR_LIGHT, 0)
+        elif self.feeder_data.type == 'feeder':
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.FRESH_ELEMENT_INDICATOR_LIGHT, 0)
         else:
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.INDICATOR_LIGHT, 0)
 
@@ -582,6 +586,8 @@ class ChildLock(CoordinatorEntity, SwitchEntity):
 
         if self.feeder_data.type == 'feedermini':
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_CHILD_LOCK, 1)
+        elif self.feeder_data.type == 'feeder':
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.FRESH_ELEMENT_CHILD_LOCK, 1)
         else:
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.CHILD_LOCK, 1)
 
@@ -594,6 +600,8 @@ class ChildLock(CoordinatorEntity, SwitchEntity):
 
         if self.feeder_data.type == 'feedermini':
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.MINI_CHILD_LOCK, 0)
+        elif self.feeder_data.type == 'feeder':
+            await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.FRESH_ELEMENT_CHILD_LOCK, 0)
         else:
             await self.coordinator.client.update_feeder_settings(self.feeder_data, FeederSetting.CHILD_LOCK, 0)
 
