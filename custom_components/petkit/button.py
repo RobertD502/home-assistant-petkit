@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any
 import asyncio
 
-from petkitaio.constants import LitterBoxCommand, W5Command
+from petkitaio.constants import FeederCommand, LitterBoxCommand, W5Command
 from petkitaio.exceptions import BluetoothError
 from petkitaio.model import Feeder, LitterBox, W5Fountain
 
@@ -43,7 +43,7 @@ async def async_setup_entry(
         )
 
         # D3, D4, and D4s
-        if feeder_data.type in ['d3', 'd4', 'd4s']:
+        if feeder_data.type in ['d3', 'd4', 'd4s', 'feeder']:
             buttons.append(
                 CancelManualFeed(coordinator, feeder_id)
             )
@@ -59,6 +59,13 @@ async def async_setup_entry(
             buttons.append(
                 FoodReplenished(coordinator, feeder_id)
             )
+
+        # Fresh Element
+        if feeder_data.type == 'feeder':
+            buttons.extend((
+                StartFeederCal(coordinator, feeder_id),
+                StopFeederCal(coordinator, feeder_id)
+            ))
 
     # Litter boxes
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
@@ -1368,4 +1375,134 @@ class FoodReplenished(CoordinatorEntity, ButtonEntity):
         self.feeder_data.data['state']['food1'] = 1
         self.feeder_data.data['state']['food2'] = 1
         self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class StartFeederCal(CoordinatorEntity, ButtonEntity):
+    """Representation of fresh element feeder start calibration button."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_start_cal'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "start_cal"
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    async def async_press(self) -> None:
+        """Handle the button press."""
+
+        await self.coordinator.client.fresh_element_calibration(self.feeder_data, FeederCommand.START_CALIBRATION)
+        await self.coordinator.async_request_refresh()
+
+
+class StopFeederCal(CoordinatorEntity, ButtonEntity):
+    """Representation of fresh element feeder stop calibration button."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_stop_cal'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "stop_cal"
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    async def async_press(self) -> None:
+        """Handle the button press."""
+
+        await self.coordinator.client.fresh_element_calibration(self.feeder_data, FeederCommand.STOP_CALIBRATION)
         await self.coordinator.async_request_refresh()

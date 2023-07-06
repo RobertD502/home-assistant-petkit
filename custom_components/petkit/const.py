@@ -97,6 +97,7 @@ FEEDERS = {
     'd3': 'Fresh Element Infinity',
     'd4': 'Fresh Element Solo',
     'd4s': 'Fresh Element Gemini',
+    'feeder': 'Fresh Element',
     'feedermini': 'Fresh Element Mini Pro',
 }
 
@@ -134,6 +135,7 @@ MINI_FEEDER_MANUAL_FEED_OPTIONS = [
     '1/2 Cup (50g)'
 ]
 
+
 LITTER_TYPE_NAMED = {
     1: 'bentonite',
     2: 'tofu',
@@ -151,5 +153,5 @@ MANUAL_FEED_NAMED = {
     35: '7/20th Cup (35g)',
     40: '2/5th Cup (40g)',
     45: '9/20th Cup (45g)',
-    50: '1/2 Cup (50g)'
+    50: '1/2 Cup (50g)',
 }
