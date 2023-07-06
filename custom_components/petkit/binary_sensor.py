@@ -207,6 +207,7 @@ class FoodLevel(CoordinatorEntity, BinarySensorEntity):
                 return False
 
         if self.feeder_data.type != 'd3':
+            # The food key for the Fresh Element represents grams left
             if self.feeder_data.data['state']['food'] == 0:
                 return True
             else:
