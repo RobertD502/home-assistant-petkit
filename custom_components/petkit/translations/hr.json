@@ -134,6 +134,12 @@
         },
         "food_replenished": {
           "name": "Hrana dopunjena"
+        },
+        "start_cal": {
+          "name": "Pokrenite kalibraciju"
+        },
+        "stop_cal": {
+          "name": "Zaustavi kalibraciju"
         }
       },
       "fan": {
@@ -652,6 +658,9 @@
         },
         "liquid": {
           "name": "Tekućina"
+        },
+        "food_left": {
+          "name": "Preostala hrana"
         }
       },
       "switch": {
