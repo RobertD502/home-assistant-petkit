@@ -114,6 +114,12 @@ async def async_setup_entry(
                 TotalDispensedHopper2(coordinator, feeder_id)
             ))
 
+        # Fresh Element Feeder
+        if feeder_data.type == 'feeder':
+            sensors.append(
+                FoodLeft(coordinator, feeder_id)
+            )
+
     # Litter boxes
     for lb_id, lb_data in coordinator.data.litter_boxes.items():
         #Pura Air device for MAX litter box
@@ -4012,6 +4018,80 @@ class PurifierLiquid(CoordinatorEntity, SensorEntity):
         """Return current percentage left"""
 
         return self.purifier_data.device_detail['state']['liquid']
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to diagnostic."""
+
+        return EntityCategory.DIAGNOSTIC
+
+    @property
+    def state_class(self) -> SensorStateClass:
+        """Return the type of state class."""
+
+        return SensorStateClass.MEASUREMENT
+
+    @property
+    def native_unit_of_measurement(self) -> str:
+        """Return percent as the native unit."""
+
+        return PERCENTAGE
+
+
+class FoodLeft(CoordinatorEntity, SensorEntity):
+    """Representation of percent food left."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data['name'],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + '_food_left'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "food_left"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:food-drumstick'
+
+    @property
+    def native_value(self) -> int:
+        """Return current percentage left"""
+
+        return self.feeder_data.data['state']['percent']
 
     @property
     def entity_category(self) -> EntityCategory:
