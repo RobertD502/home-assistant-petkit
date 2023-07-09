@@ -5,7 +5,7 @@ from typing import Any
 import async_timeout
 
 from petkitaio import PetKitClient
-from petkitaio.exceptions import AuthError, ServerError
+from petkitaio.exceptions import AuthError, PetKitError, ServerError
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -33,6 +33,9 @@ async def async_validate_api(hass: HomeAssistant, email: str, password: str, asi
     except ServerError as err:
         LOGGER.error(f'PetKit servers are busy.Please try again later.')
         raise ServerError(err)
+    except PetKitError as err:
+        LOGGER.error(f'Unknown PetKit Error: {err}')
+        raise PetKitError(err)
     except PETKIT_ERRORS as err:
         LOGGER.error(f'Failed to get information from PetKit servers: {err}')
         raise ConnectionError from err
