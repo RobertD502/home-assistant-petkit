@@ -26,6 +26,7 @@ PLATFORMS = [
 
 DEFAULT_NAME = "PetKit"
 ASIA_ACCOUNT = "asia_account"
+CHINA_ACCOUNT = "china_account"
 PETKIT_COORDINATOR = "petkit_coordinator"
 POLLING_INTERVAL = "polling_interval"
 TIMEOUT = 20
