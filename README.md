@@ -43,7 +43,7 @@ Custom Home Assistant component for controlling and monitoring PetKit devices an
 
 ## **Prior To Installation**
 
-- **This integration requires using your PetKit account `email` and `password`.**
+- **This integration requires using your PetKit account `email` (`number` for PetKit China accounts) and `password`.**
 
 - **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration.**
 
@@ -96,6 +96,7 @@ Alternatively, follow the steps below:
 2. Click the `+ ADD INTEGRATION` button in the lower right-hand corner
 3. Search for `PetKit`
 4. If using a PetKit Asia account, be sure the PetKit Asia account option is checked.
+5. If using a PetKit China account (accounts where the username is a number instead of email), be sure the PetKit China account option is checked.
 
 **The current polling interval is set to 2 minutes. If you would like to set a different polling interval, change the polling interval option (via the UI). Keep in mind, setting the polling interval too short may result in your account getting rate limited/blocked.**
 
