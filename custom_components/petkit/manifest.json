@@ -8,6 +8,6 @@
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/RobertD502/home-assistant-petkit/issues",
-  "requirements": ["petkitaio==0.1.6.1", "tzlocal>=4.2"],
-  "version": "0.1.6.1"
+  "requirements": ["petkitaio==0.1.7", "tzlocal>=4.2"],
+  "version": "0.1.7"
 }

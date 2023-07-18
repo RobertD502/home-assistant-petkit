@@ -5,7 +5,7 @@ from typing import Any
 import async_timeout
 
 from petkitaio import PetKitClient
-from petkitaio.exceptions import AuthError, PetKitError, ServerError
+from petkitaio.exceptions import AccountTypeError, AuthError, PetKitError, ServerError
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -13,7 +13,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import LOGGER, PETKIT_ERRORS, TIMEOUT
 
 
-async def async_validate_api(hass: HomeAssistant, email: str, password: str, asia_account: bool) -> bool:
+async def async_validate_api(hass: HomeAssistant, email: str, password: str, asia_account: bool, china_account: bool) -> bool:
     """Get data from API."""
 
     client = PetKitClient(
@@ -21,6 +21,7 @@ async def async_validate_api(hass: HomeAssistant, email: str, password: str, asi
         password,
         session=async_get_clientsession(hass),
         asia_account=asia_account,
+        china_account=china_account,
         timeout=TIMEOUT,
     )
 
@@ -33,6 +34,9 @@ async def async_validate_api(hass: HomeAssistant, email: str, password: str, asi
     except ServerError as err:
         LOGGER.error(f'PetKit servers are busy.Please try again later.')
         raise ServerError(err)
+    except AccountTypeError as err:
+        LOGGER.error(f'{err}')
+        raise AccountTypeError(err)
     except PetKitError as err:
         LOGGER.error(f'Unknown PetKit Error: {err}')
         raise PetKitError(err)

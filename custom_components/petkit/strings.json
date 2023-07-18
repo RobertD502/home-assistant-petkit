@@ -7,6 +7,7 @@
           "email": "PetKit account email",
           "password": "PetKit account password",
           "asia_account": "PetKit Asia account",
+          "china_account": "PetKit China account",
           "polling_interval": "Polling interval (seconds)"
         }
       },
@@ -16,6 +17,7 @@
           "email": "PetKit account email",
           "password": "PetKit account password",
           "asia_account": "PetKit Asia account",
+          "china_account": "PetKit China account",
           "polling_interval": "Polling interval (seconds)"
         }
       }
@@ -25,7 +27,8 @@
       "invalid_auth": "Invalid authentication. Are your credentials correct?",
       "no_devices": "No devices found on account",
       "server_busy": "PetKit servers are busy. Please try again later.",
-      "petkit_error": "Unknown error encountered. Please see Home Assistant logs for more details."
+      "petkit_error": "Unknown error encountered. Please see Home Assistant logs for more details.",
+      "dual_region": "Only one of PetKit Asia or China can be selected. Not both."
     },
     "abort": {
       "already_configured": "PetKit account is already configured",
@@ -37,6 +40,7 @@
       "petkit_options": {
         "data": {
           "asia_account": "PetKit Asia account",
+          "china_account": "PetKit China account",
           "polling_interval": "Polling interval (seconds)"
         }
       }

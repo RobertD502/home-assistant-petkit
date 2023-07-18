@@ -15,7 +15,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import ASIA_ACCOUNT, DOMAIN, LOGGER, POLLING_INTERVAL, TIMEOUT
+from .const import ASIA_ACCOUNT, CHINA_ACCOUNT, DOMAIN, LOGGER, POLLING_INTERVAL, TIMEOUT
 
 
 class PetKitDataUpdateCoordinator(DataUpdateCoordinator):
@@ -31,6 +31,7 @@ class PetKitDataUpdateCoordinator(DataUpdateCoordinator):
             entry.data[CONF_PASSWORD],
             session=async_get_clientsession(hass),
             asia_account=entry.options[ASIA_ACCOUNT],
+            china_account=entry.options[CHINA_ACCOUNT],
             timeout=TIMEOUT,
         )
         super().__init__(
