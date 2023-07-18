@@ -69,7 +69,7 @@ ___
 PetKit accounts can only be logged in on one device at a time. Using this integration will result in getting signed out of the mobile app. You can avoid this by creating a secondary account and sharing devices from the main account **(except water fountains)**. However, some device functionality is lost when using a secondary account as well as not being able to share pets between accounts. **Therefore, you will get the most out of this integration by using your original account.**
 ### If you have a water fountain:
 
-`Note #1:` Getting the most recent data from your water fountain, as well as controlling the water fountain, requires that the BLE relay is set up within the PetKit app. Otherwise, you will be limited to data that isn't up-to-date and no ability to control the water fountain as it requires another compatible PetKit device acting as a BLE relay.
+`Note #1:` Getting the most recent data from your water fountain, as well as controlling the water fountain, requires that the BLE relay is set up **within the PetKit app**. Otherwise, you will be limited to data that isn't up-to-date and no ability to control the water fountain as it requires another compatible PetKit device acting as a BLE relay.
 
 `Note #2:` If you have the BLE relay set up, please be sure to follow these direction prior to using the integration:
 - Sign out of the PetKit app and turn off bluetooth on your phone, tablet, etc.
