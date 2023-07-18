@@ -26,8 +26,11 @@
 ***All proceeds go towards helping a local animal rescue.**
 
 ___
+## Discord Server
 
-### Currently Supported Devices
+[Join](https://discord.gg/XQaPwSBStN) the Home Assistant PetKit discord server to follow development news or to share ideas with other users.
+
+## Currently Supported Devices
 
 `Feeders`
 - [Fresh Element Infinity](https://www.amazon.com/PETKIT-Automatic-Stainless-Programmable-Dispenser/dp/B09JFK8BCQ)
@@ -50,10 +53,6 @@ ___
 
 
 #### Bluetooth only devices that don't use PetKit's BLE relay such as trackers (i.e., PetKit Fit) will not be supported: syncing new data from a bluetooth tracker requires the PetKit mobile app to communicate with the tracker which is not possible when your PetKit account is already in use with this integration. 
-
-## Discord Server
-
-[Join](https://discord.gg/XQaPwSBStN) the Home Assistant PetKit discord server to follow development news or to share ideas with other users.
 
 
 ## **Prior To Installation**
