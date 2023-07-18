@@ -3,6 +3,10 @@
   <br>
   <i>PetKit Home Assistant Integration</i>
   <br>
+  <h3 align="center">
+    <i> Custom Home Assistant component for controlling and monitoring PetKit devices and pets. </i>
+    <br>
+  </h3>
 </h1>
 
 <p align="center">
@@ -22,8 +26,6 @@
 ***All proceeds go towards helping a local animal rescue.**
 
 ___
-
-Custom Home Assistant component for controlling and monitoring PetKit devices and pets.
 
 ### Currently Supported Devices
 
