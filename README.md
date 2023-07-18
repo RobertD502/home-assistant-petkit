@@ -1,8 +1,19 @@
-# PetKit Home Assistant Integration
-![GitHub manifest version (path)](https://img.shields.io/github/manifest-json/v/RobertD502/home-assistant-petkit?filename=custom_components%2Fpetkit%2Fmanifest.json)
+<h1 align="center">
+  <a href="https://petkit.com"><img src="https://raw.githubusercontent.com/RobertD502/home-assistant-petkit/master/logo.png" width="480"></a>
+  <br>
+  <i>PetKit Home Assistant Integration</i>
+  <br>
+</h1>
 
-<a href="https://www.buymeacoffee.com/RobertD502" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="100" width="424"></a>
-<a href="https://liberapay.com/RobertD502/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg" height="100" width="300"></a>
+<p align="center">
+  <a href="https://github.com/RobertD502/home-assistant-petkit/releases"><img src="https://img.shields.io/github/v/release/RobertD502/home-assistant-petkit?display_name=tag&include_prereleases&sort=semver" alt="Current version"></a>
+  <img alt="GitHub" src="https://img.shields.io/github/license/RobertD502/home-assistant-petkit">
+</p>
+
+<p align="center">
+  <a href="https://www.buymeacoffee.com/RobertD502" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="90" width="381.6"></a>
+  <a href="https://liberapay.com/RobertD502/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg" height="90" width="270"></a>
+</p>
 
 ### A lot of work has been put into creating the backend and this integration. If you enjoy this integration, consider donating by clicking on one of the supported methods above.
 
