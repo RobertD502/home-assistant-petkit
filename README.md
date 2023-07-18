@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://petkit.com"><img src="https://raw.githubusercontent.com/RobertD502/home-assistant-petkit/master/logo.png" width="480"></a>
+  <a href="https://petkit.com"><img src="https://raw.githubusercontent.com/RobertD502/home-assistant-petkit/main/logo.png" width="480"></a>
   <br>
   <i>PetKit Home Assistant Integration</i>
   <br>
@@ -8,6 +8,8 @@
 <p align="center">
   <a href="https://github.com/RobertD502/home-assistant-petkit/releases"><img src="https://img.shields.io/github/v/release/RobertD502/home-assistant-petkit?display_name=tag&include_prereleases&sort=semver" alt="Current version"></a>
   <img alt="GitHub" src="https://img.shields.io/github/license/RobertD502/home-assistant-petkit">
+  <img alt="GitHub manifest.json dynamic (path)" src="https://img.shields.io/github/manifest-json/requirements/RobertD502/home-assistant-petkit%2Fmain%2Fcustom_components%2Fpetkit?label=requirements">
+  <img alt="Total lines count" src="https://tokei.rs/b1/github/RobertD502/home-assistant-petkit"
 </p>
 
 <p align="center">
