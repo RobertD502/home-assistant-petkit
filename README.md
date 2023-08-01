@@ -57,7 +57,7 @@ ___
 
 ## **Prior To Installation**
 
-- **This integration requires using your PetKit account `email` (`number` for PetKit China accounts) and `password`.**
+- **This integration requires using your PetKit account `email` (`number` for PetKit China accounts) and `password`.** Third-party account sign-in methods (Facebook, Apple, Twitter) are **not supported**.
 
 - **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration.**
 
