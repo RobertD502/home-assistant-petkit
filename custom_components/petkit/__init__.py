@@ -5,7 +5,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
 
-from .const import ASIA_ACCOUNT, CHINA_ACCOUNT, DOMAIN, LOGGER, PETKIT_COORDINATOR, PLATFORMS, POLLING_INTERVAL, UPDATE_LISTENER
+from .const import DOMAIN, LOGGER, PETKIT_COORDINATOR, PLATFORMS, POLLING_INTERVAL, REGION, UPDATE_LISTENER
 from .coordinator import PetKitDataUpdateCoordinator
 from .util import async_validate_api, NoDevicesError
 
@@ -44,7 +44,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         password = entry.data[CONF_PASSWORD]
 
         LOGGER.debug('Migrating PetKit config entry')
-        entry.version = 3
+        entry.version = 4
 
         hass.config_entries.async_update_entry(
             entry,
@@ -53,20 +53,19 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 CONF_PASSWORD: password,
             },
             options={
-                ASIA_ACCOUNT: False,
-                CHINA_ACCOUNT: False,
+                REGION: None,
                 POLLING_INTERVAL: 120,
             },
         )
+        LOGGER.error("PetKit API has changed. Please reauthenticate and select your country.")
 
-    if entry.version == 2:
+    if entry.version in [2,3]:
         email = entry.data[CONF_EMAIL]
         password = entry.data[CONF_PASSWORD]
-        asia_account = entry.options[ASIA_ACCOUNT]
         polling_interval = entry.options[POLLING_INTERVAL]
 
         LOGGER.debug('Migrating PetKit config entry')
-        entry.version = 3
+        entry.version = 4
 
         hass.config_entries.async_update_entry(
             entry,
@@ -75,11 +74,11 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 CONF_PASSWORD: password,
             },
             options={
-                ASIA_ACCOUNT: asia_account,
-                CHINA_ACCOUNT: False,
+                REGION: None,
                 POLLING_INTERVAL: polling_interval,
             },
         )
+        LOGGER.error("PetKit API has changed. Please reauthenticate and select your country.")
 
     return True
 
