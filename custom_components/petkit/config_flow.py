@@ -4,16 +4,17 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from petkitaio.exceptions import AccountTypeError, AuthError, PetKitError, ServerError
+from petkitaio.exceptions import AuthError, PetKitError, RegionError, ServerError
 import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
+from homeassistant.helpers import selector
 import homeassistant.helpers.config_validation as cv
 
-from .const import ASIA_ACCOUNT, CHINA_ACCOUNT, DEFAULT_NAME, DOMAIN, POLLING_INTERVAL
+from .const import DEFAULT_NAME, DOMAIN, POLLING_INTERVAL, REGION, REGIONS_LIST
 from .util import NoDevicesError, async_validate_api
 
 
@@ -21,8 +22,10 @@ DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_EMAIL): cv.string,
         vol.Required(CONF_PASSWORD): cv.string,
-        vol.Optional(ASIA_ACCOUNT): cv.boolean,
-        vol.Optional(CHINA_ACCOUNT): cv.boolean,
+        vol.Required(REGION): selector.SelectSelector(
+            selector.SelectSelectorConfig(options=REGIONS_LIST),
+        )
+        
     }
 )
 
@@ -30,7 +33,7 @@ DATA_SCHEMA = vol.Schema(
 class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for PetKit integration."""
 
-    VERSION = 3
+    VERSION = 4
 
     entry: config_entries.ConfigEntry | None
 
@@ -58,13 +61,12 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input:
             email = user_input[CONF_EMAIL]
             password = user_input[CONF_PASSWORD]
-            asia_account = user_input[ASIA_ACCOUNT] if ASIA_ACCOUNT in user_input else False
-            china_account = user_input[CHINA_ACCOUNT] if CHINA_ACCOUNT in user_input else False
+            region = user_input[REGION] if REGION else None
 
             try:
-                await async_validate_api(self.hass, email, password, asia_account, china_account)
-            except AccountTypeError:
-                errors["base"] = "dual_region"
+                await async_validate_api(self.hass, email, password, region)
+            except RegionError:
+                errors["base"] = "region_error"
             except AuthError:
                 errors["base"] = "invalid_auth"
             except ConnectionError:
@@ -86,8 +88,7 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         CONF_PASSWORD: password,
                     },
                     options={
-                        ASIA_ACCOUNT: asia_account,
-                        CHINA_ACCOUNT: china_account,
+                        REGION: region,
                         POLLING_INTERVAL: self.entry.options[POLLING_INTERVAL],
                     }
                 )
@@ -111,13 +112,12 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input:
             email = user_input[CONF_EMAIL]
             password = user_input[CONF_PASSWORD]
-            asia_account = user_input[ASIA_ACCOUNT] if ASIA_ACCOUNT in user_input else False
-            china_account = user_input[CHINA_ACCOUNT] if CHINA_ACCOUNT in user_input else False
+            region = user_input[REGION] if REGION else None
 
             try:
-                await async_validate_api(self.hass, email, password, asia_account, china_account)
-            except AccountTypeError:
-                errors["base"] = "dual_region"
+                await async_validate_api(self.hass, email, password, region)
+            except RegionError:
+                errors["base"] = "region_error"
             except AuthError:
                 errors["base"] = "invalid_auth"
             except ConnectionError:
@@ -139,8 +139,7 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         CONF_PASSWORD: password
                     },
                     options={
-                        ASIA_ACCOUNT: asia_account,
-                        CHINA_ACCOUNT: china_account,
+                        REGION: region,
                         POLLING_INTERVAL: 120,
                     }
                 )
@@ -170,17 +169,13 @@ class PetKitOptionsFlowHandler(config_entries.OptionsFlow):
 
         options = {
             vol.Required(
-                ASIA_ACCOUNT,
+                REGION,
                 default=self.config_entry.options.get(
-                    ASIA_ACCOUNT, False
+                    REGION, None
                 ),
-            ): bool,
-            vol.Required(
-                CHINA_ACCOUNT,
-                default=self.config_entry.options.get(
-                    CHINA_ACCOUNT, False
-                ),
-            ): bool,
+            ): selector.SelectSelector(
+                    selector.SelectSelectorConfig(options=REGIONS_LIST)
+            ),
             vol.Required(
                 POLLING_INTERVAL,
                 default=self.config_entry.options.get(

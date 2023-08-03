@@ -10,15 +10,14 @@
             "no_devices": "No devices found on account",
             "server_busy": "PetKit servers are busy. Please try again later.",
             "petkit_error": "Unknown error encountered. Please see Home Assistant logs for more details.",
-            "dual_region": "Only one of PetKit Asia or China can be selected. Not both."
+            "region_error": "Please select the country associated with your account."
         },
         "step": {
             "user": {
                 "data": {
                     "email": "PetKit account email",
                     "password": "PetKit account password",
-                    "asia_account": "PetKit Asia account",
-                    "china_account": "PetKit China account",
+                    "region": "Select the country associated with your account",
                     "polling_interval": "Polling interval (seconds)"
                 },
                 "title": "Fill in your PetKit credentials"
@@ -27,8 +26,7 @@
                 "data": {
                     "email": "PetKit account email",
                     "password": "PetKit account password",
-                    "asia_account": "PetKit Asia account",
-                    "china_account": "PetKit China account",
+                    "region": "Select the country associated with your account",
                     "polling_interval": "Polling interval (seconds)"
                 },
                 "title": "Reauthenticate with your PetKit credentials"
@@ -39,8 +37,7 @@
       "step": {
         "petkit_options": {
           "data": {
-            "asia_account": "PetKit Asia account",
-            "china_account": "PetKit China account",
+            "region": "Select the country associated with your account",
             "polling_interval": "Polling interval (seconds)"
           }
         }
