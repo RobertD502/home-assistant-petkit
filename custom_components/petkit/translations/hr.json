@@ -10,15 +10,14 @@
             "no_devices": "Na vašem računu nisu pronađeni uređaji",
             "server_busy": "PetKit serveri su zauzeti. Molimo pokušajte ponovo kasnije.",
             "petkit_error": "Došlo je do nepoznate pogreške. Za više detalja pogledajte Home Assistant zapisnike.",
-            "dual_region": "Može se odabrati samo jedan od PetKit Asia ili China. Ne oboje."
+            "region_error": "Odaberite državu povezanu s vašim računom."
         },
         "step": {
             "user": {
                 "data": {
                     "email": "PetKit e-pošta računa",
                     "password": "PetKit lozinka računa",
-                    "asia_account": "PetKit Asia račun",
-                    "china_account": "PetKit Kineski račun",
+                    "region": "Odaberite državu povezanu s vašim računom",
                     "polling_interval": "Interval prozivanja (sekunde)"
                 },
                 "title": "Ispunite svoje vjerodajnice za PetKit"
@@ -27,8 +26,7 @@
                 "data": {
                     "email": "PetKit e-pošta računa",
                     "password": "PetKit lozinka računa",
-                    "asia_account": "PetKit Asia račun",
-                    "china_account": "PetKit Kineski račun",
+                    "region": "Odaberite državu povezanu s vašim računom",
                     "polling_interval": "Interval prozivanja (sekunde)"
                 },
                 "title": "Ponovo potvrdite autentičnost svojim PetKit vjerodajnicama"
@@ -39,8 +37,7 @@
       "step": {
         "petkit_options": {
           "data": {
-            "asia_account": "PetKit Asia račun",
-            "china_account": "PetKit Kineski račun",
+            "region": "Odaberite državu povezanu s vašim računom",
             "polling_interval": "Interval prozivanja (sekunde)"
           }
         }
