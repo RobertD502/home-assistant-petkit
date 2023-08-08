@@ -61,7 +61,7 @@ ___
 
 - You will need to select the region (country) associated with your account during setup. Note: Hong Kong users should select Hong Kong from the list, not China! 
 
-- **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration.**
+- **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration. You'll also need to remove any mention of it from your configuration.yaml file.**
 
 - **If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.**
 
