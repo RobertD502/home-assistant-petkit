@@ -10,7 +10,8 @@
             "no_devices": "Na vašem računu nisu pronađeni uređaji",
             "server_busy": "PetKit serveri su zauzeti. Molimo pokušajte ponovo kasnije.",
             "petkit_error": "Došlo je do nepoznate pogreške. Za više detalja pogledajte Home Assistant zapisnike.",
-            "region_error": "Odaberite državu povezanu s vašim računom."
+            "region_error": "Odaberite državu povezanu s vašim računom.",
+            "timezone_error": "Vremenska zona nije pronađena. Ako pokrećete Home Assistant kao samostalni Docker spremnik, morate definirati TZ varijablu."
         },
         "step": {
             "user": {

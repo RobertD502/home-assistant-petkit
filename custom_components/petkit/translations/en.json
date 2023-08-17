@@ -10,7 +10,8 @@
             "no_devices": "No devices found on account",
             "server_busy": "PetKit servers are busy. Please try again later.",
             "petkit_error": "Unknown error encountered. Please see Home Assistant logs for more details.",
-            "region_error": "Please select the country associated with your account."
+            "region_error": "Please select the country associated with your account.",
+            "timezone_error": "A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable."
         },
         "step": {
             "user": {
