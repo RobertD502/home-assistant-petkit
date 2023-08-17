@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from petkitaio.exceptions import AuthError, PetKitError, RegionError, ServerError
+from petkitaio.exceptions import AuthError, PetKitError, RegionError, ServerError, TimezoneError
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -67,6 +67,8 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await async_validate_api(self.hass, email, password, region)
             except RegionError:
                 errors["base"] = "region_error"
+            except TimezoneError:
+                errors["base"] = "timezone_error"
             except AuthError:
                 errors["base"] = "invalid_auth"
             except ConnectionError:
@@ -118,6 +120,8 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await async_validate_api(self.hass, email, password, region)
             except RegionError:
                 errors["base"] = "region_error"
+            except TimezoneError:
+                errors["base"] = "timezone_error"
             except AuthError:
                 errors["base"] = "invalid_auth"
             except ConnectionError:
