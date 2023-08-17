@@ -5,7 +5,7 @@ from typing import Any
 import async_timeout
 
 from petkitaio import PetKitClient
-from petkitaio.exceptions import AuthError, PetKitError, RegionError, ServerError
+from petkitaio.exceptions import AuthError, PetKitError, RegionError, ServerError, TimezoneError
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -23,13 +23,16 @@ async def async_validate_api(hass: HomeAssistant, email: str, password: str, reg
         region=region,
         timeout=TIMEOUT,
     )
-
     try:
         async with async_timeout.timeout(TIMEOUT):
             devices_query = await client.get_device_roster()
     except AuthError as err:
         LOGGER.error(f'Could not authenticate on PetKit servers: {err}')
         raise AuthError(err)
+    except TimezoneError:
+        error = 'A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable.'
+        LOGGER.error(f'{error}')
+        raise TimezoneError(error)
     except ServerError as err:
         LOGGER.error(f'PetKit servers are busy.Please try again later.')
         raise ServerError(err)
