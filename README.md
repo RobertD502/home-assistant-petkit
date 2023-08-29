@@ -59,16 +59,19 @@ ___
 
 - **This integration requires using your PetKit account `email` (`number` for PetKit China accounts) and `password`.** Third-party account sign-in methods (Facebook, Apple, Twitter) are **not supported**.
 
-- You will need to select the region (country) associated with your account during setup. Note: Hong Kong users should select Hong Kong from the list, not China! 
+- You will need to select the region (country) associated with your account during setup. <br>`Note`: Hong Kong users should select Hong Kong from the list, not China! 
 
 - **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration. You'll also need to remove any mention of it from your configuration.yaml file.**
 
 - **If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.**
 
 ## Important - Please Read:
-### Note About PetKit Account:
+### Note About PetKit Account & Family Sharing Feature:
 
-PetKit accounts can only be logged in on one device at a time. Using this integration will result in getting signed out of the mobile app. You can avoid this by creating a secondary account and sharing devices from the main account **(except water fountains)**. However, some device functionality is lost when using a secondary account as well as not being able to share pets between accounts. **Therefore, you will get the most out of this integration by using your original account.**
+- PetKit accounts can only be logged in on one device at a time. Using this integration will result in getting signed out of the mobile app. You can continue using the mobile app by creating a secondary account and sharing devices to it from the main account using the family share feature. <br><br>
+- You **MUST** use the primary (main) account with this integration and not the secondary account that had devices shared to it using the family share feature. Using the secondary account will result in no devices being pulled in by this integration.
+
+
 ### If you have a water fountain:
 
 `Note #1:` Getting the most recent data from your water fountain, as well as controlling the water fountain, requires that the BLE relay is set up **within the PetKit app**. Otherwise, you will be limited to data that isn't up-to-date and no ability to control the water fountain as it requires another compatible PetKit device acting as a BLE relay.
@@ -83,7 +86,7 @@ PetKit accounts can only be logged in on one device at a time. Using this integr
 
 
 ### Using the PetKit app:
-If you want to use the PetKit app momentarily to change some settings, be sure to disable the PetKit integration before logging into the app. If you don't, you will be asked to reauthenticate. Once you are done making changes within the app, re-enable the integration.
+If you want to momentarily use the PetKit app with your primary account to change some settings, be sure to disable the PetKit integration before logging into the app. If you don't, you will be asked to reauthenticate. Once you are done making changes within the app, re-enable the integration.
 > If you needed the BLE relay while using the app (bluetooth turned on on your device), please be sure to follow the steps in `Note #2` above in order to sever the BLE relay connection started by the PetKit app.
 
 # Installation
@@ -102,18 +105,19 @@ and place it inside your Home Assistant Core installation's `custom_components` 
 
 ## Setup
 
+### Automatic Option
 Click on the button below to add the integration:
 
 [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=petkit)
 
-Alternatively, follow the steps below:
+### Alternatively, follow the steps below:
 
 1. Navigate to the Home Assistant Integrations page (Settings --> Devices & Services)
 2. Click the `+ ADD INTEGRATION` button in the lower right-hand corner
 3. Search for `PetKit`
 4. Be sure to select the country associated with your account (Hong Kong users should select Hong Kong, not China).
 
-**The current polling interval is set to 2 minutes. If you would like to set a different polling interval, change the polling interval option (via the UI). Keep in mind, setting the polling interval too short may result in your account getting rate limited/blocked.**
+**The current polling interval is set to 2 minutes (120 seconds). If you would like to set a different polling interval, change the polling interval option (via the UI). Keep in mind, setting the polling interval too short may result in your account getting rate limited/blocked.**
 
 # Devices
 
