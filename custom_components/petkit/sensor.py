@@ -2861,7 +2861,7 @@ class MAXWorkState(CoordinatorEntity, SensorEntity):
                 work_process = work_state['workProcess']
                 if work_process / 10 == 1:
                     return 'cleaning_litter_box'
-                if int(floor((work_process / 10))) == 2:
+                elif int(floor((work_process / 10))) == 2:
                     if work_process % 10 == 2:
                         if 'safeWarn' in work_state:
                             if work_state['safeWarn'] != 0:
@@ -2877,9 +2877,9 @@ class MAXWorkState(CoordinatorEntity, SensorEntity):
                                     return 'cleaning_paused_pet_using'
                     else:
                         return 'cleaning_litter_box_paused'
-                if work_process / 10 == 3:
+                elif work_process / 10 == 3:
                     return 'resetting_device'
-                if int(floor((work_process / 10))) == 4:
+                elif int(floor((work_process / 10))) == 4:
                     if work_process % 10 == 2:
                         if 'safeWarn' in work_state:
                             if work_state['safeWarn'] != 0:
@@ -2895,7 +2895,8 @@ class MAXWorkState(CoordinatorEntity, SensorEntity):
                                     return 'paused_pet_using'
                     else:
                         return 'litter_box_paused'
-
+                else:
+                    return 'cleaning_litter_box'
             if work_state['workMode'] == 1:
                 work_process = work_state['workProcess']
                 if work_process / 10 == 1:
