@@ -11,7 +11,7 @@
             "server_busy": "Серверы PetKit заняты. Пожалуйста, повторите попытку позже",
             "petkit_error": "Возникла неизвестная ошибка. Более подробная информация приведена в журналах Home Assistant",
             "region_error": "Пожалуйста, выберите страну, связанную с вашей учетной записью",
-            "timezone_error": "Не удалось найти часовой пояс. Если вы запускаете Home Assistant как автономный контейнер Docker, вы должны определить переменную среды TZ"
+            "timezone_error": "A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable. If the TZ variable is defined or you are running Home Assistant OS, your timezone was not found in the tzlocal library - Please manually select a timezone during setup."
         },
         "step": {
             "user": {
@@ -19,6 +19,7 @@
                     "email": "Электронная почта учетной записи PetKit",
                     "password": "Пароль учетной записи PetKit",
                     "region": "Выберите страну, связанную с вашей учетной записью",
+                    "timezone": "Select a timezone manually or attempt to set it automatically",
                     "polling_interval": "Интервал опроса (секунды)"
                 },
                 "title": "Заполните свои учетные данные PetKit"
@@ -28,6 +29,7 @@
                     "email": "Электронная почта учетной записи PetKit",
                     "password": "Пароль учетной записи PetKit",
                     "region": "Выберите страну, связанную с вашей учетной записью",
+                    "timezone": "Select a timezone manually or attempt to set it automatically",
                     "polling_interval": "Интервал опроса (секунды)"
                 },
                 "title": "Заполните свои учетные данные PetKit"
@@ -39,6 +41,7 @@
         "petkit_options": {
           "data": {
             "region": "Выберите страну, связанную с вашей учетной записью",
+            "timezone": "Select a timezone manually or attempt to set it automatically",
             "polling_interval": "Интервал опроса (секунды)"
           }
         }
