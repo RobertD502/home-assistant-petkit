@@ -7,6 +7,7 @@
           "email": "PetKit account email",
           "password": "PetKit account password",
           "region": "Select the country associated with your account",
+          "timezone": "Select a timezone manually or attempt to set it automatically",
           "polling_interval": "Polling interval (seconds)"
         }
       },
@@ -16,6 +17,7 @@
           "email": "PetKit account email",
           "password": "PetKit account password",
           "region": "Select the country associated with your account",
+          "timezone": "Select a timezone manually or attempt to set it automatically",
           "polling_interval": "Polling interval (seconds)"
         }
       }
@@ -27,7 +29,7 @@
       "server_busy": "PetKit servers are busy. Please try again later.",
       "petkit_error": "Unknown error encountered. Please see Home Assistant logs for more details.",
       "region_error": "Please select the country associated with your account.",
-      "timezone_error": "A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable."
+      "timezone_error": "A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable. If the TZ variable is defined or you are running Home Assistant OS, your timezone was not found in the tzlocal library - Please manually select a timezone during setup."
     },
     "abort": {
       "already_configured": "PetKit account is already configured",
@@ -39,6 +41,7 @@
       "petkit_options": {
         "data": {
           "region": "Select the country associated with your account",
+          "timezone": "Select a timezone manually or attempt to set it automatically",
           "polling_interval": "Polling interval (seconds)"
         }
       }
