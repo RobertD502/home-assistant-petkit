@@ -14,7 +14,8 @@ from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers import selector
 import homeassistant.helpers.config_validation as cv
 
-from .const import DEFAULT_NAME, DOMAIN, POLLING_INTERVAL, REGION, REGIONS_LIST
+from .const import DEFAULT_NAME, DOMAIN, POLLING_INTERVAL, REGION, REGIONS_LIST, TIMEZONE
+from .timezones import TIMEZONES
 from .util import NoDevicesError, async_validate_api
 
 
@@ -24,6 +25,9 @@ DATA_SCHEMA = vol.Schema(
         vol.Required(CONF_PASSWORD): cv.string,
         vol.Required(REGION): selector.SelectSelector(
             selector.SelectSelectorConfig(options=REGIONS_LIST),
+        ),
+        vol.Required(TIMEZONE): selector.SelectSelector(
+            selector.SelectSelectorConfig(options=TIMEZONES),
         )
         
     }
@@ -33,7 +37,7 @@ DATA_SCHEMA = vol.Schema(
 class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for PetKit integration."""
 
-    VERSION = 4
+    VERSION = 5
 
     entry: config_entries.ConfigEntry | None
 
@@ -62,9 +66,10 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             email = user_input[CONF_EMAIL]
             password = user_input[CONF_PASSWORD]
             region = user_input[REGION] if REGION else None
+            timezone = user_input[TIMEZONE]
 
             try:
-                await async_validate_api(self.hass, email, password, region)
+                await async_validate_api(self.hass, email, password, region, timezone)
             except RegionError:
                 errors["base"] = "region_error"
             except TimezoneError:
@@ -91,6 +96,7 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     },
                     options={
                         REGION: region,
+                        TIMEZONE: timezone,
                         POLLING_INTERVAL: self.entry.options[POLLING_INTERVAL],
                     }
                 )
@@ -115,9 +121,10 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             email = user_input[CONF_EMAIL]
             password = user_input[CONF_PASSWORD]
             region = user_input[REGION] if REGION else None
+            timezone = user_input[TIMEZONE]
 
             try:
-                await async_validate_api(self.hass, email, password, region)
+                await async_validate_api(self.hass, email, password, region, timezone)
             except RegionError:
                 errors["base"] = "region_error"
             except TimezoneError:
@@ -144,6 +151,7 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     },
                     options={
                         REGION: region,
+                        TIMEZONE: timezone,
                         POLLING_INTERVAL: 120,
                     }
                 )
@@ -179,6 +187,14 @@ class PetKitOptionsFlowHandler(config_entries.OptionsFlow):
                 ),
             ): selector.SelectSelector(
                     selector.SelectSelectorConfig(options=REGIONS_LIST)
+            ),
+            vol.Required(
+                TIMEZONE,
+                default=self.config_entry.options.get(
+                    TIMEZONE, "Set Automatically"
+                ),
+            ): selector.SelectSelector(
+                    selector.SelectSelectorConfig(options=TIMEZONES)
             ),
             vol.Required(
                 POLLING_INTERVAL,

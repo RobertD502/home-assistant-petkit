@@ -65,6 +65,7 @@ ___
 
 - **If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.**
 
+
 ## Important - Please Read:
 ### Note About PetKit Account & Family Sharing Feature:
 
@@ -106,7 +107,7 @@ and place it inside your Home Assistant Core installation's `custom_components` 
 ## Setup
 
 ### Automatic Option
-Click on the button below to add the integration:
+Click on the button below to add the integration. Be sure to read #4 and #5 below.
 
 [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=petkit)
 
@@ -116,6 +117,7 @@ Click on the button below to add the integration:
 2. Click the `+ ADD INTEGRATION` button in the lower right-hand corner
 3. Search for `PetKit`
 4. Be sure to select the country associated with your account (Hong Kong users should select Hong Kong, not China).
+5. During setup, set the timezone option to `Set Automatically`. If the tzlocal library isn't able to fetch your timezone, please manually select your timezone.
 
 **The current polling interval is set to 2 minutes (120 seconds). If you would like to set a different polling interval, change the polling interval option (via the UI). Keep in mind, setting the polling interval too short may result in your account getting rate limited/blocked.**
 

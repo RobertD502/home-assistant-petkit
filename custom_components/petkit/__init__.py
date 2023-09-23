@@ -5,7 +5,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
 
-from .const import DOMAIN, LOGGER, PETKIT_COORDINATOR, PLATFORMS, POLLING_INTERVAL, REGION, UPDATE_LISTENER
+from .const import DOMAIN, LOGGER, PETKIT_COORDINATOR, PLATFORMS, POLLING_INTERVAL, REGION, TIMEZONE, UPDATE_LISTENER
 from .coordinator import PetKitDataUpdateCoordinator
 from .util import async_validate_api, NoDevicesError
 
@@ -44,7 +44,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         password = entry.data[CONF_PASSWORD]
 
         LOGGER.debug('Migrating PetKit config entry')
-        entry.version = 4
+        entry.version = 5
 
         hass.config_entries.async_update_entry(
             entry,
@@ -54,6 +54,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             },
             options={
                 REGION: None,
+                TIMEZONE: "Set Automatically",
                 POLLING_INTERVAL: 120,
             },
         )
@@ -65,7 +66,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         polling_interval = entry.options[POLLING_INTERVAL]
 
         LOGGER.debug('Migrating PetKit config entry')
-        entry.version = 4
+        entry.version = 5
 
         hass.config_entries.async_update_entry(
             entry,
@@ -75,10 +76,33 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             },
             options={
                 REGION: None,
+                TIMEZONE: "Set Automatically",
                 POLLING_INTERVAL: polling_interval,
             },
         )
         LOGGER.error("PetKit API has changed. Please reauthenticate and select your country.")
+
+    if entry.version == 4:
+        email = entry.data[CONF_EMAIL]
+        password = entry.data[CONF_PASSWORD]
+        region = entry.options[REGION]
+        polling_interval = entry.options[POLLING_INTERVAL]
+
+        LOGGER.debug('Migrating PetKit config entry')
+        entry.version = 5
+
+        hass.config_entries.async_update_entry(
+            entry,
+            data={
+                CONF_EMAIL: email,
+                CONF_PASSWORD: password,
+            },
+            options={
+                REGION: region,
+                TIMEZONE: "Set Automatically",
+                POLLING_INTERVAL: polling_interval,
+            },
+        )
 
     return True
 

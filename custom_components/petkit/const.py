@@ -29,6 +29,7 @@ REGION = "region"
 PETKIT_COORDINATOR = "petkit_coordinator"
 POLLING_INTERVAL = "polling_interval"
 TIMEOUT = 20
+TIMEZONE = "timezone"
 UPDATE_LISTENER = "update_listener"
 
 PETKIT_ERRORS = (

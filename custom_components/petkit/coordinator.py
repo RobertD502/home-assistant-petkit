@@ -15,7 +15,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DOMAIN, LOGGER, POLLING_INTERVAL, REGION, TIMEOUT
+from .const import DOMAIN, LOGGER, POLLING_INTERVAL, REGION, TIMEOUT, TIMEZONE
 
 
 class PetKitDataUpdateCoordinator(DataUpdateCoordinator):
@@ -26,12 +26,17 @@ class PetKitDataUpdateCoordinator(DataUpdateCoordinator):
     def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
         """Initialize the PetKit coordinator."""
 
+        if entry.options[TIMEZONE] == "Set Automatically":
+            tz = None
+        else:
+            tz = entry.options[TIMEZONE]
         try:
             self.client = PetKitClient(
                 entry.data[CONF_EMAIL],
                 entry.data[CONF_PASSWORD],
                 session=async_get_clientsession(hass),
                 region=entry.options[REGION],
+                timezone=tz,
                 timeout=TIMEOUT,
             )
             super().__init__(
