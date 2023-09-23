@@ -11,7 +11,7 @@
             "server_busy": "Серверы PetKit заняты. Пожалуйста, повторите попытку позже",
             "petkit_error": "Возникла неизвестная ошибка. Более подробная информация приведена в журналах Home Assistant",
             "region_error": "Пожалуйста, выберите страну, связанную с вашей учетной записью",
-            "timezone_error": "A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable. If the TZ variable is defined or you are running Home Assistant OS, your timezone was not found in the tzlocal library - Please manually select a timezone during setup."
+            "timezone_error": "Не удалось найти часовой пояс. Если вы запускаете Home Assistant как отдельный Docker-контейнер, вы должны определить переменную часового пояса. Если переменная часового пояса определена или вы используете ОС Home Assistant и ваш часовой пояс не был найден в  библиотеке tzlocal - Пожалуйста, вручную выберите часовой пояс во время настройки."
         },
         "step": {
             "user": {
@@ -19,7 +19,7 @@
                     "email": "Электронная почта учетной записи PetKit",
                     "password": "Пароль учетной записи PetKit",
                     "region": "Выберите страну, связанную с вашей учетной записью",
-                    "timezone": "Select a timezone manually or attempt to set it automatically",
+                    "timezone": "Выберите часовой пояс вручную или попытайтесь установить его автоматически",
                     "polling_interval": "Интервал опроса (секунды)"
                 },
                 "title": "Заполните свои учетные данные PetKit"
@@ -29,7 +29,7 @@
                     "email": "Электронная почта учетной записи PetKit",
                     "password": "Пароль учетной записи PetKit",
                     "region": "Выберите страну, связанную с вашей учетной записью",
-                    "timezone": "Select a timezone manually or attempt to set it automatically",
+                    "timezone": "Выберите часовой пояс вручную или попытайтесь установить его автоматически",
                     "polling_interval": "Интервал опроса (секунды)"
                 },
                 "title": "Заполните свои учетные данные PetKit"
@@ -41,7 +41,7 @@
         "petkit_options": {
           "data": {
             "region": "Выберите страну, связанную с вашей учетной записью",
-            "timezone": "Select a timezone manually or attempt to set it automatically",
+            "timezone": "Выберите часовой пояс вручную или попытайтесь установить его автоматически",
             "polling_interval": "Интервал опроса (секунды)"
           }
         }
