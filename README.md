@@ -27,8 +27,9 @@
 
 ___
 ## Discord Server
+<a href="https://discord.gg/XQaPwSBStN"><img alt="Discord" src="http://invidget.switchblade.xyz/XQaPwSBStN">
 
-[Join](https://discord.gg/XQaPwSBStN) the Home Assistant PetKit discord server to follow development news or to share ideas with other users.
+Join the Home Assistant PetKit discord server to follow development news or to share ideas with other users.
 
 ## Currently Supported Devices
 
@@ -94,9 +95,7 @@ If you want to momentarily use the PetKit app with your primary account to chang
 
 ## With HACS
 
-1. Add this repository as a custom repository in HACS.
-2. Download the integration.
-3. Restart Home Assistant
+The PetKit integration is part of the default HACS repo. **Search for PetKit in HACS**.
 
 ## Manual
 Copy the `petkit` directory, from `custom_components` in this repository,
