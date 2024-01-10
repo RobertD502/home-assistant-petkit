@@ -1,6 +1,6 @@
 name: Purge README
 on:
-  push
+  push:
   schedule:
     - cron: "0 * * * *"
 jobs:
