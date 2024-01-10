@@ -27,7 +27,7 @@
 
 ___
 ## Discord Server
-<a href="https://discord.gg/XQaPwSBStN"><img alt="Discord" src="http://invidget.switchblade.xyz/XQaPwSBStN">
+<a href="https://discord.gg/XQaPwSBStN"><img alt="Discord" src="http://invidget.switchblade.xyz/XQaPwSBStN"></a>
 
 Join the Home Assistant PetKit discord server to follow development news or to share ideas with other users.
 
