@@ -7,9 +7,4 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: wow-actions/purge-readme@v1
-        with:
-          repo: RobertD502/home-assistant-petkit
-          branch: main
-          paths: |
-            README.md
+      - uses: kevincobain2000/action-camo-purge@v1
