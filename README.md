@@ -39,6 +39,8 @@ Join the Home Assistant PetKit discord server to follow development news or to s
 - [Fresh Element Mini Pro](https://www.amazon.com/PETKIT-Automatic-Stainless-Indicator-Dispenser-2-8L/dp/B08GS1CPHH/)
 - [Fresh Element Gemini](https://www.amazon.com/PETKIT-Automatic-Combination-Dispenser-Stainless/dp/B0BF56RTQH)
 - [Fresh Element](https://petkit.us/products/petkit-element-wi-fi-enabled-smart-pet-food-container-feeder)
+> [!CAUTION]
+> YumShare feeders are **NOT** currently supported, but will be in the future. Once they are supported this message will be removed.
 
 `Litter Boxes`
 - [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
@@ -60,30 +62,37 @@ Join the Home Assistant PetKit discord server to follow development news or to s
 
 - **This integration requires using your PetKit account `email` (`number` for PetKit China accounts) and `password`.** Third-party account sign-in methods (Facebook, Apple, Twitter) are **not supported**.
 
-- You will need to select the region (country) associated with your account during setup. <br>`Note`: Hong Kong users should select Hong Kong from the list, not China! 
+> [!CAUTION]
+> **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration. You'll also need to remove any mention of it from your configuration.yaml file.**
 
-- **If using another PetKit integration that uses the petkit domain, you will need to delete it prior to installing this integration. You'll also need to remove any mention of it from your configuration.yaml file.**
-
-- **If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.**
+> [!CAUTION]
+> **If you are running Home Assistant as a Docker container, the `TZ` environment variable must be set.**
 
 
 ## Important - Please Read:
-### Note About PetKit Account & Family Sharing Feature:
+### PetKit Account & Family Sharing Feature:
 
-- PetKit accounts can only be logged in on one device at a time. Using this integration will result in getting signed out of the mobile app. You can continue using the mobile app by creating a secondary account and sharing devices to it from the main account using the family share feature. <br><br>
-- You **MUST** use the primary (main) account with this integration and not the secondary account that had devices shared to it using the family share feature. Using the secondary account will result in no devices being pulled in by this integration.
+> [!IMPORTANT]
+> - PetKit accounts can only be logged in on one device at a time. Using this integration will result in getting signed out of the mobile app. You can continue using the mobile app by creating a secondary account and sharing devices to it from the main account using the family share feature. <br><br>
+
+> [!CAUTION]
+> - You **MUST** use the primary (main) account with this integration and not the secondary account that had devices shared to it using the family share feature. Using the secondary account will result in no devices being pulled in by this integration.
 
 
 ### If you have a water fountain:
 
-`Note #1:` Getting the most recent data from your water fountain, as well as controlling the water fountain, requires that the BLE relay is set up **within the PetKit app**. Otherwise, you will be limited to data that isn't up-to-date and no ability to control the water fountain as it requires another compatible PetKit device acting as a BLE relay.
+> [!NOTE]
+> `Note #1:` Getting the most recent data from your water fountain, as well as controlling the water fountain, requires that the BLE relay is set up **within the PetKit app**. Otherwise, you will be limited to data that isn't up-to-date and no ability to control the water fountain as it requires another compatible PetKit device acting as a BLE relay.
 
-`Note #2:` If you have the BLE relay set up, please be sure to follow these direction prior to using the integration:
-- Sign out of the PetKit app and turn off bluetooth on your phone, tablet, etc.
-- With bluetooth turned off, force close the PetKit app (be sure to do this on any device that was using your account with the PetKit app).
-- Unplug all PetKit devices. Once all are off, you may plug them in again.
-- With all devices powered back on, you can turn bluetooth back on (on your mobile device or tablet).
-- Proceed with the installation and setup instructions for this integration.
+> [!NOTE]
+> `Note #2:` If you have the BLE relay set up, please be sure to follow these direction prior to using the integration:
+> - Sign out of the PetKit app and turn off bluetooth on your phone, tablet, etc.
+> - With bluetooth turned off, force close the PetKit app (be sure to do this on any device that was using your account with the PetKit app).
+> - Unplug all PetKit devices. Once all are off, you may plug them in again.
+> - With all devices powered back on, you can turn bluetooth back on (on your mobile device or tablet).
+> - Proceed with the installation and setup instructions for this integration.
+
+
 > Although these steps may seem tedious, they are a necessary evil. The PetKit app will ping the bluetooth endpoints and initiate the relay even with your account signed out. The only way of giving the integration control/the ability to initiate the relay is to sever any bluetooth connection that the app has started.
 
 
@@ -95,28 +104,32 @@ If you want to momentarily use the PetKit app with your primary account to chang
 
 ## With HACS
 
-The PetKit integration is part of the default HACS repo. **Search for PetKit in HACS**.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=RobertD502&repository=home-assistant-petkit&category=integration)
+
+> [!Tip]
+> If you are unable to use the button above, manually search for PetKit in HACS.
+
 
 ## Manual
 Copy the `petkit` directory, from `custom_components` in this repository,
 and place it inside your Home Assistant Core installation's `custom_components` directory. Restart Home Assistant prior to moving on to the `Setup` section.
 
-`Note`: If installing manually, in order to be alerted about new releases, you will need to subscribe to releases from this repository.
+> [!WARNING]
+> If installing manually, in order to be alerted about new releases, you will need to subscribe to releases from this repository.
 
-## Setup
-
-### Automatic Option
-Click on the button below to add the integration. Be sure to read #4 and #5 below.
+# Setup
 
 [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=petkit)
 
-### Alternatively, follow the steps below:
+> [!Tip]
+> If you are unable to use the button above, follow the steps below:
+> 1. Navigate to the Home Assistant Integrations page (Settings --> Devices & Services)
+> 2. Click the `+ ADD INTEGRATION` button in the lower right-hand corner
+> 3. Search for `PetKit`
 
-1. Navigate to the Home Assistant Integrations page (Settings --> Devices & Services)
-2. Click the `+ ADD INTEGRATION` button in the lower right-hand corner
-3. Search for `PetKit`
-4. Be sure to select the country associated with your account (Hong Kong users should select Hong Kong, not China).
-5. During setup, set the timezone option to `Set Automatically`. If the tzlocal library isn't able to fetch your timezone, please manually select your timezone.
+> [!Caution]
+> * Be sure to select the country associated with your account (Hong Kong users should select Hong Kong, not China).
+> * During setup, set the timezone option to `Set Automatically`. If the tzlocal library isn't able to fetch your timezone, please manually select your timezone.
 
 **The current polling interval is set to 2 minutes (120 seconds). If you would like to set a different polling interval, change the polling interval option (via the UI). Keep in mind, setting the polling interval too short may result in your account getting rate limited/blocked.**
 
