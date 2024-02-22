@@ -307,7 +307,7 @@
           }
         },
         "last_event": {
-          "name": "Last event",
+          "name": "Ostatnie zdarzenie",
           "state": {
             "no_events_yet": "Brak zdarzeń.",
             "event_type_unknown": "Zdarzenie nieznane.",
@@ -360,7 +360,7 @@
             "sub_events": {
               "state": {
                 "no_events_yet": "Brak zdarzeń.",
-                "event_type_unknown": "Zdarzenie nieznane.",
+                "event_type_unknown": "Nieznane zdarzenie.",
                 "cleaning_completed": "Czyszczenie zakończone.",
                 "dumping_over": "Opróżnianie zakończone.",
                 "reset_over": "Resetowanie zakończone.",
