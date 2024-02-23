@@ -722,16 +722,16 @@
           "name": "Wyświetlacz"
         },
         "light_weight_cleaning_disabled": {
-          "name": "Delikatne czyszczenie wyłączone"
+          "name": "Ignorowanie niskiej wagi"
         },
         "cont_rotation": {
-          "name": "Ciągła rotacja"
+          "name": "Zapobieganie przeciekaniu"
         },
         "deep_cleaning": {
-          "name": "Intensywne czyszczenie"
+          "name": "Podwójne czyszczenie"
         },
         "deep_deodor": {
-          "name": "Intensywne odświeżanie"
+          "name": "Podwójne odświeżanie"
         },
         "prompt_tone": {
           "name": "Dźwięk przywołania"
