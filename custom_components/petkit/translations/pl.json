@@ -735,6 +735,9 @@
         },
         "prompt_tone": {
           "name": "Dźwięk przywołania"
+        },
+        "adsorption_enhance": {
+          "name": "Zwiększenie wchłaniania"
         }
       },
       "text": {
