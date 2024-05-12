@@ -735,6 +735,9 @@
         },
         "prompt_tone": {
           "name": "Prompt tone"
+        },
+        "adsorption_enhance": {
+          "name": "Adsorption Enhance"
         }
       },
       "text": {

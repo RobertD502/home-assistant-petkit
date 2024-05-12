@@ -735,6 +735,9 @@
         },
         "prompt_tone": {
           "name": "Сигнал подсказки"
+        },
+        "adsorption_enhance": {
+          "name": "Повышение адсорбции"
         }
       },
       "text": {
