@@ -4,6 +4,7 @@ from __future__ import annotations
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr
 
 from .const import DOMAIN, LOGGER, PETKIT_COORDINATOR, PLATFORMS, POLLING_INTERVAL, REGION, TIMEZONE, UPDATE_LISTENER
 from .coordinator import PetKitDataUpdateCoordinator
@@ -110,3 +111,9 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """ Update options. """
 
     await hass.config_entries.async_reload(entry.entry_id)
+
+async def async_remove_config_entry_device(
+    hass: HomeAssistant, config_entry: ConfigEntry, device_entry: dr.DeviceEntry
+) -> bool:
+    """Remove a config entry from a device."""
+    return True
