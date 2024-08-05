@@ -2,7 +2,7 @@
   "name": "PetKit",
   "render_readme": true,
   "country": "US",
-  "homeassistant": "2023.4.0",
+  "homeassistant": "2024.8.0b0",
   "zip_release": true,
   "filename": "petkit.zip"
 }
