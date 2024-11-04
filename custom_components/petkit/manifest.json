@@ -11,8 +11,8 @@
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/RobertD502/home-assistant-petkit/issues",
   "requirements": [
-    "petkitaio==0.1.11",
+    "petkitaio==0.1.11.2",
     "tzlocal==5.1"
   ],
-  "version": "0.1.12"
+  "version": "0.1.12.1"
 }
