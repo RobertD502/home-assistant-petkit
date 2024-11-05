@@ -99,7 +99,7 @@ async def async_setup_entry(
             ))
 
         # D4s Feeder
-        if feeder_data.type == 'd4s':
+        if feeder_data.type == 'd4s' or feeder_data.type == 'd4sh':
             sensors.extend((
                 TimesEaten(coordinator, feeder_id),
                 TimesDispensed(coordinator, feeder_id),
@@ -1258,7 +1258,7 @@ class TimesEaten(CoordinatorEntity, SensorEntity):
     def native_value(self) -> int:
         """Return total times eaten."""
 
-        if self.feeder_data.type == 'd4s':
+        if self.feeder_data.type == 'd4s' or self.feeder_data.type == 'd4sh':
             return self.feeder_data.data['state']['feedState']['eatCount']
         else:
             return len(self.feeder_data.data['state']['feedState']['eatTimes'])

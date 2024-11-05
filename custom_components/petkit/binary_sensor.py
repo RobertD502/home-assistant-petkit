@@ -34,19 +34,19 @@ async def async_setup_entry(
     for feeder_id, feeder_data in coordinator.data.feeders.items():
 
         #All feeders except D4s
-        if feeder_data.type != 'd4s':
+        if feeder_data.type != 'd4s' and feeder_data.type != 'd4sh':
             binary_sensors.append(
                 FoodLevel(coordinator, feeder_id)
             )
 
         # D4 and D4s feeders
-        if feeder_data.type in ['d4', 'd4s']:
+        if feeder_data.type in ['d4', 'd4s', 'd4sh']:
             binary_sensors.append(
                 BatteryInstalled(coordinator, feeder_id)
             )
 
         # D4s Feeder
-        if feeder_data.type == 'd4s':
+        if feeder_data.type == 'd4s' or feeder_data.type == 'd4sh':
             binary_sensors.extend((
                 FoodLevelHopper1(coordinator, feeder_id),
                 FoodLevelHopper2(coordinator, feeder_id)

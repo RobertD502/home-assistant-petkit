@@ -49,7 +49,7 @@ async def async_setup_entry(
             ))
 
         # Only D4s Feeder
-        if feeder_data.type == 'd4s':
+        if feeder_data.type == 'd4s' or feeder_data.type == 'd4sh':
             numbers.append(
                 MinEatingDuration(coordinator, feeder_id)
             )
