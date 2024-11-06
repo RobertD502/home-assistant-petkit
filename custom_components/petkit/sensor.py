@@ -22,9 +22,10 @@ from homeassistant.const import(
     UnitOfTime,
     UnitOfVolume
 )
-from homeassistant.core import HomeAssistant
+from homeassistant.core import callback, HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -2230,7 +2231,7 @@ class LBLastEvent(CoordinatorEntity, SensorEntity):
             event_list.append(description)
         return event_list
 
-class PetRecentWeight(CoordinatorEntity, SensorEntity):
+class PetRecentWeight(CoordinatorEntity, SensorEntity, RestoreEntity):
     """Representation of most recent weight measured by litter box."""
 
     def __init__(self, coordinator, pet_id):
@@ -2297,19 +2298,6 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity):
             return 'mdi:weight'
 
     @property
-    def native_value(self) -> float:
-        """Return most recent weight from today."""
-
-        sorted_dict = self.grab_recent_weight()
-        if sorted_dict:
-            last_key = list(sorted_dict)[-1]
-            latest_weight = sorted_dict[last_key]
-            weight_calculation = round((latest_weight / 1000), 1)
-            return weight_calculation
-        else:
-            return 0.0
-
-    @property
     def native_unit_of_measurement(self) -> UnitOfMass:
         """Return kilograms as the native unit."""
 
@@ -2326,6 +2314,32 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity):
         """Return the type of state class."""
 
         return SensorStateClass.MEASUREMENT
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle entity update."""
+
+        sorted_dict = self.grab_recent_weight()
+        if sorted_dict:
+            last_key = list(sorted_dict)[-1]
+            latest_weight = sorted_dict[last_key]
+            weight_calculation = round((latest_weight / 1000), 1)
+            self._attr_native_value = weight_calculation
+            self.async_write_ha_state()
+        else:
+            return
+
+    async def async_added_to_hass(self) -> None:
+        """Handle entity which will be added."""
+
+        await super().async_added_to_hass()
+
+        if last_state := await self.async_get_last_state():
+            self._attr_native_value = last_state.state
+        else:
+            # If user is setting up the integration when there is no weight yet
+            # for the current day, return 0.0
+            self._attr_native_value = 0.0
 
     def grab_recent_weight(self) -> float:
         """Grab the most recent weight."""
@@ -2347,7 +2361,7 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity):
         return sorted_dict
 
 
-class PetLastUseDuration(CoordinatorEntity, SensorEntity):
+class PetLastUseDuration(CoordinatorEntity, SensorEntity, RestoreEntity):
     """Representation of most recent litter box use duration."""
 
     def __init__(self, coordinator, pet_id):
@@ -2414,18 +2428,6 @@ class PetLastUseDuration(CoordinatorEntity, SensorEntity):
             return 'mdi:clock'
 
     @property
-    def native_value(self) -> int:
-        """Return most recent duration from today."""
-
-        sorted_dict = self.grab_recent_duration()
-        if sorted_dict:
-            last_key = list(sorted_dict)[-1]
-            latest_duration = sorted_dict[last_key]
-            return latest_duration
-        else:
-            return 0
-
-    @property
     def native_unit_of_measurement(self) -> UnitOfTime:
         """Return seconds as the native unit."""
 
@@ -2436,6 +2438,31 @@ class PetLastUseDuration(CoordinatorEntity, SensorEntity):
         """Return the type of state class."""
 
         return SensorStateClass.MEASUREMENT
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle entity update."""
+
+        sorted_dict = self.grab_recent_duration()
+        if sorted_dict:
+            last_key = list(sorted_dict)[-1]
+            latest_duration = sorted_dict[last_key]
+            self._attr_native_value = latest_duration
+            self.async_write_ha_state()
+        else:
+            return
+
+    async def async_added_to_hass(self) -> None:
+        """Handle entity which will be added."""
+
+        await super().async_added_to_hass()
+
+        if last_state := await self.async_get_last_state():
+            self._attr_native_value = last_state.state
+        else:
+            # If user is setting up the integration when there is no duration yet
+            # for the current day, return 0
+            self._attr_native_value = 0
 
     def grab_recent_duration(self) -> float:
         """Grab the most recent duration."""
