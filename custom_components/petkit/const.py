@@ -318,7 +318,8 @@ WF_MODE_COMMAND = {
 WATER_FOUNTAINS = {
     2: 'Eversweet 5 Mini',
     4: 'Eversweet 3 Pro',
-    5: 'Eversweet Solo 2'
+    5: 'Eversweet Solo 2',
+    6: 'Eversweet 3 Pro (UVC Version)'
 }
 
 PURIFIERS = {
