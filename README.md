@@ -13,7 +13,7 @@
   <a href="https://github.com/RobertD502/home-assistant-petkit/releases"><img src="https://img.shields.io/github/v/release/RobertD502/home-assistant-petkit?display_name=tag&include_prereleases&sort=semver" alt="Current version"></a>
   <img alt="GitHub" src="https://img.shields.io/github/license/RobertD502/home-assistant-petkit">
   <img alt="GitHub manifest.json dynamic (path)" src="https://img.shields.io/github/manifest-json/requirements/RobertD502/home-assistant-petkit%2Fmain%2Fcustom_components%2Fpetkit?label=requirements">
-  <img alt="Total lines count" src="https://tokei.rs/b1/github/RobertD502/home-assistant-petkit"
+  <img alt="Total lines count" src="https://tokei.rs/b1/github/RobertD502/home-assistant-petkit">
 </p>
 
 <p align="center">
@@ -52,6 +52,7 @@ Join the Home Assistant PetKit discord server to follow development news or to s
 `Water Fountains`
 - [Eversweet Solo 2 Water Fountain](https://www.amazon.com/PETKIT-EVERSWEET-Wireless-Visualization-Dispenser-2L/dp/B0B3RWF653)
 - [Eversweet 3 Pro Water Fountain](https://www.amazon.com/PETKIT-Wireless-Fountain-Stainless-Dispenser/dp/B09QRH6L3M/)
+- [Eversweet 3 Pro (UVC Version) Water Fountain](https://petkit.com/products/eversweet-3-pro-wireless-pump-uvc)
 - [Eversweet 5 Mini Water Fountain](https://www.petkit.nl/products/eversweet-5-mini-binnen-2-weken-geleverd)
 
 
