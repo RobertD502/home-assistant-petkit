@@ -347,6 +347,7 @@ FEEDERS = {
     'd3': 'Fresh Element Infinity',
     'd4': 'Fresh Element Solo',
     'd4s': 'Fresh Element Gemini',
+    'd4sh': 'YumShare Dual Hopper',
     'feeder': 'Fresh Element',
     'feedermini': 'Fresh Element Mini Pro',
 }
@@ -405,3 +406,11 @@ MANUAL_FEED_NAMED = {
     45: '9/20th Cup (45g)',
     50: '1/2 Cup (50g)',
 }
+
+SURPLUS_FOOD_LEVEL_OPTIONS = ["Less", "Moderate", "Full"]
+
+SURPLUS_FOOD_LEVEL_NAMED = {1: "Less", 2: "Moderate", 3: "Full"}
+
+IA_DETECTION_SENSITIVITY = ["Low", "Mid", "High"]
+
+IA_DETECTION_SENSITIVITY_NAMED = {1: "Low", 2: "Mid", 3: "High"}
