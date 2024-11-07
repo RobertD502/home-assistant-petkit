@@ -831,8 +831,6 @@ class LBBWastePresence(CoordinatorEntity, BinarySensorEntity):
         else:
             return "mdi:inbox-remove"
 
-
-
     @property
     def device_class(self) -> BinarySensorDeviceClass:
         """Return entity device class."""
