@@ -2553,6 +2553,12 @@ class PurifierLight(CoordinatorEntity, SwitchEntity):
         else:
             return False
 
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
     async def async_turn_on(self, **kwargs) -> None:
         """Turn indicator light on."""
 
