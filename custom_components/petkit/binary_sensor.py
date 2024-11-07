@@ -34,7 +34,7 @@ async def async_setup_entry(
     for feeder_id, feeder_data in coordinator.data.feeders.items():
 
         #All feeders except D4s
-        if feeder_data.type != 'd4s':
+        if feeder_data.type not in ['d4s', 'd4sh']:
             binary_sensors.append(
                 FoodLevel(coordinator, feeder_id)
             )
