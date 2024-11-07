@@ -2822,7 +2822,7 @@ class MAXLastEvent(CoordinatorEntity, SensorEntity):
                 return description
 
         if event_type == 10:
-            if (record['petId'] == '-2') or (record['petId'] == '-1'):
+            if record["petId"] in ["-1", "-2", "-3"]:
                 name = 'Unknown'
             else:
                 name = record['petName']
