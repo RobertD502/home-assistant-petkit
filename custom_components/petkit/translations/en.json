@@ -49,6 +49,15 @@
     },
     "entity": {
       "binary_sensor": {
+        "camera_status": {
+          "name": "Camera status"
+        },
+        "eating": {
+          "name": "Eating"
+        },
+        "feeding": {
+          "name": "Feeding"
+        },
         "water_level": {
           "name": "Water level"
         },
@@ -184,9 +193,27 @@
         },
         "min_eating_duration": {
           "name": "Minimum eating duration"
+        },
+        "hopper_portion_weight_1": {
+          "name": "Portion weight hopper 1"
+        },
+        "hopper_portion_weight_2": {
+          "name": "Portion weight hopper 2"
         }
       },
       "select": {
+        "surplus_level": {
+          "name": "Surplus level"
+        },
+        "pet_detection_sensitivity": {
+          "name": "Pet detection sensitivity"
+        },
+        "eat_detection_sensitivity": {
+          "name": "Eat detection sensitivity"
+        },
+        "move_detection_sensitivity": {
+          "name": "Move detection sensitivity"
+        },
         "light_brightness": {
           "name": "Light brightness",
           "state": {
@@ -221,6 +248,9 @@
         }
       },
       "sensor": {
+        "bowl": {
+          "name": "Bowl"
+        },
         "energy_usage": {
           "name": "Energy usage"
         },
@@ -673,6 +703,15 @@
         }
       },
       "switch": {
+        "camera": {
+          "name": "Camera"
+        },
+        "microphone": {
+          "name": "Microphone"
+        },
+        "night_vision": {
+          "name": "Night vision"
+        },
         "light": {
           "name": "Light"
         },
@@ -688,6 +727,21 @@
         "child_lock": {
           "name": "Child lock"
         },
+        "dispensing_notification": {
+          "name": "Dispensing notification"
+        },
+        "pet_visit_notification": {
+          "name": "Pet visit notification"
+        },
+        "pet_eat_notification": {
+          "name": "Pet eat notification"
+        },
+        "low_battery_notification": {
+          "name": "Low battery notification"
+        },
+        "refill_notification": {
+          "name": "Refill container notification"
+        },
         "food_shortage_alarm": {
           "name": "Food shortage alarm"
         },
@@ -699,6 +753,9 @@
         },
         "surplus_control": {
           "name": "Surplus control"
+        },
+        "camera_status": {
+          "name": "Camera status"
         },
         "system_notification_sound": {
           "name": "System notification sound"

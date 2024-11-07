@@ -28,8 +28,8 @@ async def async_setup_entry(
 
     for feeder_id, feeder_data in coordinator.data.feeders.items():
 
-        # D4s Feeder
-        if feeder_data.type == 'd4s':
+        # D4s and D4sh Feeder
+        if feeder_data.type in ["d4s", "d4sh"]:
             text_entities.append(
                 ManualFeed(coordinator, feeder_id)
             )
