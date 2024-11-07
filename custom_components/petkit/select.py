@@ -32,6 +32,10 @@ from .const import(
     WF_MODE_COMMAND,
     WF_MODE_NAMED,
     WF_MODE_OPTIONS,
+    SURPLUS_FOOD_LEVEL_NAMED,
+    SURPLUS_FOOD_LEVEL_OPTIONS,
+    IA_DETECTION_SENSITIVITY_NAMED,
+    IA_DETECTION_SENSITIVITY,
 )
 from .coordinator import PetKitDataUpdateCoordinator
 from .exceptions import PetKitBluetoothError
@@ -43,7 +47,8 @@ WF_MODE_TO_PETKIT_NUMBERED = {v: k for (k, v) in WF_MODE_NAMED.items()}
 MANUAL_FEED_TO_PETKIT = {v: k for (k, v) in MANUAL_FEED_NAMED.items()}
 CLEANING_INTERVAL_TO_PETKIT = {v: k for (k, v) in CLEANING_INTERVAL_NAMED.items()}
 LITTER_TYPE_TO_PETKIT = {v: k for (k, v) in LITTER_TYPE_NAMED.items()}
-
+SURPLUS_FOOD_CTRL_TO_PETKIT = {v: k for (k, v) in SURPLUS_FOOD_LEVEL_NAMED.items()}
+IA_DETECTION_SENSITIVITY_TO_PETKIT = {v: k for (k, v) in IA_DETECTION_SENSITIVITY_NAMED.items()}
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
@@ -71,6 +76,16 @@ async def async_setup_entry(
         if feeder_data.type == 'd3':
             selects.append(
                 Sound(coordinator, feeder_id)
+            )
+
+        # D4sh Feeder
+        if feeder_data.type == "d4sh":
+            selects.extend(
+                (
+                    SurplusFoodLevel(coordinator, feeder_id),
+                    EatDetectionSensitivity(coordinator, feeder_id),
+                    PetDetectionSensitivity(coordinator, feeder_id),
+                )
             )
 
     # Litter boxes
@@ -643,5 +658,263 @@ class LBLitterType(CoordinatorEntity, SelectEntity):
 
         await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.SAND_TYPE, ha_to_petkit)
         self.lb_data.device_detail['settings']['sandType'] = ha_to_petkit
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class SurplusFoodLevel(CoordinatorEntity, SelectEntity):
+    """Representation of Surplus food control amount selector."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_surplus_level"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "surplus_level"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return "mdi:bowl-outline"
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def current_option(self) -> str:
+        """Returns blank option by default."""
+        option = self.feeder_data.data["settings"]["surplusStandard"]
+        return SURPLUS_FOOD_LEVEL_NAMED[option]
+
+    @property
+    def options(self) -> list[str]:
+        """Return list of all available manual feed amounts."""
+        return SURPLUS_FOOD_LEVEL_OPTIONS
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+
+        ha_to_petkit = SURPLUS_FOOD_CTRL_TO_PETKIT.get(option)
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.SURPLUS_STANDARD, int(ha_to_petkit)
+        )
+        self.feeder_data.data["settings"]["surplusStandard"] = ha_to_petkit
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class EatDetectionSensitivity(CoordinatorEntity, SelectEntity):
+    """Representation of Surplus food control amount selector."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_eat_detection_sensitivity"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "eat_detection_sensitivity"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return "mdi:tune-variant"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def current_option(self) -> str:
+        """Returns blank option by default."""
+        option = self.feeder_data.data["settings"]["eatSensitivity"]
+        return IA_DETECTION_SENSITIVITY_NAMED[option]
+
+    @property
+    def options(self) -> list[str]:
+        """Return list of all available manual feed amounts."""
+        return IA_DETECTION_SENSITIVITY
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+
+        ha_to_petkit = IA_DETECTION_SENSITIVITY_TO_PETKIT.get(option)
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.EAT_SENSITIVITY, int(ha_to_petkit)
+        )
+        self.feeder_data.data["settings"]["eatSensitivity"] = ha_to_petkit
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class PetDetectionSensitivity(CoordinatorEntity, SelectEntity):
+    """Representation of Pet Sensitivity detection."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_pet_detection_sensitivity"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "pet_detection_sensitivity"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return "mdi:tune-variant"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def current_option(self) -> str:
+        """Returns blank option by default."""
+        option = self.feeder_data.data["settings"]["petSensitivity"]
+        return IA_DETECTION_SENSITIVITY_NAMED[option]
+
+    @property
+    def options(self) -> list[str]:
+        """Return list of all available manual feed amounts."""
+        return IA_DETECTION_SENSITIVITY
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+
+        ha_to_petkit = IA_DETECTION_SENSITIVITY_TO_PETKIT.get(option)
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.PET_SENSITIVITY, int(ha_to_petkit)
+        )
+        self.feeder_data.data["settings"]["petSensitivity"] = ha_to_petkit
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
