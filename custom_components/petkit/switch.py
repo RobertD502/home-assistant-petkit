@@ -52,6 +52,23 @@ async def async_setup_entry(
                 DispenseTone(coordinator, feeder_id),
             ))
 
+        # D4sh Feeder
+        if feeder_data.type == 'd4sh':
+            switches.extend(
+                (
+                    ShortageAlarm(coordinator, feeder_id),
+                    DispensingNotif(coordinator, feeder_id),
+                    RefillNotif(coordinator, feeder_id),
+                    PetEatNotif(coordinator, feeder_id),
+                    PetVisitNotif(coordinator, feeder_id),
+                    SurplusControl(coordinator, feeder_id),
+                    Camera(coordinator, feeder_id),
+                    NightVision(coordinator, feeder_id),
+                    Microphone(coordinator, feeder_id),
+                    LowBatteryNotif(coordinator, feeder_id),
+                )
+            )
+
         # D3 Feeder
         if feeder_data.type == 'd3':
             switches.extend((
@@ -2637,5 +2654,757 @@ class PurifierTone(CoordinatorEntity, SwitchEntity):
         await self.coordinator.client.update_purifier_settings(self.purifier_data, PurifierSetting.SOUND, 0)
 
         self.purifier_data.device_detail['settings']['sound'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class DispensingNotif(CoordinatorEntity, SwitchEntity):
+    """Representation of Feed Notify switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_dispensing_notification"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "dispensing_notification"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:bell-check"
+        else:
+            return "mdi:bell-cancel"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if dispensing notify is on."""
+
+        return self.feeder_data.data["settings"]["feedNotify"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn dispensing notification on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.DISPENSING_NOTIFY, 1
+        )
+        self.feeder_data.data["settings"]["feedNotify"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn dispensing notification off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.DISPENSING_NOTIFY, 0
+        )
+        self.feeder_data.data["settings"]["feedNotify"] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class RefillNotif(CoordinatorEntity, SwitchEntity):
+    """Representation of Refill container Notify switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_refill_notification"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "refill_notification"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:bell-check"
+        else:
+            return "mdi:bell-cancel"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if refill notify is on."""
+
+        return self.feeder_data.data["settings"]["foodNotify"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn refill notification on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.REFILL_FOOD_NOTIFY, 1
+        )
+        self.feeder_data.data["settings"]["foodNotify"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn refill notification off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.REFILL_FOOD_NOTIFY, 0
+        )
+        self.feeder_data.data["settings"]["foodNotify"] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class PetVisitNotif(CoordinatorEntity, SwitchEntity):
+    """Representation of Pet Visit Notify switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_pet_visit_notification"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "pet_visit_notification"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:bell-check"
+        else:
+            return "mdi:bell-cancel"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if pet visit notify is on."""
+
+        return self.feeder_data.data["settings"]["petNotify"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn pet visit notification on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.PET_VISIT_NOTIFY, 1
+        )
+        self.feeder_data.data["settings"]["petNotify"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn pet visit notification off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.PET_VISIT_NOTIFY, 0
+        )
+        self.feeder_data.data["settings"]["petNotify"] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class PetEatNotif(CoordinatorEntity, SwitchEntity):
+    """Representation of Pet Eat Notify switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_pet_eat_notification"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "pet_eat_notification"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:bell-check"
+        else:
+            return "mdi:bell-cancel"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if pet eat notify is on."""
+
+        return self.feeder_data.data["settings"]["eatNotify"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn pet eat notification on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.PET_EAT_NOTIFY, 1
+        )
+        self.feeder_data.data["settings"]["eatNotify"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn pet eat notification off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.PET_EAT_NOTIFY, 0
+        )
+        self.feeder_data.data["settings"]["eatNotify"] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class Camera(CoordinatorEntity, SwitchEntity):
+    """Representation of Feeder indicator Camera switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_camera"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "camera"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:cctv"
+        else:
+            return "mdi:cctv-off"
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if indicator camera is enabled."""
+
+        return self.feeder_data.data["settings"]["camera"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn camera  on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.CAMERA, 1
+        )
+
+        self.feeder_data.data["settings"]["camera"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn camera  off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.CAMERA, 0
+        )
+
+        self.feeder_data.data["settings"]["camera"] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LowBatteryNotif(CoordinatorEntity, SwitchEntity):
+    """Representation of Low Battery Notify switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_low_battery_notification"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "low_battery_notification"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:bell-check"
+        else:
+            return "mdi:bell-cancel"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if pet visit notify is on."""
+
+        return self.feeder_data.data["settings"]["lowBatteryNotify"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn pet visit notification on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.LOW_BATTERY_NOTIFY, 1
+        )
+        self.feeder_data.data["settings"]["lowBatteryNotify"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn pet visit notification off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.LOW_BATTERY_NOTIFY, 0
+        )
+        self.feeder_data.data["settings"]["lowBatteryNotify"] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class Microphone(CoordinatorEntity, SwitchEntity):
+    """Representation of Feeder indicator Microphone switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_microphone"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "microphone"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:microphone"
+        else:
+            return "mdi:microphone-off"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if indicator camera is enabled."""
+
+        return self.feeder_data.data["settings"]["microphone"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn microphone on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.MICROPHONE, 1
+        )
+
+        self.feeder_data.data["settings"]["microphone"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn microphone off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.MICROPHONE, 0
+        )
+
+        self.feeder_data.data["settings"]["microphone"] = 0
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class NightVision(CoordinatorEntity, SwitchEntity):
+    """Representation of Feeder indicator Microphone switch."""
+
+    def __init__(self, coordinator, feeder_id):
+        super().__init__(coordinator)
+        self.feeder_id = feeder_id
+
+    @property
+    def feeder_data(self) -> Feeder:
+        """Handle coordinator Feeder data."""
+
+        return self.coordinator.data.feeders[self.feeder_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.feeder_data.id)},
+            "name": self.feeder_data.data["name"],
+            "manufacturer": "PetKit",
+            "model": FEEDERS[self.feeder_data.type],
+            "sw_version": f'{self.feeder_data.data["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.feeder_data.id) + "_night_vision"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "night_vision"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.is_on:
+            return "mdi:weather-night"
+        else:
+            return "mdi:cancel"
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if indicator camera is enabled."""
+
+        return self.feeder_data.data["settings"]["night"] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.feeder_data.data["state"]["pim"] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn microphone on."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.NIGHT_VISION, 1
+        )
+
+        self.feeder_data.data["settings"]["night"] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn microphone off."""
+
+        await self.coordinator.client.update_feeder_settings(
+            self.feeder_data, FeederSetting.NIGHT_VISION, 0
+        )
+
+        self.feeder_data.data["settings"]["night"] = 0
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
