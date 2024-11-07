@@ -77,6 +77,10 @@ async def async_setup_entry(
                 LBManuallyPaused(coordinator, lb_id)
             )
 
+        # Pura MAX2
+        if "boxState" in lb_data.device_detail["state"]:
+            binary_sensors.append(LBBWastePresence(coordinator, lb_id))
+
     async_add_entities(binary_sensors)
 
 
@@ -773,3 +777,73 @@ class FoodLevelHopper2(CoordinatorEntity, BinarySensorEntity):
             return 'mdi:food-drumstick-off'
         else:
             return 'mdi:food-drumstick'
+
+
+class LBBWastePresence(CoordinatorEntity, BinarySensorEntity):
+    """Representation of litter box wastebin present or not."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail["name"],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}',
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + "_wastebin_presence"
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "waste_bin_presence"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        if self.lb_data.device_detail["state"]["boxState"] == 1:
+            return "mdi:inbox"
+        else:
+            return "mdi:inbox-remove"
+
+
+
+    @property
+    def device_class(self) -> BinarySensorDeviceClass:
+        """Return entity device class."""
+
+        return BinarySensorDeviceClass.PROBLEM
+
+    @property
+    def is_on(self) -> bool:
+        """Return True if wastebin is present."""
+
+        if self.lb_data.device_detail["state"]["boxState"] == 1:
+            return False
+        else:
+            return True
