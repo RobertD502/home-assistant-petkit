@@ -81,6 +81,9 @@
         },
         "food_level_hopper_two": {
           "name": "Food level hopper 2"
+        },
+        "waste_bin_presence": {
+          "name": "Wastebin presence"
         }
       },
       "button": {
