@@ -230,7 +230,7 @@
         "purified_water_today": {
           "name": "Purified water today"
         },
-        "feeder_status": {
+        "device_status": {
           "name": "Status",
           "state": {
             "offline": "Offline",
