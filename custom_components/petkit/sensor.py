@@ -140,7 +140,8 @@ async def async_setup_entry(
                 LBTimesUsed(coordinator, lb_id),
                 LBAverageUse(coordinator, lb_id),
                 LBTotalUse(coordinator, lb_id),
-                LBLastUsedBy(coordinator, lb_id)
+                LBLastUsedBy(coordinator, lb_id),
+                LBStatus(coordinator, lb_id),
             ))
         # Pura X
         if lb_data.type == 't3':
@@ -512,7 +513,7 @@ class FeederStatus(CoordinatorEntity, SensorEntity):
     def translation_key(self) -> str:
         """Translation key for this entity."""
 
-        return "feeder_status"
+        return "device_status"
 
     @property
     def native_value(self) -> str | None:
@@ -4138,3 +4139,69 @@ class FoodLeft(CoordinatorEntity, SensorEntity):
         """Return percent as the native unit."""
 
         return PERCENTAGE
+
+
+class LBStatus(CoordinatorEntity, SensorEntity):
+    """Representation of litter box status."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator Litter Box data."""
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+        return str(self.lb_data.id) + '_status'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+        return "device_status"
+
+    @property
+    def native_value(self) -> str | None:
+        """Return status of the litter box."""
+        pim = self.lb_data.device_detail['state']['pim']
+        if pim == 0:
+            return 'offline'
+        elif pim == 1:
+            return 'normal'
+        else:
+            return None
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to diagnostic."""
+        return EntityCategory.DIAGNOSTIC
+
+    @property
+    def icon(self) -> str | None:
+        """Set status icon."""
+        pim = self.lb_data.device_detail['state']['pim']
+        if pim == 0:
+            return 'mdi:cloud-off'
+        elif pim == 1:
+            return 'mdi:cloud'
+        else:
+            return None
