@@ -513,7 +513,7 @@ class FeederStatus(CoordinatorEntity, SensorEntity):
     def translation_key(self) -> str:
         """Translation key for this entity."""
 
-        return "feeder_status"
+        return "device_status"
 
     @property
     def native_value(self) -> str | None:
