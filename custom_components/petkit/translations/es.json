@@ -1,0 +1,581 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "La cuenta PetKit ya está configurada",
+            "reauth_successful": "La reautenticación fue exitosa"
+        },
+        "error": {
+            "cannot_connect": "Error al conectar",
+            "invalid_auth": "Autenticación inválida. ¿Son correctas tus credenciales?",
+            "no_devices": "No se encontraron dispositivos en la cuenta",
+            "server_busy": "Los servidores de PetKit están ocupados. Por favor, inténtalo más tarde.",
+            "petkit_error": "Se encontró un error desconocido. Por favor, revisa los registros de Home Assistant para más detalles.",
+            "region_error": "Por favor, selecciona el país asociado con tu cuenta.",
+            "timezone_error": "No se pudo encontrar una zona horaria. Si estás ejecutando Home Assistant como un contenedor Docker independiente, debes definir la variable de entorno TZ. Si la variable TZ está definida o estás ejecutando Home Assistant OS, tu zona horaria no se encontró en la biblioteca tzlocal - Por favor, selecciona manualmente una zona horaria durante la configuración."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "Correo electrónico de cuenta PetKit",
+                    "password": "Contraseña de cuenta PetKit",
+                    "region": "Selecciona el país asociado con tu cuenta",
+                    "timezone": "Selecciona una zona horaria manualmente o intenta configurarla automáticamente",
+                    "polling_interval": "Intervalo de sondeo (segundos)"
+                },
+                "title": "Completa tus credenciales de PetKit"
+            },
+            "reauth_confirm": {
+                "data": {
+                    "email": "Correo electrónico de cuenta PetKit",
+                    "password": "Contraseña de cuenta PetKit",
+                    "region": "Selecciona el país asociado con tu cuenta",
+                    "timezone": "Selecciona una zona horaria manualmente o intenta configurarla automáticamente",
+                    "polling_interval": "Intervalo de sondeo (segundos)"
+                },
+                "title": "Reautenticar con tus credenciales de PetKit"
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "petkit_options": {
+                "data": {
+                    "region": "Selecciona el país asociado con tu cuenta",
+                    "timezone": "Selecciona una zona horaria manualmente o intenta configurarla automáticamente",
+                    "polling_interval": "Intervalo de sondeo (segundos)"
+                }
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "water_level": {
+                "name": "Nivel de agua"
+            },
+            "food_level": {
+                "name": "Nivel de comida"
+            },
+            "battery_installed": {
+                "name": "Batería instalada"
+            },
+            "battery": {
+                "name": "Batería"
+            },
+            "wastebin": {
+                "name": "Papelera"
+            },
+            "litter": {
+                "name": "Arena"
+            },
+            "deodorizer": {
+                "name": "Desodorizante"
+            },
+            "manually_paused": {
+                "name": "Pausado manualmente"
+            },
+            "pura_air_liquid": {
+                "name": "Líquido Pura Air"
+            },
+            "food_level_hopper_one": {
+                "name": "Nivel de comida tolva 1"
+            },
+            "food_level_hopper_two": {
+                "name": "Nivel de comida tolva 2"
+            }
+        },
+        "button": {
+            "reset_filter": {
+                "name": "Restablecer filtro"
+            },
+            "reset_desiccant": {
+                "name": "Restablecer desecante"
+            },
+            "cancel_manual_feed": {
+                "name": "Cancelar alimentación manual"
+            },
+            "call_pet": {
+                "name": "Llamar mascota"
+            },
+            "start_cleaning": {
+                "name": "Iniciar/Reanudar limpieza"
+            },
+            "pause_cleaning": {
+                "name": "Pausar limpieza"
+            },
+            "odor_removal": {
+                "name": "Eliminación de olores"
+            },
+            "reset_deodorizer": {
+                "name": "Restablecer desodorizante"
+            },
+            "reset_pura_air_liquid": {
+                "name": "Restablecer líquido Pura Air"
+            },
+            "n50_reset": {
+                "name": "Restablecer eliminador de olores N50"
+            },
+            "light_on": {
+                "name": "Encender luz"
+            },
+            "start_maintenance": {
+                "name": "Iniciar modo mantenimiento"
+            },
+            "exit_maintenance": {
+                "name": "Salir del modo mantenimiento"
+            },
+            "pause_exit_maintenance": {
+                "name": "Pausar salida del modo mantenimiento"
+            },
+            "resume_exit_maintenance": {
+                "name": "Reanudar salida del modo mantenimiento"
+            },
+            "dump_litter": {
+                "name": "Vaciar arena"
+            },
+            "pause_dump_litter": {
+                "name": "Pausar vaciado de arena"
+            },
+            "resume_dump_litter": {
+                "name": "Reanudar vaciado de arena"
+            },
+            "food_replenished": {
+                "name": "Comida reabastecida"
+            },
+            "start_cal": {
+                "name": "Iniciar calibración"
+            },
+            "stop_cal": {
+                "name": "Detener calibración"
+            }
+        },
+        "fan": {
+            "purifier": {
+                "name": "Purificador",
+                "state_attributes": {
+                    "preset_mode": {
+                        "state": {
+                            "auto": "Automático",
+                            "silent": "Silencioso",
+                            "standard": "Estándar",
+                            "strong": "Fuerte"
+                        }
+                    }
+                }
+            }
+        },
+        "number": {
+            "set_weight": {
+                "name": "Establecer peso"
+            },
+            "surplus": {
+                "name": "Excedente"
+            },
+            "volume": {
+                "name": "Volumen"
+            },
+            "manual_feed": {
+                "name": "Alimentación manual"
+            },
+            "cleaning_delay": {
+                "name": "Retraso de limpieza"
+            },
+            "min_eating_duration": {
+                "name": "Duración mínima de alimentación"
+            }
+        },
+        "select": {
+            "light_brightness": {
+                "name": "Brillo de luz",
+                "state": {
+                    "low": "Bajo",
+                    "medium": "Medio",
+                    "high": "Alto"
+                }
+            },
+            "mode": {
+                "name": "Modo",
+                "state": {
+                    "normal": "Normal",
+                    "smart": "Inteligente"
+                }
+            },
+            "manual_feed": {
+                "name": "Alimentación manual"
+            },
+            "sound": {
+                "name": "Sonido"
+            },
+            "cleaning_interval": {
+                "name": "Intervalo de limpieza"
+            },
+            "litter_type": {
+                "name": "Tipo de arena",
+                "state": {
+                    "bentonite": "Bentonita",
+                    "tofu": "Tofu",
+                    "mixed": "Mixta"
+                }
+            }
+        },
+        "sensor": {
+            "energy_usage": {
+                "name": "Uso de energía"
+            },
+            "last_data_update": {
+                "name": "Última actualización de datos"
+            },
+            "filter": {
+                "name": "Filtro"
+            },
+            "purified_water_today": {
+                "name": "Agua purificada hoy"
+            },
+            "feeder_status": {
+                "name": "Estado",
+                "state": {
+                    "offline": "Desconectado",
+                    "normal": "Normal",
+                    "on_batteries": "Con baterías"
+                }
+            },
+            "desiccant_days_remaining": {
+                "name": "Días restantes del desecante"
+            },
+            "battery_status": {
+                "name": "Estado de la batería",
+                "state": {
+                    "normal": "Normal",
+                    "low": "Baja"
+                }
+            },
+            "dispensed": {
+                "name": "Dispensado"
+            },
+            "planned": {
+                "name": "Planificado"
+            },
+            "planned_dispensed": {
+                "name": "Planificado dispensado"
+            },
+            "manually_dispensed": {
+                "name": "Dispensado manualmente"
+            },
+            "times_dispensed": {
+                "name": "Veces dispensado"
+            },
+            "rssi": {
+                "name": "RSSI"
+            },
+            "amount_eaten": {
+                "name": "Cantidad comida"
+            },
+            "times_eaten": {
+                "name": "Veces comido"
+            },
+            "food_in_bowl": {
+                "name": "Comida en el plato"
+            },
+            "error": {
+                "name": "Error",
+                "state": {
+                    "no_error": "Sin error"
+                }
+            },
+            "deodorizer_level": {
+                "name": "Nivel de desodorizante"
+            },
+            "litter_level": {
+                "name": "Nivel de arena"
+            },
+            "litter_weight": {
+                "name": "Peso de la arena"
+            },
+            "times_used": {
+                "name": "Veces usado"
+            },
+            "average_use": {
+                "name": "Uso promedio"
+            },
+            "total_use": {
+                "name": "Uso total"
+            },
+            "last_used_by": {
+                "name": "Último uso por",
+                "state": {
+                    "no_record_yet": "Sin registro aún",
+                    "unknown_pet": "Mascota desconocida"
+                }
+            },
+            "last_event": {
+                "name": "Último evento",
+                "state": {
+                    "no_events_yet": "Sin eventos aún",
+                    "event_type_unknown": "Tipo de evento desconocido",
+                    "cleaning_completed": "Limpieza completada",
+                    "dumping_over": "Vaciado terminado",
+                    "reset_over": "Restablecimiento terminado",
+                    "spray_over": "Rociado terminado",
+                    "pet_out": "Mascota fuera",
+                    "auto_cleaning_completed": "Limpieza automática completada",
+                    "periodic_cleaning_completed": "Limpieza periódica completada",
+                    "manual_cleaning_completed": "Limpieza manual completada",
+                    "auto_cleaning_terminated": "Limpieza automática terminada",
+                    "periodic_cleaning_terminated": "Limpieza periódica terminada",
+                    "manual_cleaning_terminated": "Limpieza manual terminada",
+                    "auto_cleaning_failed_full": "La limpieza automática falló, la papelera está llena, por favor vacíela pronto",
+                    "auto_cleaning_failed_hall_l": "Fallo en la limpieza automática, el cilindro no está correctamente bloqueado, por favor revise",
+                    "auto_cleaning_failed_hall_t": "Fallo en la limpieza automática, la cubierta superior no está colocada correctamente, por favor revise",
+                    "scheduled_cleaning_failed_full": "La limpieza programada falló, la papelera está llena, por favor vacíela pronto",
+                    "scheduled_cleaning_failed_hall_l": "Fallo en la limpieza programada, el cilindro no está correctamente bloqueado, por favor revise",
+                    "scheduled_cleaning_failed_hall_t": "Fallo en la limpieza programada, la cubierta superior no está colocada correctamente, por favor revise",
+                    "manual_cleaning_failed_full": "La limpieza manual falló, la papelera está llena, por favor vacíela pronto",
+                    "manual_cleaning_failed_hall_l": "Fallo en la limpieza manual, el cilindro no está correctamente bloqueado, por favor revise",
+                    "manual_cleaning_failed_hall_t": "Fallo en la limpieza manual, la cubierta superior no está colocada correctamente, por favor revise",
+                    "auto_cleaning_canceled": "Limpieza automática cancelada, dispositivo en operación",
+                    "periodic_cleaning_canceled": "Limpieza periódica cancelada, dispositivo en operación",
+                    "manual_cleaning_canceled": "Limpieza manual cancelada, dispositivo en operación",
+                    "auto_cleaning_canceled_kitten": "El modo gatito está activado, limpieza automática cancelada",
+                    "periodic_cleaning_canceled_kitten": "El modo gatito está activado, limpieza periódica cancelada",
+                    "litter_empty_completed": "Vaciado de arena completado",
+                    "litter_empty_terminated": "Vaciado de arena terminado",
+                    "litter_empty_failed_full": "Vaciado de arena fallido, la papelera está llena, por favor vacíela pronto",
+                    "litter_empty_failed_hall_l": "Fallo en el vaciado de arena, el cilindro no está correctamente bloqueado, por favor revise",
+                    "litter_empty_failed_hall_t": "Fallo en el vaciado de arena, la cubierta no está colocada correctamente, por favor revise",
+                    "reset_completed": "Restablecimiento del dispositivo completado",
+                    "reset_terminated": "Restablecimiento del dispositivo terminado",
+                    "reset_failed_full": "Restablecimiento fallido, la papelera está llena, por favor vacíela pronto",
+                    "reset_failed_hall_l": "Fallo en el restablecimiento, el cilindro no está correctamente bloqueado, por favor revise",
+                    "reset_failed_hall_t": "Fallo en el restablecimiento, la cubierta no está colocada correctamente, por favor revise",
+                    "deodorant_finished": "Desodorante terminado",
+                    "periodic_odor_completed": "Eliminación periódica de olores completada",
+                    "manual_odor_completed": "Eliminación manual de olores completada",
+                    "deodorant_finished_liquid_lack": "Desodorante terminado, líquido purificador insuficiente, por favor rellene pronto",
+                    "periodic_odor_completed_liquid_lack": "Eliminación periódica de olores completada, líquido purificador insuficiente, por favor rellene pronto",
+                    "manual_odor_completed_liquid_lack": "Eliminación manual de olores completada, líquido purificador insuficiente, por favor rellene pronto",
+                    "auto_odor_failed": "La eliminación automática de olores falló, error en el eliminador de olores",
+                    "periodic_odor_failed": "Fallo en la eliminación periódica de olores, mal funcionamiento del eliminador de olores",
+                    "manual_odor_failed": "Fallo en la eliminación manual de olores, mal funcionamiento del eliminador de olores"
+                },
+                "state_attributes": {
+                    "sub_events": {
+                        "state": {
+                            "no_events_yet": "Sin eventos aún",
+                            "event_type_unknown": "Tipo de evento desconocido",
+                            "cleaning_completed": "Limpieza completada",
+                            "dumping_over": "Vaciado terminado",
+                            "reset_over": "Restablecimiento terminado",
+                            "spray_over": "Rociado terminado",
+                            "pet_out": "Mascota fuera",
+                            "auto_cleaning_completed": "Limpieza automática completada",
+                            "periodic_cleaning_completed": "Limpieza periódica completada",
+                            "manual_cleaning_completed": "Limpieza manual completada",
+                            "auto_cleaning_terminated": "Limpieza automática terminada",
+                            "periodic_cleaning_terminated": "Limpieza periódica terminada",
+                            "manual_cleaning_terminated": "Limpieza manual terminada",
+                            "auto_cleaning_failed_full": "La limpieza automática falló, la papelera está llena, por favor vacíela pronto",
+                            "auto_cleaning_failed_hall_l": "Fallo en la limpieza automática, el cilindro no está correctamente bloqueado, por favor revise",
+                            "auto_cleaning_failed_hall_t": "Fallo en la limpieza automática, la cubierta superior no está colocada correctamente, por favor revise",
+                            "scheduled_cleaning_failed_full": "La limpieza programada falló, la papelera está llena, por favor vacíela pronto",
+                            "scheduled_cleaning_failed_hall_l": "Fallo en la limpieza programada, el cilindro no está correctamente bloqueado, por favor revise",
+                            "scheduled_cleaning_failed_hall_t": "Fallo en la limpieza programada, la cubierta superior no está colocada correctamente, por favor revise",
+                            "manual_cleaning_failed_full": "La limpieza manual falló, la papelera está llena, por favor vacíela pronto",
+                            "manual_cleaning_failed_hall_l": "Fallo en la limpieza manual, el cilindro no está correctamente bloqueado, por favor revise",
+                            "manual_cleaning_failed_hall_t": "Fallo en la limpieza manual, la cubierta superior no está colocada correctamente, por favor revise",
+                            "auto_cleaning_canceled": "Limpieza automática cancelada, dispositivo en operación",
+                            "periodic_cleaning_canceled": "Limpieza periódica cancelada, dispositivo en operación",
+                            "manual_cleaning_canceled": "Limpieza manual cancelada, dispositivo en operación",
+                            "auto_cleaning_failed_maintenance": "La limpieza automática falló, el dispositivo está en modo mantenimiento",
+                            "periodic_cleaning_failed_maintenance": "La limpieza periódica falló, el dispositivo está en modo mantenimiento",
+                            "auto_cleaning_canceled_kitten": "El modo gatito está activado, limpieza automática cancelada",
+                            "periodic_cleaning_canceled_kitten": "El modo gatito está activado, limpieza periódica cancelada",
+                            "no_sub_events": "Sin eventos asociados"
+                        }
+                    }
+                }
+            },
+            "latest_weight": {
+                "name": "Último peso"
+            },
+            "last_use_duration": {
+                "name": "Duración del último uso"
+            },
+            "pura_air_battery": {
+                "name": "Batería Pura Air"
+            },
+            "pura_air_liquid": {
+                "name": "Líquido Pura Air"
+            },
+            "n50_odor_eliminator": {
+                "name": "Eliminador de olores N50"
+            },
+            "max_last_event": {
+                "name": "Último evento",
+                "state": {
+                    "no_events_yet": "Sin eventos aún",
+                    "event_type_unknown": "Tipo de evento desconocido",
+                    "cleaning_completed": "Limpieza completada",
+                    "dumping_over": "Vaciado terminado",
+                    "reset_over": "Restablecimiento terminado",
+                    "spray_over": "Rociado terminado",
+                    "light_over": "Luz apagada",
+                    "pet_out": "Mascota fuera",
+                    "auto_cleaning_completed": "Limpieza automática completada",
+                    "periodic_cleaning_completed": "Limpieza periódica completada",
+                    "manual_cleaning_completed": "Limpieza manual completada",
+                    "auto_cleaning_terminated": "Limpieza automática terminada",
+                    "periodic_cleaning_terminated": "Limpieza periódica terminada",
+                    "manual_cleaning_terminated": "Limpieza manual terminada",
+                    "auto_cleaning_failed_full": "La limpieza automática falló, la papelera está llena, por favor vacíela pronto",
+                    "auto_cleaning_failed_hall_t": "Fallo en la limpieza automática, la cubierta superior no está colocada correctamente, por favor revise",
+                    "auto_cleaning_failed_falldown": "Fallo en la limpieza automática, el arenero se ha volcado, por favor revise",
+                    "auto_cleaning_failed_other": "Fallo en la limpieza automática, mal funcionamiento del dispositivo, por favor revise",
+                    "maintenance_mode": "Modo mantenimiento",
+                    "light_on": "La luz está ENCENDIDA",
+                    "light_already_on": "La luz ya está encendida. No es necesario volver a encenderla.",
+                    "light_malfunc": "Fallo al encender la luz. Mal funcionamiento del dispositivo, por favor revise.",
+                    "light_no_device": "Fallo al encender la luz. Por favor, vincule primero el dispositivo de eliminación de olores.",
+                    "light_batt_cap": "Fallo al encender la luz. Por favor, revise la capacidad de la batería del dispositivo de eliminación de olores.",
+                    "light_low_batt": "Fallo al encender la luz. Batería baja del dispositivo de eliminación de olores."
+                },
+                "state_attributes": {
+                    "sub_events": {
+                        "state": {
+                            "no_events_yet": "Sin eventos aún",
+                            "event_type_unknown": "Tipo de evento desconocido",
+                            "cleaning_completed": "Limpieza completada",
+                            "dumping_over": "Vaciado terminado",
+                            "reset_over": "Restablecimiento terminado",
+                            "spray_over": "Rociado terminado",
+                            "light_over": "Luz apagada",
+                            "pet_out": "Mascota fuera",
+                            "no_sub_events": "Sin eventos asociados"
+                        }
+                    }
+                }
+            },
+            "max_work_state": {
+                "name": "Estado",
+                "state": {
+                    "cleaning_litter_box": "Limpiando arenero",
+                    "cleaning_litter_box_paused": "Limpieza de arenero pausada",
+                    "cleaning_paused_pet_entered": "Limpieza de arenero pausada: Mascota entró durante la operación, sensores anti-pellizco activados, dispositivo detenido. Por favor revise el dispositivo lo antes posible.",
+                    "cleaning_paused_system_error": "Limpieza de arenero pausada: Error del sistema, operación pausada",
+                    "cleaning_paused_pet_approach": "Limpieza de arenero pausada: Su gato se está acercando, operación pausada",
+                    "cleaning_paused_pet_using": "Limpieza de arenero pausada: Su gato está usando el dispositivo, operación pausada",
+                    "resetting_device": "Restableciendo dispositivo",
+                    "litter_box_paused": "Arenero pausado",
+                    "idle": "Inactivo"
+                }
+            },
+            "avg_eating_time": {
+                "name": "Tiempo promedio de alimentación"
+            },
+            "manually_dispensed_hopp_one": {
+                "name": "Dispensado manual tolva 1"
+            },
+            "manually_dispensed_hopp_two": {
+                "name": "Dispensado manual tolva 2"
+            },
+            "planned_hopp_one": {
+                "name": "Planificado tolva 1"
+            },
+            "planned_hopp_two": {
+                "name": "Planificado tolva 2"
+            },
+            "dispensed_hopp_one": {
+                "name": "Dispensado tolva 1"
+            },
+            "dispensed_hopp_two": {
+                "name": "Dispensado tolva 2"
+            },
+            "humidity": {
+                "name": "Humedad"
+            },
+            "temperature": {
+                "name": "Temperatura"
+            },
+            "air_purified": {
+                "name": "Aire purificado"
+            },
+            "liquid": {
+                "name": "Líquido"
+            },
+            "food_left": {
+                "name": "Comida restante"
+            }
+        },
+        "switch": {
+            "light": {
+                "name": "Luz"
+            },
+            "power": {
+                "name": "Energía"
+            },
+            "do_not_disturb": {
+                "name": "No molestar"
+            },
+            "indicator_light": {
+                "name": "Luz indicadora"
+            },
+            "child_lock": {
+                "name": "Bloqueo infantil"
+            },
+            "food_shortage_alarm": {
+                "name": "Alarma de escasez de comida"
+            },
+            "dispense_tone": {
+                "name": "Tono de dispensación"
+            },
+            "voice_with_dispense": {
+                "name": "Voz con dispensación"
+            },
+            "surplus_control": {
+                "name": "Control de excedente"
+            },
+            "system_notification_sound": {
+                "name": "Sonido de notificación del sistema"
+            },
+            "auto_odor_removal": {
+                "name": "Eliminación automática de olores"
+            },
+            "auto_cleaning": {
+                "name": "Limpieza automática"
+            },
+            "avoid_repeat_cleaning": {
+                "name": "Evitar limpieza repetida"
+            },
+            "periodic_cleaning": {
+                "name": "Limpieza periódica"
+            },
+            "periodic_odor_removal": {
+                "name": "Eliminación periódica de olores"
+            },
+            "kitten_mode": {
+                "name": "Modo gatito"
+            },
+            "display": {
+                "name": "Pantalla"
+            },
+            "light_weight_cleaning_disabled": {
+                "name": "Limpieza de peso ligero desactivada"
+            },
+            "cont_rotation": {
+                "name": "Rotación continua"
+            },
+            "deep_cleaning": {
+                "name": "Limpieza profunda"
+            },
+            "deep_deodor": {
+                "name": "Desodorización profunda"
+            },
+            "prompt_tone": {
+                "name": "Tono de aviso"
+            }
+        },
+        "text": {
+            "manual_feed": {
+                "name": "Alimentación manual"
+            }
+        }
+    }
+}
