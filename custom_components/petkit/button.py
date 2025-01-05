@@ -43,7 +43,7 @@ async def async_setup_entry(
 
     for wf_id, wf_data in coordinator.data.water_fountains.items():
         # Water Fountains (W5)
-        if wf_data.ble_relay:
+        if wf_data.ble_relay and coordinator.client.use_ble_relay:
             buttons.append(
                 WFResetFilter(coordinator, wf_id)
             )
