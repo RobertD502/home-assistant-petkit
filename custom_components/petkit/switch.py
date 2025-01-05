@@ -85,7 +85,8 @@ async def async_setup_entry(
         if lb_data.type == 't4':
             switches.extend((
                 LBContRotation(coordinator, lb_id),
-                LBDeepCleaning(coordinator, lb_id)
+                LBDeepCleaning(coordinator, lb_id),
+                LBEnhancedAdsorption(coordinator, lb_id)
             ))
             # Pura MAX with Pura Air
             if 'k3Device' in lb_data.device_detail:
@@ -2637,5 +2638,94 @@ class PurifierTone(CoordinatorEntity, SwitchEntity):
         await self.coordinator.client.update_purifier_settings(self.purifier_data, PurifierSetting.SOUND, 0)
 
         self.purifier_data.device_detail['settings']['sound'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LBEnhancedAdsorption(CoordinatorEntity, SwitchEntity):
+    """Representation of litter box enhanced adsorption setting."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + '_enhanced_adsorption'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "enhanced_adsorption"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:water-circle'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if enhanced adsorption is on."""
+
+        return self.lb_data.device_detail['settings']['bury'] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn enhanced adsorption on."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.ENHANCED_ADSORPTION, 1)
+
+        self.lb_data.device_detail['settings']['bury'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn enhanced adsorption off."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.ENHANCED_ADSORPTION, 0)
+
+        self.lb_data.device_detail['settings']['bury'] = 0
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()
