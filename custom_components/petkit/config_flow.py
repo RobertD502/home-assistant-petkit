@@ -4,17 +4,36 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from petkitaio.exceptions import AuthError, PetKitError, RegionError, ServerError, TimezoneError
+from petkitaio.exceptions import (
+    AuthError,
+    PetKitError,
+    RegionError,
+    ServerError,
+    TimezoneError,
+)
 import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
-from homeassistant.helpers import selector
 import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers.selector import (
+    BooleanSelector,
+    BooleanSelectorConfig,
+    SelectSelector,
+    SelectSelectorConfig,
+)
 
-from .const import DEFAULT_NAME, DOMAIN, POLLING_INTERVAL, REGION, REGIONS_LIST, TIMEZONE
+from .const import (
+    DEFAULT_NAME,
+    DOMAIN,
+    POLLING_INTERVAL,
+    REGION,
+    REGIONS_LIST,
+    TIMEZONE,
+    USE_BLE_RELAY,
+)
 from .timezones import TIMEZONES
 from .util import NoDevicesError, async_validate_api
 
@@ -23,21 +42,46 @@ DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_EMAIL): cv.string,
         vol.Required(CONF_PASSWORD): cv.string,
-        vol.Required(REGION): selector.SelectSelector(
-            selector.SelectSelectorConfig(options=REGIONS_LIST),
+        vol.Required(REGION): SelectSelector(
+            SelectSelectorConfig(options=REGIONS_LIST),
         ),
-        vol.Required(TIMEZONE): selector.SelectSelector(
-            selector.SelectSelectorConfig(options=TIMEZONES),
-        )
-        
+        vol.Required(TIMEZONE): SelectSelector(
+            SelectSelectorConfig(options=TIMEZONES),
+        ),
+        vol.Required(USE_BLE_RELAY, default=True): BooleanSelector(
+            BooleanSelectorConfig(),
+        ),
     }
 )
+
+def reauth_schema(
+    def_email: str | vol.UNDEFINED = vol.UNDEFINED,
+    def_password: str | vol.UNDEFINED = vol.UNDEFINED,
+    def_region: str | vol.UNDEFINED = vol.UNDEFINED,
+    def_timezone: str | vol.UNDEFINED = vol.UNDEFINED,
+    def_use_ble_relay: bool | vol.UNDEFINED = True
+) -> dict[vol.Marker, Any]:
+    """Return schema for reauth flow with optional default value."""
+
+    return {
+                vol.Required(CONF_EMAIL, default=def_email): cv.string,
+                vol.Required(CONF_PASSWORD, default=def_password): cv.string,
+                vol.Required(REGION, default=def_region): SelectSelector(
+                    SelectSelectorConfig(options=REGIONS_LIST),
+                ),
+                vol.Required(TIMEZONE, default=def_timezone): SelectSelector(
+                    SelectSelectorConfig(options=TIMEZONES),
+                ),
+                vol.Required(USE_BLE_RELAY, default=def_use_ble_relay): BooleanSelector(
+                    BooleanSelectorConfig()
+                ),
+    }
 
 
 class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for PetKit integration."""
 
-    VERSION = 5
+    VERSION = 6
 
     entry: config_entries.ConfigEntry | None
 
@@ -47,7 +91,7 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         config_entry: config_entries.ConfigEntry,
     ) -> PetKitOptionsFlowHandler:
         """Get the options flow for this handler."""
-        return PetKitOptionsFlowHandler(config_entry)
+        return PetKitOptionsFlowHandler()
 
     async def async_step_reauth(self, entry_data: Mapping[str, Any]) -> FlowResult:
         """Handle re-authentication with PetKit."""
@@ -61,15 +105,22 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Confirm re-authentication with PetKit."""
 
         errors: dict[str, str] = {}
-
         if user_input:
             email = user_input[CONF_EMAIL]
             password = user_input[CONF_PASSWORD]
             region = user_input[REGION] if REGION else None
             timezone = user_input[TIMEZONE]
+            use_ble_relay = user_input[USE_BLE_RELAY] if USE_BLE_RELAY in user_input else True
 
             try:
-                await async_validate_api(self.hass, email, password, region, timezone)
+                await async_validate_api(
+                    self.hass,
+                    email,
+                    password,
+                    region,
+                    timezone,
+                    use_ble_relay
+                )
             except RegionError:
                 errors["base"] = "region_error"
             except TimezoneError:
@@ -98,6 +149,7 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         REGION: region,
                         TIMEZONE: timezone,
                         POLLING_INTERVAL: self.entry.options[POLLING_INTERVAL],
+                        USE_BLE_RELAY: use_ble_relay
                     }
                 )
 
@@ -106,7 +158,15 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="reauth_confirm",
-            data_schema=DATA_SCHEMA,
+            data_schema=vol.Schema(
+                reauth_schema(
+                    self.entry.data[CONF_EMAIL],
+                    self.entry.data[CONF_PASSWORD],
+                    self.entry.options[REGION],
+                    self.entry.options[TIMEZONE],
+                    self.entry.options[USE_BLE_RELAY]
+                )
+            ),
             errors=errors,
         )
 
@@ -122,9 +182,17 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             password = user_input[CONF_PASSWORD]
             region = user_input[REGION] if REGION else None
             timezone = user_input[TIMEZONE]
+            use_ble_relay = user_input[USE_BLE_RELAY] if USE_BLE_RELAY in user_input else True
 
             try:
-                await async_validate_api(self.hass, email, password, region, timezone)
+                await async_validate_api(
+                    self.hass,
+                    email,
+                    password,
+                    region,
+                    timezone,
+                    use_ble_relay
+                )
             except RegionError:
                 errors["base"] = "region_error"
             except TimezoneError:
@@ -153,6 +221,7 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         REGION: region,
                         TIMEZONE: timezone,
                         POLLING_INTERVAL: 120,
+                        USE_BLE_RELAY: use_ble_relay,
                     }
                 )
 
@@ -165,10 +234,6 @@ class PetKitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 class PetKitOptionsFlowHandler(config_entries.OptionsFlow):
     """ Handle PetKit integration options. """
-
-    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
-        """Initialize options flow."""
-        self.config_entry = config_entry
 
     async def async_step_init(self, user_input=None):
         """ Manage options. """
@@ -185,16 +250,16 @@ class PetKitOptionsFlowHandler(config_entries.OptionsFlow):
                 default=self.config_entry.options.get(
                     REGION, None
                 ),
-            ): selector.SelectSelector(
-                    selector.SelectSelectorConfig(options=REGIONS_LIST)
+            ): SelectSelector(
+                   SelectSelectorConfig(options=REGIONS_LIST)
             ),
             vol.Required(
                 TIMEZONE,
                 default=self.config_entry.options.get(
                     TIMEZONE, "Set Automatically"
                 ),
-            ): selector.SelectSelector(
-                    selector.SelectSelectorConfig(options=TIMEZONES)
+            ): SelectSelector(
+                   SelectSelectorConfig(options=TIMEZONES)
             ),
             vol.Required(
                 POLLING_INTERVAL,
@@ -202,6 +267,14 @@ class PetKitOptionsFlowHandler(config_entries.OptionsFlow):
                     POLLING_INTERVAL, 120
                 ),
             ): int,
+            vol.Required(
+                USE_BLE_RELAY,
+                default=self.config_entry.options.get(
+                    USE_BLE_RELAY, True
+                ),
+            ): BooleanSelector(
+                   BooleanSelectorConfig()
+            ),
         }
 
         return self.async_show_form(step_id="petkit_options", data_schema=vol.Schema(options))
