@@ -13,7 +13,14 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import LOGGER, PETKIT_ERRORS, TIMEOUT
 
 
-async def async_validate_api(hass: HomeAssistant, email: str, password: str, region: str, timezone: str, use_ble_relay: bool) -> bool:
+async def async_validate_api(
+    hass: HomeAssistant,
+    email: str,
+    password: str,
+    region: str,
+    timezone: str,
+    use_ble_relay: bool
+) -> bool:
     """Get data from API."""
 
     if timezone == "Set Automatically":
