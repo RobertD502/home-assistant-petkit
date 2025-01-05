@@ -8,6 +8,7 @@ from typing import Any
 from petkitaio.model import Feeder, LitterBox, Pet, Purifier, W5Fountain
 
 from homeassistant.components.sensor import (
+    RestoreSensor,
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
@@ -25,7 +26,6 @@ from homeassistant.const import(
 from homeassistant.core import callback, HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -2231,7 +2231,7 @@ class LBLastEvent(CoordinatorEntity, SensorEntity):
             event_list.append(description)
         return event_list
 
-class PetRecentWeight(CoordinatorEntity, SensorEntity, RestoreEntity):
+class PetRecentWeight(CoordinatorEntity, RestoreSensor):
     """Representation of most recent weight measured by litter box."""
 
     def __init__(self, coordinator, pet_id):
@@ -2334,8 +2334,8 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity, RestoreEntity):
 
         await super().async_added_to_hass()
 
-        if last_state := await self.async_get_last_state():
-            self._attr_native_value = last_state.state
+        if last_state := await self.async_get_last_sensor_data():
+            self._attr_native_value = last_state.native_value
         else:
             # If user is setting up the integration when there is no weight yet
             # for the current day, return 0.0
@@ -2361,7 +2361,7 @@ class PetRecentWeight(CoordinatorEntity, SensorEntity, RestoreEntity):
         return sorted_dict
 
 
-class PetLastUseDuration(CoordinatorEntity, SensorEntity, RestoreEntity):
+class PetLastUseDuration(CoordinatorEntity, RestoreSensor):
     """Representation of most recent litter box use duration."""
 
     def __init__(self, coordinator, pet_id):
@@ -2457,8 +2457,8 @@ class PetLastUseDuration(CoordinatorEntity, SensorEntity, RestoreEntity):
 
         await super().async_added_to_hass()
 
-        if last_state := await self.async_get_last_state():
-            self._attr_native_value = last_state.state
+        if last_state := await self.async_get_last_sensor_data():
+            self._attr_native_value = last_state.native_value
         else:
             # If user is setting up the integration when there is no duration yet
             # for the current day, return 0
