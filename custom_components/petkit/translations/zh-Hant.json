@@ -20,7 +20,8 @@
           "password": "PetKit 帳戶密碼",
           "region": "請選擇與帳戶相關聯的區域",
           "timezone": "手動設定時區或自動偵測時區",
-          "polling_interval": "更新資料間隔 (秒)"
+          "polling_interval": "更新資料間隔 (秒)",
+          "use_ble_relay": "如果可用，請使用 PetKit BLE 中繼器"
         },
         "title": "請輸入 PetKit 帳戶資訊"
       },
@@ -30,7 +31,8 @@
           "password": "PetKit 帳戶密碼",
           "region": "請選擇與帳戶相關聯的區域",
           "timezone": "手動設定時區或自動偵測時區",
-          "polling_interval": "更新資料間隔 (秒)"
+          "polling_interval": "更新資料間隔 (秒)",
+          "use_ble_relay": "如果可用，請使用 PetKit BLE 中繼器"
         },
         "title": "請重新輸入 PetKit 帳戶資訊"
       }
@@ -42,7 +44,8 @@
         "data": {
           "region": "請選擇與帳戶相關聯的區域",
           "timezone": "手動設定時區或自動偵測時區",
-          "polling_interval": "更新資料間隔 (秒)"
+          "polling_interval": "更新資料間隔 (秒)",
+          "use_ble_relay": "如果可用，請使用 PetKit BLE 中繼器"
         }
       }
     }
@@ -735,6 +738,9 @@
       },
       "prompt_tone": {
         "name": "操作提示音"
+      },
+      "enhanced_adsorption": {
+        "name": "增強吸附"
       }
     },
     "text": {
