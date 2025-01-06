@@ -1,0 +1,752 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Konto PetKit jest już skonfigurowane",
+            "reauth_successful": "Ponowne uwierzytelnienie zakończone pomyślnie"
+        },
+        "error": {
+            "cannot_connect": "Nie udało się połaczyć",
+            "invalid_auth": "Niepoprawne uwierzytelnienie. Sprawdź dane logowania.",
+            "no_devices": "Nie znaleziono skonfigurowanych urządzeń.",
+            "server_busy": "Serwery PetKit nie odpowiadają. Spróbuj ponownie później.",
+            "petkit_error": "Wystąpił nieznany błąd. Sprawdź logi Home Assistanta aby uzyskać więcej informacji.",
+            "region_error": "Wybierz kraj powiązany z Twoim kontem.",
+            "timezone_error": "Nie można ustalić strefy czasowej. Jeśli używasz Home Assistanta w kontenerze Docker, musisz ustawić zmienną środowiskową TZ. Jeśli zmienna TZ jest skonfigurowana, lub korzystasz z instancji Home Assistant OS, Twoja strefa czasowa nie została znaleziona w bibliotece tzlocal - wybierz strefę ręcznie przy konfiguracji konta."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "Adres email konta PetKit",
+                    "password": "Hasło do konta PetKit",
+                    "region": "Wybierz kraj powiązany z Twoim kontem",
+                    "timezone": "Wybierz strefę czasową, lub spróbuj autokonfiguracji",
+                    "polling_interval": "Czas pomiędzy zapytaniami (sekund)",
+                    "use_ble_relay": "Użyj przekaźnika PetKit BLE (jeśli dostępny)"
+                },
+                "title": "Podaj dane logowania do konta PetKit"
+            },
+            "reauth_confirm": {
+                "data": {
+                    "email": "Adres email konta PetKit",
+                    "password": "Hasło do konta PetKit",
+                    "region": "Wybierz kraj powiązany z Twoim kontem",
+                    "timezone": "Wybierz strefę czasową, lub spróbuj autokonfiguracji",
+                    "polling_interval": "Czas pomiędzy zapytaniami (sekund)",
+                    "use_ble_relay": "Użyj przekaźnika PetKit BLE (jeśli dostępny)"
+                },
+                "title": "Ponownie uwierzytelnij konto PetKit"
+            }
+        }
+    },
+    "options": {
+      "step": {
+        "petkit_options": {
+          "data": {
+            "region": "Wybierz kraj powiązany z Twoim kontem",
+            "timezone": "Wybierz strefę czasową, lub spróbuj autokonfiguracji",
+            "polling_interval": "Czas pomiędzy zapytaniami (sekund)",
+            "use_ble_relay": "Użyj przekaźnika PetKit BLE (jeśli dostępny)"
+          }
+        }
+      }
+    },
+    "entity": {
+      "binary_sensor": {
+        "water_level": {
+          "name": "Poziom wody"
+        },
+        "food_level": {
+          "name": "Poziom karmy"
+        },
+        "battery_installed": {
+          "name": "Bateria zainstalowana"
+        },
+        "battery": {
+          "name": "Bateria"
+        },
+        "wastebin": {
+          "name": "Zbiornik na odpady"
+        },
+        "litter": {
+          "name": "Żwirek"
+        },
+        "deodorizer": {
+          "name": "Odświeżacz"
+        },
+        "manually_paused": {
+          "name": "Ręcznie wstrzymana"
+        },
+        "pura_air_liquid": {
+          "name": "Płyn odświeżacza"
+        },
+        "food_level_hopper_one": {
+          "name": "Poziom karmy w podajniku 1"
+        },
+        "food_level_hopper_two": {
+          "name": "Poziom karmy w podajniku 2"
+        }
+      },
+      "button": {
+        "reset_filter": {
+          "name": "Wymień filtr"
+        },
+        "reset_desiccant": {
+          "name": "Wymień osuszacz"
+        },
+        "cancel_manual_feed": {
+          "name": "Anuluj karmienie ręczne"
+        },
+        "call_pet": {
+          "name": "Przywołaj zwierzę"
+        },
+        "start_cleaning": {
+          "name": "Rozpocznij/wznów sprzątanie"
+        },
+        "pause_cleaning": {
+          "name": "Wstrzymaj sprzątanie"
+        },
+        "odor_removal": {
+          "name": "Odświeżanie"
+        },
+        "reset_deodorizer": {
+          "name": "Zresetuj odświeżacz"
+        },
+        "reset_pura_air_liquid": {
+          "name": "Wymień płyn odświeżacza"
+        },
+        "n50_reset": {
+          "name": "Wymień pochłaniacz zapachu"
+        },
+        "light_on": {
+          "name": "Włącz podświetlenie"
+        },
+        "start_maintenance": {
+          "name": "Wejdź w tryb serwisowy"
+        },
+        "exit_maintenance": {
+          "name": "Opuść tryb serwisowy"
+        },
+        "pause_exit_maintenance": {
+          "name": "Wstrzmaj opuszczanie trybu serwisowego"
+        },
+        "resume_exit_maintenance": {
+          "name": "Wznów opuszczanie trybu serwisowego"
+        },
+        "dump_litter": {
+          "name": "Opróżnij kuwetę"
+        },
+        "pause_dump_litter": {
+          "name": "Wstrzymaj opróżnianie"
+        },
+        "resume_dump_litter": {
+          "name": "Wznów czyszczenie"
+        },
+        "food_replenished": {
+          "name": "Karma uzupełniona"
+        },
+        "start_cal": {
+          "name": "Rozpocznij kalibrację"
+        },
+        "stop_cal": {
+          "name": "Zatrzymaj kalibrację"
+        }
+      },
+      "fan": {
+        "purifier": {
+          "name": "Oczyszczacz",
+          "state_attributes": {
+            "preset_mode": {
+              "state": {
+                "auto": "Auto",
+                "silent": "Cichy",
+                "standard": "Standardowy",
+                "strong": "Mocny"
+              }
+            }
+          }
+        }
+      },
+      "number": {
+        "set_weight": {
+          "name": "Ustaw wagę"
+        },
+        "surplus": {
+          "name": "Nadmiar"
+        },
+        "volume": {
+          "name": "Objętność"
+        },
+        "manual_feed": {
+          "name": "Ręczne karmienie"
+        },
+        "cleaning_delay": {
+          "name": "Opóźnienie czyszczenia"
+        },
+        "min_eating_duration": {
+          "name": "Minimalny czas jedzenia"
+        }
+      },
+      "select": {
+        "light_brightness": {
+          "name": "Jasność",
+          "state": {
+            "low": "Niska",
+            "medium": "Średnia",
+            "high": "Wysoka"
+          }
+        },
+        "mode": {
+          "name": "Tryb",
+          "state": {
+            "normal": "Normalny",
+            "smart": "Smart"
+          }
+        },
+        "manual_feed": {
+          "name": "Ręczne karmienie"
+        },
+        "sound": {
+          "name": "Dźwięk"
+        },
+        "cleaning_interval": {
+          "name": "Interwał automatycznego czyszczenia"
+        },
+        "litter_type": {
+          "name": "Typ żwirku",
+          "state": {
+            "bentonite": "Betonitowy",
+            "tofu": "Tofu",
+            "mixed": "Mieszany"
+          }
+        }
+      },
+      "sensor": {
+        "energy_usage": {
+          "name": "Zużycie energii"
+        },
+        "last_data_update": {
+          "name": "Ostatnia aktualizacja danych"
+        },
+        "filter": {
+          "name": "Filtr"
+        },
+        "purified_water_today": {
+          "name": "Woda oczyszczona dzisiaj"
+        },
+        "feeder_status": {
+          "name": "Status",
+          "state": {
+            "offline": "Offline",
+            "normal": "Normalny",
+            "on_batteries": "Zasilanie bateryjne"
+          }
+        },
+        "desiccant_days_remaining": {
+          "name": "Dni do wymiany osuszacza"
+        },
+        "battery_status": {
+          "name": "Poziom baterii",
+          "state": {
+            "normal": "Normalny",
+            "low": "Niski"
+          }
+        },
+        "dispensed": {
+          "name": "Wydane"
+        },
+        "planned": {
+          "name": "Planowe"
+        },
+        "planned_dispensed": {
+          "name": "Planowo wydane"
+        },
+        "manually_dispensed": {
+          "name": "Ręcznie wydane"
+        },
+        "times_dispensed": {
+          "name": "Razy wydane"
+        },
+        "rssi": {
+          "name": "RSSI"
+        },
+        "amount_eaten": {
+          "name": "Ilość zjedzona"
+        },
+        "times_eaten": {
+          "name": "Razy zjedzone"
+        },
+        "food_in_bowl": {
+          "name": "Jedzenie w misce"
+        },
+        "error": {
+          "name": "Błąd",
+          "state": {
+            "no_error": "Brak błędu"
+          }
+        },
+        "deodorizer_level": {
+          "name": "Poziom odświeżacza"
+        },
+        "litter_level": {
+          "name": "Poziom żwirku"
+        },
+        "litter_weight": {
+          "name": "Waga żwirku"
+        },
+        "times_used": {
+          "name": "Ilość użyć"
+        },
+        "average_use": {
+          "name": "Średnia długosć użycia"
+        },
+        "total_use": {
+          "name": "Całkowita długość użycia"
+        },
+        "last_used_by": {
+          "name": "Ostatnio użyte przez",
+          "state": {
+            "no_record_yet": "Brak wpisu.",
+            "unknown_pet": "Nieznane zwierzę."
+          }
+        },
+        "last_event": {
+          "name": "Ostatnie zdarzenie",
+          "state": {
+            "no_events_yet": "Brak zdarzeń.",
+            "event_type_unknown": "Zdarzenie nieznane.",
+            "cleaning_completed": "Czyszczenie zakończone.",
+            "dumping_over": "Opróżnianie zakończone.",
+            "reset_over": "Resetowanie zakończone.",
+            "spray_over": "Odświeżanie zakończone.",
+            "pet_out": "Zwierzę wyszło.",
+            "auto_cleaning_completed": "Czyszczenie automatyczne zakończone.",
+            "periodic_cleaning_completed": "Czyszczenie okresowe zakończone.",
+            "manual_cleaning_completed": "Czyszczenie ręczne zakończone.",
+            "auto_cleaning_terminated": "Czyszczenie automatyczne przerwane.",
+            "periodic_cleaning_terminated": "Czyszczenie okresowe przerwane.",
+            "manual_cleaning_terminated": "Czyszczenie ręczne przerwane.",
+            "auto_cleaning_failed_full": "Czyszczenie automatyczne nie powiodło się: zbiornik na odpady jest pełny.",
+            "auto_cleaning_failed_hall_l": "Czyszczenie automatyczne nie powiodło się: cylinder nie jest prawidłowo zamontowany.",
+            "auto_cleaning_failed_hall_t": "Czyszczenie automatyczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "scheduled_cleaning_failed_full": "Czyszczenie planowe nie powiodło się: zbiornik na odpady jest pełny.",
+            "scheduled_cleaning_failed_hall_l": "Czyszczenie planowe nie powiodło się: cylinder nie jest prawidłowo zamontowany.",
+            "scheduled_cleaning_failed_hall_t": "Czyszczenie planowe nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "manual_cleaning_failed_full": "Czyszczenie ręczne nie powiodło się: zbiornik na odpady jest pełny.",
+            "manual_cleaning_failed_hall_l": "Czyszczenie ręczne nie powiodło się: cylinder nie jest prawidłowo zamontowany.",
+            "manual_cleaning_failed_hall_t": "Czyszczenie ręczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "auto_cleaning_canceled": "Czyszczenie automatyczne anulowane: kuweta jest w trakcie cyklu.",
+            "periodic_cleaning_canceled": "Czyszczenie okresowe anulowane: kuweta jest w trakcie cyklu.",
+            "manual_cleaning_canceled": "Czyszczenie ręczne anulowane: kuweta jest w trakcie cyklu.",
+            "auto_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie automatyczne anulowane.",
+            "periodic_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie okresowe anulowane.",
+            "litter_empty_completed": "Opróżnianie kuwety zakończone.",
+            "litter_empty_terminated": "Opróżnianie kuwety przerwane.",
+            "litter_empty_failed_full": "Opróżnianie kuwety nie powiodło się: zbiornik na odpady jest pełny.",
+            "litter_empty_failed_hall_l": "Opróżnianie kuwety nie powiodło się, cylinder nie jest prawidłowo zamontowany.",
+            "litter_empty_failed_hall_t": "Opróżnianie kuwety nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "reset_completed": "Reset urządzenia zakończony.",
+            "reset_terminated": "Reset urządzenia przerwany.",
+            "reset_failed_full": "Reset urządzenia nie powiódł się: zbiornik na odpady jest pełny.",
+            "reset_failed_hall_l": "Reset urządzenia nie powiódł się. cylinder nie jest prawidłowo zamontowany.",
+            "reset_failed_hall_t": "Reset urządzenia nie powiódł się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "deodorant_finished": "Odświeżanie zakończone.",
+            "periodic_odor_completed": "Odświeżanie okresowe zakończone.",
+            "manual_odor_completed": "Odświeżanie ręczne zakończone.",
+            "deodorant_finished_liquid_lack": "Odświeżanie zakończone: niski poziom płynu odświeżacza.",
+            "periodic_odor_completed_liquid_lack": "Odświeżanie okresowe zakończone: niski poziom płynu odświeżacza.",
+            "manual_odor_completed_liquid_lack": "Odświeżanie ręczne zakończone: niski poziom płynu odświeżacza.",
+            "auto_odor_failed": "Odświeżanie automatyczne nie powiodło się: błąd odświeżacza.",
+            "periodic_odor_failed": "Odświeżanie okresowe nie powiodło się: błąd odświeżacza.",
+            "manual_odor_failed": "Odświeżanie ręczne nie powiodło się: błąd odświeżacza."
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Brak zdarzeń.",
+                "event_type_unknown": "Nieznane zdarzenie.",
+                "cleaning_completed": "Czyszczenie zakończone.",
+                "dumping_over": "Opróżnianie zakończone.",
+                "reset_over": "Resetowanie zakończone.",
+                "spray_over": "Odświeżanie zakończone.",
+                "pet_out": "Zwierzę wyszło.",
+                "auto_cleaning_completed": "Czyszczenie automatyczne zakończone.",
+                "periodic_cleaning_completed": "Czyszczenie okresowe zakończone.",
+                "manual_cleaning_completed": "Czyszczenie ręczne zakończone.",
+                "auto_cleaning_terminated": "Czyszczenie automatyczne przerwane.",
+                "periodic_cleaning_terminated": "Czyszczenie okresowe przerwane.",
+                "manual_cleaning_terminated": "Czyszczenie ręczne przerwane.",
+                "auto_cleaning_failed_full": "Czyszczenie automatyczne nie powiodło się: zbiornik na odpady jest pełny.",
+                "auto_cleaning_failed_hall_l": "Czyszczenie automatyczne nie powiodło się: cylinder nie jest prawidłowo zamontowany.",
+                "auto_cleaning_failed_hall_t": "Czyszczenie automatyczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "scheduled_cleaning_failed_full": "Czyszczenie planowe nie powiodło się: zbiornik na odpady jest pełny.",
+                "scheduled_cleaning_failed_hall_l": "Czyszczenie planowe nie powiodło się: cylinder nie jest prawidłowo zamontowany.",
+                "scheduled_cleaning_failed_hall_t": "Czyszczenie planowe nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "manual_cleaning_failed_full": "Czyszczenie ręczne nie powiodło się: zbiornik na odpady jest pełny.",
+                "manual_cleaning_failed_hall_l": "Czyszczenie ręczne nie powiodło się: cylinder nie jest prawidłowo zamontowany.",
+                "manual_cleaning_failed_hall_t": "Czyszczenie ręczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "auto_cleaning_canceled": "Czyszczenie automatyczne anulowane: kuweta jest w trakcie cyklu.",
+                "periodic_cleaning_canceled": "Czyszczenie okresowe anulowane: kuweta jest w trakcie cyklu.",
+                "manual_cleaning_canceled": "Czyszczenie ręczne anulowane: kuweta jest w trakcie cyklu.",
+                "auto_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie automatyczne anulowane.",
+                "periodic_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie okresowe anulowane.",
+                "litter_empty_completed": "Opróżnianie kuwety zakończone.",
+                "litter_empty_terminated": "Opróżnianie kuwety przerwane.",
+                "litter_empty_failed_full": "Opróżnianie kuwety nie powiodło się: zbiornik na odpady jest pełny.",
+                "litter_empty_failed_hall_l": "Opróżnianie kuwety nie powiodło się, cylinder nie jest prawidłowo zamontowany.",
+                "litter_empty_failed_hall_t": "Opróżnianie kuwety nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "reset_completed": "Reset urządzenia zakończony.",
+                "reset_terminated": "Reset urządzenia przerwany.",
+                "reset_failed_full": "Reset urządzenia nie powiódł się: zbiornik na odpady jest pełny.",
+                "reset_failed_hall_l": "Reset urządzenia nie powiódł się. cylinder nie jest prawidłowo zamontowany.",
+                "reset_failed_hall_t": "Reset urządzenia nie powiódł się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "deodorant_finished": "Odświeżanie zakończone.",
+                "periodic_odor_completed": "Odświeżanie okresowe zakończone.",
+                "manual_odor_completed": "Odświeżanie ręczne zakończone.",
+                "deodorant_finished_liquid_lack": "Odświeżanie zakończone: niski poziom płynu odświeżacza.",
+                "periodic_odor_completed_liquid_lack": "Odświeżanie okresowe zakończone: niski poziom płynu odświeżacza.",
+                "manual_odor_completed_liquid_lack": "Odświeżanie ręczne zakończone: niski poziom płynu odświeżacza.",
+                "auto_odor_failed": "Odświeżanie automatyczne nie powiodło się: błąd odświeżacza.",
+                "periodic_odor_failed": "Odświeżanie okresowe nie powiodło się: błąd odświeżacza.",
+                "manual_odor_failed": "Odświeżanie ręczne nie powiodło się: błąd odświeżacza.",
+                "no_sub_events": "Brak powiązanych podzdarzeń."
+              }
+            }
+          }
+        },
+        "latest_weight": {
+          "name": "Ostatnia waga"
+        },
+        "last_use_duration": {
+          "name": "Długość ostatniego użycia"
+        },
+        "pura_air_battery": {
+          "name": "Poziom baterii odświeżacza"
+        },
+        "pura_air_liquid": {
+          "name": "Poziom płynu odświeżacza"
+        },
+        "n50_odor_eliminator": {
+          "name": "Pochłaniacz zapachu"
+        },
+        "max_last_event": {
+          "name": "Ostatnie zdarzenie",
+          "state": {
+            "no_events_yet": "Brak zdarzeń.",
+            "event_type_unknown": "Zdarzenie nieznane.",
+            "cleaning_completed": "Czyszczenie zakończone.",
+            "dumping_over": "Opróżnianie zakończone.",
+            "reset_over": "Resetowanie zakończone.",
+            "spray_over": "Odświeżanie zakończone.",
+            "light_over": "Światło zakończone.",
+            "pet_out": "Zwierzę wyszło.",
+            "auto_cleaning_completed": "Czyszczenie automatyczne zakończone.",
+            "periodic_cleaning_completed": "Czyszczenie okresowe zakończone.",
+            "manual_cleaning_completed": "Czyszczenie ręczne zakończone.",
+            "auto_cleaning_terminated": "Czyszczenie automatyczne przerwane.",
+            "periodic_cleaning_terminated": "Czyszczenie okresowe przerwane.",
+            "manual_cleaning_terminated": "Czyszczenie ręczne przerwane.",
+            "auto_cleaning_failed_full": "Czyszczenie automatyczne nie powiodło się: zbiornik na odpady jest pełny.",
+            "auto_cleaning_failed_hall_t": "Czyszczenie automatyczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "auto_cleaning_failed_falldown": "Czyszczenie automatyczne nie powiodło się: kuweta została przewrócona.",
+            "auto_cleaning_failed_other": "Czyszczenie automatyczne nie powiodło się: błąd kuwety.",
+            "scheduled_cleaning_failed_full": "Czyszczenie planowe nie powiodło się: zbiornik na odpady jest pełny.",
+            "scheduled_cleaning_failed_hall_t": "Czyszczenie planowe nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "scheduled_cleaning_failed_falldown": "Czyszczenie planowe nie powiodło się: kuweta została przewrócona.",
+            "scheduled_cleaning_failed_other": "Czyszczenie planowe nie powiodło się: błąd kuwety.",
+            "manual_cleaning_failed_full": "Czyszczenie ręczne nie powiodło się: zbiornik na odpady jest pełny.",
+            "manual_cleaning_failed_hall_t": "Czyszczenie ręczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "manual_cleaning_failed_falldown": "Czyszczenie ręczne nie powiodło się: kuweta została przewrócona.",
+            "manual_cleaning_failed_other": "Czyszczenie ręczne failure: błąd kuwety.",
+            "auto_cleaning_canceled": "Czyszczenie automatyczne anulowane: kuweta jest w trakcie cyklu.",
+            "periodic_cleaning_canceled": "Czyszczenie okresowe anulowane: kuweta jest w trakcie cyklu.",
+            "manual_cleaning_canceled": "Czyszczenie ręczne anulowane: kuweta jest w trakcie cyklu.",
+            "auto_cleaning_failed_maintenance": "Czyszczenie automatyczne nie powiodło się: urządzenie jest w trybie serwisowym.",
+            "periodic_cleaning_failed_maintenance": "Czyszczenie okresowe nie powiodło się: urządzenie jest w trybie serwisowym.",
+            "auto_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie automatyczne anulowane.",
+            "periodic_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie okresowe anulowane.",
+            "litter_empty_completed": "Opróżnianie kuwety zakończone.",
+            "litter_empty_terminated": "Opróżnianie kuwety przerwane.",
+            "litter_empty_failed_full": "Opróżnianie kuwety nie powiodło się: zbiornik na odpady jest pełny.",
+            "litter_empty_failed_hall_t": "Opróżnianie kuwety nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "litter_empty_failed_falldown": "Opróżnianie kuwety nie powiodło się: kuweta została przewrócona.",
+            "litter_empty_failed_other": "Opróżnianie kuwety nie powiodło się, błąd kuwety.",
+            "reset_completed": "Reset urządzenia zakończony.",
+            "reset_terminated": "Reset urządzenia przerwany.",
+            "reset_failed_full": "Reset urządzenia nie powiódł się: zbiornik na odpady jest pełny.",
+            "reset_failed_hall_t": "Reset urządzenia nie powiódł się: górna pokrywa nie jest prawidłowo zamontowana.",
+            "reset_failed_falldown": "Reset urządzenia nie powiódł się: kuweta została przewrócona.",
+            "reset_failed_other": "Reset urządzenia nie powiódł się: błąd kuwety.",
+            "maintenance_mode": "Tryb serwisowy.",
+            "deodorant_finished": "Odświeżanie zakończone.",
+            "periodic_odor_completed": "Odświeżanie okresowe zakończone.",
+            "manual_odor_completed": "Odświeżanie ręczne zakończone.",
+            "auto_odor_terminated": "Odświeżanie automatyczne przerwane.",
+            "periodic_odor_terminated": "Odświeżanie okresowe przerwane.",
+            "manual_odor_terminated": "Odświeżanie ręczne przerwane.",
+            "auto_odor_failed": "Odświeżanie automatyczne nie powiodło się: błąd odświeżacza.",
+            "periodic_odor_failed": "Odświeżanie okresowe nie powiodło się: błąd odświeżacza.",
+            "manual_odor_failed": "Odświeżanie ręczne nie powiodło się: błąd odświeżacza.",
+            "auto_odor_canceled": "Odświeżanie automatyczne anulowane: kuweta jest w trakcie cyklu.",
+            "periodic_odor_canceled": "Odświeżanie okresowe anulowane: kuweta jest w trakcie cyklu.",
+            "manual_odor_canceled": "Odświeżanie ręczne anulowane: kuweta jest w trakcie cyklu.",
+            "auto_odor_failed_device": "Odświeżanie automatyczne nie powiodło się: odświeżacz odłączony.",
+            "periodic_odor_failed_device": "Odświeżanie okresowe nie powiodło się: odświeżacz odłączony.",
+            "manual_odor_failed_device": "Odświeżanie ręczne nie powiodło się: odświeżacz odłączony.",
+            "auto_odor_failed_batt": "Odświeżanie automatyczne nie powiodło się: sprawdź poziom baterii odświeżacza.",
+            "periodic_odor_failed_batt": "Odświeżanie okresowe nie powiodło się: sprawdź poziom baterii odświeżacza.",
+            "manual_odor_failed_batt": "Odświeżanie ręczne nie powiodło się: sprawdź poziom baterii odświeżacza.",
+            "auto_odor_failed_low_batt": "Odświeżanie automatyczne nie powiodło się: niski poziom baterii odświeżacza.",
+            "periodic_odor_failed_low_batt": "Odświeżanie okresowe nie powiodło się: niski poziom baterii odświeżacza.",
+            "manual_odor_failed_low_batt": "Odświeżanie ręczne nie powiodło się: niski poziom baterii odświeżacza.",
+            "cat_stopped_odor": "Kot wszedł do kuwety, odświeżanie anulowane.",
+            "light_on": "Światło włączone.",
+            "light_already_on": "Światło włączone, nie ma potrzeby włączać ponownie.",
+            "light_malfunc": "Nie można właczyć światła: problem z urządzeniem.",
+            "light_no_device": "Nie można właczyć światła: połącz odświeżacz z kuwetą.",
+            "light_batt_cap": "Nie można właczyć światła: sprawdź poziom baterii odświeżacza.",
+            "light_low_batt": "Nie można właczyć światła: niski poziom baterii odświeżacza."
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Brak zdarzeń.",
+                "event_type_unknown": "Zdarzenie nieznane.",
+                "cleaning_completed": "Czyszczenie zakończone.",
+                "dumping_over": "Opróżnianie zakończone.",
+                "reset_over": "Resetowanie zakończone.",
+                "spray_over": "Odświeżanie zakończone.",
+                "light_over": "Światło zakończone.",
+                "pet_out": "Zwierzę wyszło.",
+                "auto_cleaning_completed": "Czyszczenie automatyczne zakończone.",
+                "periodic_cleaning_completed": "Czyszczenie okresowe zakończone.",
+                "manual_cleaning_completed": "Czyszczenie ręczne zakończone.",
+                "auto_cleaning_terminated": "Czyszczenie automatyczne przerwane.",
+                "periodic_cleaning_terminated": "Czyszczenie okresowe przerwane.",
+                "manual_cleaning_terminated": "Czyszczenie ręczne przerwane.",
+                "auto_cleaning_failed_full": "Czyszczenie automatyczne nie powiodło się: zbiornik na odpady jest pełny.",
+                "auto_cleaning_failed_hall_t": "Czyszczenie automatyczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "auto_cleaning_failed_falldown": "Czyszczenie automatyczne nie powiodło się: kuweta została przewrócona.",
+                "auto_cleaning_failed_other": "Czyszczenie automatyczne nie powiodło się: błąd kuwety.",
+                "scheduled_cleaning_failed_full": "Czyszczenie planowe nie powiodło się: zbiornik na odpady jest pełny.",
+                "scheduled_cleaning_failed_hall_t": "Czyszczenie planowe nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "scheduled_cleaning_failed_falldown": "Czyszczenie planowe nie powiodło się: kuweta została przewrócona.",
+                "scheduled_cleaning_failed_other": "Czyszczenie planowe nie powiodło się: błąd kuwety.",
+                "manual_cleaning_failed_full": "Czyszczenie ręczne nie powiodło się: zbiornik na odpady jest pełny.",
+                "manual_cleaning_failed_hall_t": "Czyszczenie ręczne nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "manual_cleaning_failed_falldown": "Czyszczenie ręczne nie powiodło się: kuweta została przewrócona.",
+                "manual_cleaning_failed_other": "Czyszczenie ręczne nie powiodło się: błąd kuwety.",
+                "auto_cleaning_canceled": "Czyszczenie automatyczne anulowane: kuweta jest w trakcie cyklu.",
+                "periodic_cleaning_canceled": "Czyszczenie okresowe anulowane: kuweta jest w trakcie cyklu.",
+                "manual_cleaning_canceled": "Czyszczenie ręczne anulowane: kuweta jest w trakcie cyklu.",
+                "auto_cleaning_failed_maintenance": "Czyszczenie automatyczne nie powiodło się: urządzenie jest w trybie serwisowym.",
+                "periodic_cleaning_failed_maintenance": "Czyszczenie okresowe nie powiodło się: urządzenie jest w trybie serwisowym.",
+                "auto_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie automatyczne anulowane.",
+                "periodic_cleaning_canceled_kitten": "Tryb dla kociąt włączony: czyszczenie okresowe anulowane.",
+                "litter_empty_completed": "Opróżnianie kuwety zakończone.",
+                "litter_empty_terminated": "Opróżnianie kuwety przerwane.",
+                "litter_empty_failed_full": "Opróżnianie kuwety nie powiodło się: zbiornik na odpady jest pełny.",
+                "litter_empty_failed_hall_t": "Opróżnianie kuwety nie powiodło się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "litter_empty_failed_falldown": "Opróżnianie kuwety nie powiodło się: kuweta została przewrócona.",
+                "litter_empty_failed_other": "Opróżnianie kuwety nie powiodło się: błąd kuwety.",
+                "reset_completed": "Resetu urządzenia zakończony.",
+                "reset_terminated": "Reset urządzenia przerwany.",
+                "reset_failed_full": "Reset urządzenia nie powiódł się: zbiornik na odpady jest pełny.",
+                "reset_failed_hall_t": "Reset urządzenia nie powiódł się: górna pokrywa nie jest prawidłowo zamontowana.",
+                "reset_failed_falldown": "Reset urządzenia nie powiódł się: kuweta została przewrócona.",
+                "reset_failed_other": "Reset urządzenia nie powiódł się: błąd kuwety.",
+                "maintenance_mode": "Tryb serwisowy.",
+                "deodorant_finished": "Odświeżanie zakończone.",
+                "periodic_odor_completed": "Odświeżanie okresowe zakończone.",
+                "manual_odor_completed": "Odświeżanie ręczne zakończone.",
+                "auto_odor_terminated": "Odświeżanie automatyczne przerwane.",
+                "periodic_odor_terminated": "Odświeżanie okresowe przerwane.",
+                "manual_odor_terminated": "Odświeżanie ręczne przerwane.",
+                "auto_odor_failed": "Odświeżanie automatyczne nie powiodło się: błąd odświeżacza.",
+                "periodic_odor_failed": "Odświeżanie okresowe nie powiodło się: błąd odświeżacza.",
+                "manual_odor_failed": "Odświeżanie ręczne nie powiodło się: błąd odświeżacza.",
+                "auto_odor_canceled": "Odświeżanie automatyczne anulowane: kuweta jest w trakcie cyklu.",
+                "periodic_odor_canceled": "Odświeżanie okresowe anulowane: kuweta jest w trakcie cyklu.",
+                "manual_odor_canceled": "Odświeżanie ręczne anulowane: kuweta jest w trakcie cyklu.",
+                "auto_odor_failed_device": "Odświeżanie automatyczne nie powiodło się: odświeżacz odłączony.",
+                "periodic_odor_failed_device": "Odświeżanie okresowe nie powiodło się: odświeżacz odłączony.",
+                "manual_odor_failed_device": "Odświeżanie ręczne nie powiodło się: odświeżacz odłączony.",
+                "auto_odor_failed_batt": "Odświeżanie automatyczne nie powiodło się: sprawdź poziom baterii odświeżacza.",
+                "periodic_odor_failed_batt": "Odświeżanie okresowe nie powiodło się: sprawdź poziom baterii odświeżacza.",
+                "manual_odor_failed_batt": "Odświeżanie ręczne nie powiodło się: sprawdź poziom baterii odświeżacza.",
+                "auto_odor_failed_low_batt": "Odświeżanie automatyczne nie powiodło się: niski poziom baterii odświeżacza.",
+                "periodic_odor_failed_low_batt": "Odświeżanie okresowe nie powiodło się: niski poziom baterii odświeżacza.",
+                "manual_odor_failed_low_batt": "Odświeżanie ręczne nie powiodło się: niski poziom baterii odświeżacza.",
+                "cat_stopped_odor": "Kot wszedł do kuwety, odświeżanie anulowane.",
+                "light_on": "Światło włączone.",
+                "light_already_on": "Światło włączone, nie ma potrzeby włączać ponownie.",
+                "light_malfunc": "Nie można właczyć światła. Problem z urządzeniem.",
+                "light_no_device": "Nie można właczyć światła. Połącz odświeżacz z kuwetą.",
+                "light_batt_cap": "Nie można właczyć światła. Sprawdź poziom baterii odświeżacza.",
+                "light_low_batt": "Nie można właczyć światła. Niski poziom baterii odświeżacza.",
+                "no_sub_events": "Brak powiązanych podzdarzeń."
+              }
+            }
+          }
+        },
+        "max_work_state": {
+          "name": "Status",
+          "state": {
+            "cleaning_litter_box": "Czyszczenie.",
+            "cleaning_litter_box_paused": "Czyszczenie wstrzymane.",
+            "cleaning_paused_pet_entered": "Czyszczenie wstrzymane: kot wszedł do kuwety, czujnik przycięcia aktywny, kuweta wstrzymana. Pilnie sprawdź kuwetę.",
+            "cleaning_paused_system_error": "Czyszczenie wstrzymane: błąd systemu.",
+            "cleaning_paused_pet_approach": "Czyszczenie wstrzymane: kot zbliżył się do kuwety.",
+            "cleaning_paused_pet_using": "Czyszczenie wstrzymane: kot wszedł do kuwety.",
+            "resetting_device": "Resetowanie kuwety.",
+            "litter_box_paused": "Kuweta wstrzymana.",
+            "paused_pet_entered": "Kuweta wstrzymana: kot wszedł do kuwety, czujnik przycięcia aktywny, kuweta wstrzymana. Pilnie sprawdź kuwetę.",
+            "paused_system_error": "Kuweta wstrzymana: błąd systemu.",
+            "paused_pet_approach": "Kuweta wstrzymana: kot zbliżył się do kuwety.",
+            "paused_pet_using": "Kuweta wstrzymana: kot wszedł do kuwety.",
+            "dumping_litter": "Opróżnianie kuwety.",
+            "dumping_litter_paused": "Opróżnianie kuwety wstrzymane.",
+            "dumping_paused_pet_entered": "Opróżnianie kuwety wstrzymane: kot wszedł do kuwety, czujnik przycięcia aktywny, kuweta wstrzymana. Pilnie sprawdź kuwetę.",
+            "dumping_paused_system_error": "Opróżnianie kuwety wstrzymane: błąd systemu.",
+            "dumping_paused_pet_approach": "Opróżnianie kuwety wstrzymane: kot zbliżył się do kuwety.",
+            "dumping_paused_pet_using": "Opróżnianie kuwety wstrzymane: kot wszedł do kuwety.",
+            "resetting": "Resetowanie.",
+            "leveling": "Wyrównywanie poziomu żwirku, proszę czekać.",
+            "calibrating": "Kalibrowanie kuwety, proszę czekać.",
+            "maintenance_mode": "W trybie serwisowym.",
+            "maintenance_paused_pet_entered": "Tryb serwisowy wstrzymany: kot wszedł do kuwety, czujnik przycięcia aktywny, kuweta wstrzymana. Pilnie sprawdź kuwetę.",
+            "maintenance_paused_cover": "Tryb serwisowy wstrzymany: górna pokrywa nie jest prawidłowo zamontowana.",
+            "maintenance_paused_system_error": "Tryb serwisowy wstrzymany: błąd systemu.",
+            "maintenance_paused_pet_approach": "Tryb serwisowy wstrzymany: kot zbliżył się do kuwety.",
+            "maintenance_paused_pet_using": "Tryb serwisowy wstrzymany: kot wszedł do kuwety.",
+            "maintenance_paused": "Tryb serwisowy wstrzymany.",
+            "exit_maintenance": "Opuszczanie trybu serwisowego.",
+            "maintenance_exit_paused_pet_entered": "Opuszczanie trybu serwisowego wstrzymane: kot wszedł do kuwety, czujnik przycięcia aktywny, kuweta wstrzymana. Pilnie sprawdź kuwetę.",
+            "maintenance_exit_paused_cover": "Opuszczanie trybu serwisowego wstrzymane: górna pokrywa nie jest prawidłowo zamontowana.",
+            "maintenance_exit_paused_system_error": "Opuszczanie trybu serwisowego wstrzymane: błąd systemu.",
+            "maintenance_exit_paused_pet_approach": "Opuszczanie trybu serwisowego wstrzymane: kot zbliżył się do kuwety.",
+            "maintenance_exit_paused_pet_using": "Opuszczanie trybu serwisowego wstrzymane: kot wszedł do kuwety.",
+            "maintenance_exit_paused": "Opuszczanie trybu serwisowego wstrzymane.",
+            "idle": "Gotowa"
+          }
+        },
+        "avg_eating_time": {
+          "name": "Średni czas jedzenia"
+        },
+        "manually_dispensed_hopp_one": {
+          "name": "Wydanie ręczne z podajnika 1"
+        },
+        "manually_dispensed_hopp_two": {
+          "name": "Wydanie ręczne z podajnika 2"
+        },
+        "planned_hopp_one": {
+          "name": "Planowe z podajnika 1"
+        },
+        "planned_hopp_two": {
+          "name": "Planowe z podajnika 2"
+        },
+        "planned_dispensed_hopp_one": {
+          "name": "Wydanie planowe z podajnika 1"
+        },
+        "planned_dispensed_hopp_two": {
+          "name": "Wydanie planowe z podajnika 2"
+        },
+        "dispensed_hopp_one": {
+          "name": "Wydanie z podajnika 1"
+        },
+        "dispensed_hopp_two": {
+          "name": "Wydanie z podajnika 2"
+        },
+        "humidity": {
+          "name": "Wilgotność"
+        },
+        "temperature": {
+          "name": "Temperatura"
+        },
+        "air_purified": {
+          "name": "Oczyszczone powietrze"
+        },
+        "liquid": {
+          "name": "Płyn"
+        },
+        "food_left": {
+          "name": "Pozostało karmy"
+        }
+      },
+      "switch": {
+        "light": {
+          "name": "Światło"
+        },
+        "power": {
+          "name": "Zasilanie"
+        },
+        "do_not_disturb": {
+          "name": "Nie przeszkadzać"
+        },
+        "indicator_light": {
+          "name": "Lampka kontrolna"
+        },
+        "child_lock": {
+          "name": "Zabezpieczenie przed dziećmi"
+        },
+        "food_shortage_alarm": {
+          "name": "Alarm braku karmy"
+        },
+        "dispense_tone": {
+          "name": "Dźwięk karmienia"
+        },
+        "voice_with_dispense": {
+          "name": "Głos z karmieniem"
+        },
+        "surplus_control": {
+          "name": "Kontrola nadwyżki"
+        },
+        "system_notification_sound": {
+          "name": "Dźwięk powiadomień systemowych"
+        },
+        "auto_odor_removal": {
+          "name": "Automatyczne odświeżanie"
+        },
+        "auto_cleaning": {
+          "name": "Automatyczne czyszczenie"
+        },
+        "avoid_repeat_cleaning": {
+          "name": "Unikaj powtórnego czyszczenia"
+        },
+        "periodic_cleaning": {
+          "name": "Okresowe czyszczenie"
+        },
+        "periodic_odor_removal": {
+          "name": "Okresowe odświeżanie"
+        },
+        "kitten_mode": {
+          "name": "Tryb kocięcy"
+        },
+        "display": {
+          "name": "Wyświetlacz"
+        },
+        "light_weight_cleaning_disabled": {
+          "name": "Ignorowanie niskiej wagi"
+        },
+        "cont_rotation": {
+          "name": "Zapobieganie przeciekaniu"
+        },
+        "deep_cleaning": {
+          "name": "Podwójne czyszczenie"
+        },
+        "deep_deodor": {
+          "name": "Podwójne odświeżanie"
+        },
+        "prompt_tone": {
+          "name": "Dźwięk przywołania"
+        },
+        "enhanced_adsorption": {
+          "name": "Zwiększenie wchłaniania"
+        }
+      },
+      "text": {
+        "manual_feed": {
+          "name": "Ręczne karmienie"
+        }
+      }
+    }
+}
