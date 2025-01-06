@@ -20,7 +20,8 @@
                     "password": "PetKitアカウントのパスワード",
                     "region": "アカウントに登録されている国を選択してください。",
                     "timezone": "タイムゾーンを手動で選択するか、自動設定を試してください。",
-                    "polling_interval": "ポーリング間隔（秒）"
+                    "polling_interval": "ポーリング間隔（秒）",
+                    "use_ble_relay": "利用可能な場合は、PetKit BLEリレーを使用してください"
                 },
                 "title": "PetKitの認証情報を入力してください。"
             },
@@ -30,7 +31,8 @@
                     "password": "PetKitアカウントのパスワード",
                     "region": "アカウントに登録されている国を選択してください。",
                     "timezone": "タイムゾーンを手動で選択するか、自動設定を試してください。",
-                    "polling_interval": "ポーリング間隔（秒）"
+                    "polling_interval": "ポーリング間隔（秒）",
+                    "use_ble_relay": "利用可能な場合は、PetKit BLEリレーを使用してください"
                 },
                 "title": "PetKitの認証情報で再認証してください。"
             }
@@ -42,7 +44,8 @@
           "data": {
             "region": "アカウントに登録されている国を選択してください。",
             "timezone": "タイムゾーンを手動で選択するか、自動設定を試してください。",
-            "polling_interval": "ポーリング間隔（秒）"
+            "polling_interval": "ポーリング間隔（秒）",
+            "use_ble_relay": "利用可能な場合は、PetKit BLEリレーを使用してください"
           }
         }
       }
@@ -735,6 +738,9 @@
         },
         "prompt_tone": {
           "name": "プロンプト音"
+        },
+        "enhanced_adsorption": {
+          "name": "強化された吸着"
         }
       },
       "text": {
