@@ -20,7 +20,8 @@
                     "password": "PetKit account password",
                     "region": "Seleziona lo stato associato al tuo account",
                     "timezone": "Seleziona manualmente un fuso orario oppure prova a impostarlo automaticamente",
-                    "polling_interval": "Intervallo di polling (secondi)"
+                    "polling_interval": "Intervallo di polling (secondi)",
+		    "use_ble_relay": "Utilizza il relè PetKit BLE (se disponibile)"
                 },
                 "title": "Inserisci le credenziali PetKit"
             },
@@ -30,7 +31,8 @@
                     "password": "PetKit account password",
                     "region": "Seleziona lo stato associato al tuo account",
                     "timezone": "Seleziona manualmente un fuso orario oppure prova a impostarlo automaticamente",
-                    "polling_interval": "Intervallo di polling (secondi)"
+                    "polling_interval": "Intervallo di polling (secondi)",
+		    "use_ble_relay": "Utilizza il relè PetKit BLE (se disponibile)"
                 },
                 "title": "Esegui una riautenticazione con le tue credenziali PetKit"
             }
@@ -42,7 +44,8 @@
           "data": {
             "region": "Seleziona lo stato associato al tuo account",
             "timezone": "Seleziona manualmente un fuso orario oppure prova a impostarlo automaticamente",
-            "polling_interval": "Intervallo di polling (secondi)"
+            "polling_interval": "Intervallo di polling (secondi)",
+	    "use_ble_relay": "Utilizza il relè PetKit BLE (se disponibile)"
           }
         }
       }
@@ -404,7 +407,8 @@
 				"manual_odor_completed_liquid_lack": "Eliminazione manuale degli odori completata, liquido purificante insufficiente. Si prega di riempire tempestivamente.",
 				"auto_odor_failed": "Eliminazione automatica degli odori fallita, errore del neutralizzatore.",
 				"periodic_odor_failed": "Eliminazione periordica degli odori fallita, malfunzionamento del neutralizzatore.",
-				"manual_odor_failed": "Eliminazione manuale degli odori fallita, malfunzionamento del neutralizzatore."
+				"manual_odor_failed": "Eliminazione manuale degli odori fallita, malfunzionamento del neutralizzatore.",
+		                "no_sub_events": "Nessun sottoevento associato"
               }
             }
           }
@@ -734,6 +738,9 @@
         },
         "prompt_tone": {
           "name": "Suono di avviso"
+        },
+	"enhanced_adsorption": {
+          "name": "Adsorbimento migliorato"
         }
       },
       "text": {
