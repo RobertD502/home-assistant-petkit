@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 import asyncio
+from datetime import datetime, timedelta
 
 from petkitaio.constants import FeederCommand, LitterBoxCommand, W5Command
 from petkitaio.exceptions import BluetoothError
@@ -11,11 +12,22 @@ from petkitaio.model import Feeder, LitterBox, W5Fountain
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, FEEDERS, LITTER_BOXES, PETKIT_COORDINATOR, WATER_FOUNTAINS
+from .const import (
+    DOMAIN,
+    FAST_INTERVAL,
+    FEEDERS,
+    LITTER_BOXES,
+    MAX_CLEANING_STATE,
+    MAX_PAUSED_STATE,
+    PETKIT_COORDINATOR,
+    POLLING_INTERVAL,
+    WATER_FOUNTAINS
+)
 from .coordinator import PetKitDataUpdateCoordinator
 from .exceptions import PetKitBluetoothError
 
@@ -31,7 +43,7 @@ async def async_setup_entry(
 
     for wf_id, wf_data in coordinator.data.water_fountains.items():
         # Water Fountains (W5)
-        if wf_data.ble_relay:
+        if wf_data.group_relay and coordinator.client.use_ble_relay:
             buttons.append(
                 WFResetFilter(coordinator, wf_id)
             )
@@ -159,7 +171,7 @@ class WFResetFilter(CoordinatorEntity, ButtonEntity):
         and the main relay device is online.
         """
 
-        if self.wf_data.ble_relay:
+        if self.wf_data.group_relay:
             return True
         else:
             return False
@@ -370,6 +382,7 @@ class LBStartCleaning(CoordinatorEntity, ButtonEntity):
     def __init__(self, coordinator, lb_id):
         super().__init__(coordinator)
         self.lb_id = lb_id
+        self.original_poll_interval = True
 
     @property
     def lb_data(self) -> LitterBox:
@@ -417,6 +430,10 @@ class LBStartCleaning(CoordinatorEntity, ButtonEntity):
     def available(self) -> bool:
         """Only make available if device is online and on."""
 
+        # Check the poll interval prior to checking availability
+        # Pura MAX and MAX 2
+        if self.lb_data.type == 't4':
+            self.original_poll_interval = self.check_poll_interval()
         lb_online = self.lb_data.device_detail['state']['pim'] == 1
         lb_power_on = self.lb_data.device_detail['state']['power'] == 1
 
@@ -428,10 +445,68 @@ class LBStartCleaning(CoordinatorEntity, ButtonEntity):
     async def async_press(self) -> None:
         """Handle the button press."""
 
-        await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.START_CLEAN)
-        await asyncio.sleep(1.5)
-        await self.coordinator.async_request_refresh()
+        # Pura MAX and MAX 2
+        if self.lb_data.type == 't4':
+            if 'workState' in self.lb_data.device_detail['state']:
+                if self.lb_data.device_detail['state']['workState'] == MAX_PAUSED_STATE:
+                    ## Button is also used for resuming cleaning so we need to be able to execute the command
+                    ## when a paused workState is encountered.
+                    await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.START_CLEAN)
+                    await asyncio.sleep(4)
+                    # Stop fast polling after 5 minutes max since litter box
+                    # has likely finished cleaning at that point.
+                    self.coordinator.fast_poll_expiration = datetime.now() + timedelta(seconds=300)
+                    self.coordinator.update_interval = FAST_INTERVAL
+                    await self.coordinator.async_request_refresh()
+                else:
+                    raise HomeAssistantError(
+                        f'Unable to start cleaning: litter box not ready. Starting a cleaning is only available '
+                        f'when the litter box reports a state of "idle" or current cleaning is paused'
+                    )
+            else:
+                await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.START_CLEAN)
+                await asyncio.sleep(4)
+                # Stop fast polling after 5 minutes max since litter box
+                # has likely finished cleaning at that point.
+                self.coordinator.fast_poll_expiration = datetime.now() + timedelta(seconds=300)
+                self.coordinator.update_interval = FAST_INTERVAL
+                await self.coordinator.async_request_refresh()
+        # Handle Pura X litter box
+        else:
+            await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.START_CLEAN)
+            await asyncio.sleep(2)
+            await self.coordinator.async_request_refresh()
 
+    def check_poll_interval(self) -> bool:
+        """Determines if poll interval needs to be changed back.
+        Changes the coordinator update interval back
+        to the user-defined interval once the litter box is idle
+        or if a set amount of time has elapsed since the coordinator
+        update interval was changed.
+        """
+
+        current_dt = datetime.now()
+        lb_state = self.lb_data.device_detail['state']
+
+        ## If workState is not in lb_state, the litter box is considered
+        ## to be "idle".
+        original_poll_interval = timedelta(seconds=self.coordinator.config_entry.options[POLLING_INTERVAL])
+        if self.coordinator.update_interval == original_poll_interval:
+            return True
+        if not self.coordinator.fast_poll_expiration:
+            # If there isn't a fast poll expiration, but the
+            # litter box is idle, return poll interval back to
+            # original interval.
+            if ('workState' not in lb_state):
+                self.coordinator.update_interval = original_poll_interval
+                return True
+        else:
+            if ('workState' not in lb_state) or ((self.coordinator.fast_poll_expiration - current_dt).total_seconds() <= 0):
+                self.coordinator.update_interval = original_poll_interval
+                self.coordinator.fast_poll_expiration = None
+                return True
+            else:
+                return False
 
 class LBPauseCleaning(CoordinatorEntity, ButtonEntity):
     """Representation of litter box pause cleaning."""
@@ -439,6 +514,7 @@ class LBPauseCleaning(CoordinatorEntity, ButtonEntity):
     def __init__(self, coordinator, lb_id):
         super().__init__(coordinator)
         self.lb_id = lb_id
+        self.original_poll_interval = True
 
     @property
     def lb_data(self) -> LitterBox:
@@ -486,6 +562,10 @@ class LBPauseCleaning(CoordinatorEntity, ButtonEntity):
     def available(self) -> bool:
         """Only make available if device is online and on."""
 
+        # Check the poll interval prior to checking availability
+        # Pura MAX and MAX 2
+        if self.lb_data.type == 't4':
+            self.original_poll_interval = self.check_poll_interval()
         lb_online = self.lb_data.device_detail['state']['pim'] == 1
         lb_power_on = self.lb_data.device_detail['state']['power'] == 1
 
@@ -497,10 +577,59 @@ class LBPauseCleaning(CoordinatorEntity, ButtonEntity):
     async def async_press(self) -> None:
         """Handle the button press."""
 
-        await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.PAUSE_CLEAN)
-        await asyncio.sleep(1.5)
-        await self.coordinator.async_request_refresh()
+        # Pura MAX and MAX 2
+        if self.lb_data.type == 't4':
+            if 'workState' in self.lb_data.device_detail['state']:
+                if self.lb_data.device_detail['state']['workState'] != MAX_CLEANING_STATE:
+                    raise HomeAssistantError(
+                        'Unable to pause cleaning: Pausing is only available when a manual cleaning is in progress.'
+                    )
+                else:
+                    await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.PAUSE_CLEAN)
+                    await asyncio.sleep(4)
+                    # Pause expires in 10 minutes
+                    self.coordinator.fast_poll_expiration = datetime.now() + timedelta(seconds=600)
+                    self.coordinator.update_interval = FAST_INTERVAL
+                    await self.coordinator.async_request_refresh()
+            else:
+                raise HomeAssistantError(
+                    'Unable to pause cleaning: Pausing is only available when a manual cleaning is in progress.'
+                )
+        else:
+            await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.PAUSE_CLEAN)
+            await asyncio.sleep(2)
+            await self.coordinator.async_request_refresh()
 
+    def check_poll_interval(self) -> bool:
+        """Determines if poll interval needs to be changed back.
+        Changes the coordinator update interval back
+        to the user-defined interval once the litter box is idle
+        or if a set amount of time has elapsed since the coordinator
+        update interval was changed.
+        """
+
+        current_dt = datetime.now()
+        lb_state = self.lb_data.device_detail['state']
+
+        ## If workState is not in lb_state, the litter box is considered
+        ## to be "idle".
+        original_poll_interval = timedelta(seconds=self.coordinator.config_entry.options[POLLING_INTERVAL])
+        if self.coordinator.update_interval == original_poll_interval:
+            return True
+        if not self.coordinator.fast_poll_expiration:
+            # If there isn't a fast poll expiration, but the
+            # litter box is idle, return poll interval back to
+            # original interval.
+            if ('workState' not in lb_state):
+                self.coordinator.update_interval = original_poll_interval
+                return True
+        else:
+            if ('workState' not in lb_state) or ((self.coordinator.fast_poll_expiration - current_dt).total_seconds() <= 0):
+                self.coordinator.update_interval = original_poll_interval
+                self.coordinator.fast_poll_expiration = None
+                return True
+            else:
+                return False
 
 class LBOdorRemoval(CoordinatorEntity, ButtonEntity):
     """Representation of litter box odor removal."""
@@ -578,7 +707,7 @@ class LBOdorRemoval(CoordinatorEntity, ButtonEntity):
         """Handle the button press."""
 
         await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.ODOR_REMOVAL)
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(2)
         await self.coordinator.async_request_refresh()
 
 
@@ -825,6 +954,7 @@ class MAXStartMaint(CoordinatorEntity, ButtonEntity):
     def __init__(self, coordinator, lb_id):
         super().__init__(coordinator)
         self.lb_id = lb_id
+        self.original_poll_interval = True
 
     @property
     def lb_data(self) -> LitterBox:
@@ -872,9 +1002,10 @@ class MAXStartMaint(CoordinatorEntity, ButtonEntity):
     def available(self) -> bool:
         """Only make available if device is online and on."""
 
+        # Check the poll interval prior to checking availability
+        self.original_poll_interval = self.check_poll_interval()
         lb_online = self.lb_data.device_detail['state']['pim'] == 1
         lb_power_on = self.lb_data.device_detail['state']['power'] == 1
-
 
         if lb_online and lb_power_on:
             return True
@@ -885,8 +1016,44 @@ class MAXStartMaint(CoordinatorEntity, ButtonEntity):
         """Handle the button press."""
 
         await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.START_MAINTENANCE)
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(2)
+        # Stop fast polling after 10 minutes since litter box
+        # automatically exits maintenance mode in 10 minutes if
+        # user doesn't initiate the exit manually
+        self.coordinator.fast_poll_expiration = datetime.now() + timedelta(seconds=600)
+        self.coordinator.update_interval = FAST_INTERVAL
         await self.coordinator.async_request_refresh()
+
+    def check_poll_interval(self) -> bool:
+        """Determines if poll interval needs to be changed back.
+        Changes the coordinator update interval back
+        to the user-defined interval once the litter box is idle
+        or if a set amount of time has elapsed since the coordinator
+        update interval was changed.
+        """
+
+        current_dt = datetime.now()
+        lb_state = self.lb_data.device_detail['state']
+
+        ## If workState is not in lb_state, the litter box is considered
+        ## to be "idle".
+        original_poll_interval = timedelta(seconds=self.coordinator.config_entry.options[POLLING_INTERVAL])
+        if self.coordinator.update_interval == original_poll_interval:
+            return True
+        if not self.coordinator.fast_poll_expiration:
+            # If there isn't a fast poll expiration, but the
+            # litter box is idle, return poll interval back to
+            # original interval.
+            if ('workState' not in lb_state):
+                self.coordinator.update_interval = original_poll_interval
+                return True
+        else:
+            if ('workState' not in lb_state) or ((self.coordinator.fast_poll_expiration - current_dt).total_seconds() <= 0):
+                self.coordinator.update_interval = original_poll_interval
+                self.coordinator.fast_poll_expiration = None
+                return True
+            else:
+                return False
 
 
 class MAXExitMaint(CoordinatorEntity, ButtonEntity):
@@ -895,6 +1062,7 @@ class MAXExitMaint(CoordinatorEntity, ButtonEntity):
     def __init__(self, coordinator, lb_id):
         super().__init__(coordinator)
         self.lb_id = lb_id
+        self.original_poll_interval = True
 
     @property
     def lb_data(self) -> LitterBox:
@@ -942,9 +1110,10 @@ class MAXExitMaint(CoordinatorEntity, ButtonEntity):
     def available(self) -> bool:
         """Only make available if device is online and on."""
 
+        #Check the poll interval prior to checking availability
+        self.original_poll_interval = self.check_poll_interval()
         lb_online = self.lb_data.device_detail['state']['pim'] == 1
         lb_power_on = self.lb_data.device_detail['state']['power'] == 1
-
 
         if lb_online and lb_power_on:
             return True
@@ -955,8 +1124,42 @@ class MAXExitMaint(CoordinatorEntity, ButtonEntity):
         """Handle the button press."""
 
         await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.EXIT_MAINTENANCE)
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(2)
+        # Stop fast polling after 3 minutes
+        self.coordinator.fast_poll_expiration = datetime.now() + timedelta(seconds=180)
+        self.coordinator.update_interval = FAST_INTERVAL
         await self.coordinator.async_request_refresh()
+
+    def check_poll_interval(self) -> bool:
+        """Determines if poll interval needs to be changed back.
+        Changes the coordinator update interval back
+        to the user-defined interval once the litter box is idle
+        or if a set amount of time has elapsed since the coordinator
+        update interval was changed.
+        """
+
+        current_dt = datetime.now()
+        lb_state = self.lb_data.device_detail['state']
+
+        ## If workState is not in lb_state, the litter box is considered
+        ## to be "idle".
+        original_poll_interval = timedelta(seconds=self.coordinator.config_entry.options[POLLING_INTERVAL])
+        if self.coordinator.update_interval == original_poll_interval:
+            return True
+        if not self.coordinator.fast_poll_expiration:
+            # If there isn't a fast poll expiration, but the
+            # litter box is idle, return poll interval back to
+            # original interval.
+            if ('workState' not in lb_state):
+                self.coordinator.update_interval = original_poll_interval
+                return True
+        else:
+            if ('workState' not in lb_state) or ((self.coordinator.fast_poll_expiration - current_dt).total_seconds() <= 0):
+                self.coordinator.update_interval = original_poll_interval
+                self.coordinator.fast_poll_expiration = None
+                return True
+            else:
+                return False
 
 
 class MAXPauseExitMaint(CoordinatorEntity, ButtonEntity):
@@ -965,6 +1168,7 @@ class MAXPauseExitMaint(CoordinatorEntity, ButtonEntity):
     def __init__(self, coordinator, lb_id):
         super().__init__(coordinator)
         self.lb_id = lb_id
+        self.original_poll_interval = True
 
     @property
     def lb_data(self) -> LitterBox:
@@ -1012,9 +1216,10 @@ class MAXPauseExitMaint(CoordinatorEntity, ButtonEntity):
     def available(self) -> bool:
         """Only make available if device is online and on."""
 
+        #Check the poll interval prior to checking availability
+        self.original_poll_interval = self.check_poll_interval()
         lb_online = self.lb_data.device_detail['state']['pim'] == 1
         lb_power_on = self.lb_data.device_detail['state']['power'] == 1
-
 
         if lb_online and lb_power_on:
             return True
@@ -1025,8 +1230,41 @@ class MAXPauseExitMaint(CoordinatorEntity, ButtonEntity):
         """Handle the button press."""
 
         await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.PAUSE_MAINTENANCE_EXIT)
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(2)
+        self.coordinator.fast_poll_expiration = datetime.now() + timedelta(seconds=600)
+        self.coordinator.update_interval = FAST_INTERVAL
         await self.coordinator.async_request_refresh()
+
+    def check_poll_interval(self) -> bool:
+        """Determines if poll interval needs to be changed back.
+        Changes the coordinator update interval back
+        to the user-defined interval once the litter box is idle
+        or if a set amount of time has elapsed since the coordinator
+        update interval was changed.
+        """
+
+        current_dt = datetime.now()
+        lb_state = self.lb_data.device_detail['state']
+
+        ## If workState is not in lb_state, the litter box is considered
+        ## to be "idle".
+        original_poll_interval = timedelta(seconds=self.coordinator.config_entry.options[POLLING_INTERVAL])
+        if self.coordinator.update_interval == original_poll_interval:
+            return True
+        if not self.coordinator.fast_poll_expiration:
+            # If there isn't a fast poll expiration, but the
+            # litter box is idle, return poll interval back to
+            # original interval.
+            if ('workState' not in lb_state):
+                self.coordinator.update_interval = original_poll_interval
+                return True
+        else:
+            if ('workState' not in lb_state) or ((self.coordinator.fast_poll_expiration - current_dt).total_seconds() <= 0):
+                self.coordinator.update_interval = original_poll_interval
+                self.coordinator.fast_poll_expiration = None
+                return True
+            else:
+                return False
 
 
 class MAXResumeExitMaint(CoordinatorEntity, ButtonEntity):
@@ -1035,6 +1273,7 @@ class MAXResumeExitMaint(CoordinatorEntity, ButtonEntity):
     def __init__(self, coordinator, lb_id):
         super().__init__(coordinator)
         self.lb_id = lb_id
+        self.original_poll_interval = True
 
     @property
     def lb_data(self) -> LitterBox:
@@ -1082,9 +1321,10 @@ class MAXResumeExitMaint(CoordinatorEntity, ButtonEntity):
     def available(self) -> bool:
         """Only make available if device is online and on."""
 
+        #Check the poll interval prior to checking availability
+        self.original_poll_interval = self.check_poll_interval()
         lb_online = self.lb_data.device_detail['state']['pim'] == 1
         lb_power_on = self.lb_data.device_detail['state']['power'] == 1
-
 
         if lb_online and lb_power_on:
             return True
@@ -1095,9 +1335,41 @@ class MAXResumeExitMaint(CoordinatorEntity, ButtonEntity):
         """Handle the button press."""
 
         await self.coordinator.client.control_litter_box(self.lb_data, LitterBoxCommand.RESUME_MAINTENANCE_EXIT)
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(2)
+        self.coordinator.fast_poll_expiration = datetime.now() + timedelta(seconds=180)
+        self.coordinator.update_interval = FAST_INTERVAL
         await self.coordinator.async_request_refresh()
 
+    def check_poll_interval(self) -> bool:
+        """Determines if poll interval needs to be changed back.
+        Changes the coordinator update interval back
+        to the user-defined interval once the litter box is idle
+        or if a set amount of time has elapsed since the coordinator
+        update interval was changed.
+        """
+
+        current_dt = datetime.now()
+        lb_state = self.lb_data.device_detail['state']
+
+        ## If workState is not in lb_state, the litter box is considered
+        ## to be "idle".
+        original_poll_interval = timedelta(seconds=self.coordinator.config_entry.options[POLLING_INTERVAL])
+        if self.coordinator.update_interval == original_poll_interval:
+            return True
+        if not self.coordinator.fast_poll_expiration:
+            # If there isn't a fast poll expiration, but the
+            # litter box is idle, return poll interval back to
+            # original interval.
+            if ('workState' not in lb_state):
+                self.coordinator.update_interval = original_poll_interval
+                return True
+        else:
+            if ('workState' not in lb_state) or ((self.coordinator.fast_poll_expiration - current_dt).total_seconds() <= 0):
+                self.coordinator.update_interval = original_poll_interval
+                self.coordinator.fast_poll_expiration = None
+                return True
+            else:
+                return False
 
 class MAXDumpLitter(CoordinatorEntity, ButtonEntity):
     """Representation of dumping cat litter."""

@@ -11,6 +11,7 @@ from petkitaio.model import Feeder, LitterBox, Purifier, W5Fountain
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -31,12 +32,11 @@ async def async_setup_entry(
 
     for wf_id, wf_data in coordinator.data.water_fountains.items():
         # Water Fountains (W5)
-        if wf_data.ble_relay:
-            switches.extend((
-                WFLight(coordinator, wf_id),
-                WFPower(coordinator, wf_id),
-                WFDisturb(coordinator, wf_id),
-            ))
+        switches.extend((
+            WFLight(coordinator, wf_id),
+            WFPower(coordinator, wf_id),
+            WFDisturb(coordinator, wf_id),
+        ))
 
     for feeder_id, feeder_data in coordinator.data.feeders.items():
         # All Feeders
@@ -85,7 +85,8 @@ async def async_setup_entry(
         if lb_data.type == 't4':
             switches.extend((
                 LBContRotation(coordinator, lb_id),
-                LBDeepCleaning(coordinator, lb_id)
+                LBDeepCleaning(coordinator, lb_id),
+                LBEnhancedAdsorption(coordinator, lb_id)
             ))
             # Pura MAX with Pura Air
             if 'k3Device' in lb_data.device_detail:
@@ -163,19 +164,21 @@ class WFLight(CoordinatorEntity, SwitchEntity):
 
     @property
     def available(self) -> bool:
-        """Determine if device is available.
-
-        Return true if there is a valid relay
-        and the main relay device is online.
-        """
-
-        if self.wf_data.ble_relay:
-            return True
-        else:
-            return False
+        """Determine if device is available."""
+        
+        return True
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn light on."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHT_ON)
@@ -189,6 +192,15 @@ class WFLight(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs) -> None:
         """Turn light off."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHT_OFF)
@@ -260,16 +272,9 @@ class WFPower(CoordinatorEntity, SwitchEntity):
 
     @property
     def available(self) -> bool:
-        """Determine if device is available.
+        """Determine if device is available."""
 
-        Return true if there is a valid relay
-        and the main relay device is online.
-        """
-
-        if self.wf_data.ble_relay:
-            return True
-        else:
-            return False
+        return True
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn power on.
@@ -277,6 +282,15 @@ class WFPower(CoordinatorEntity, SwitchEntity):
         Turning power on, puts the device back to the
         mode (normal, smart) it was in before it was paused.
         """
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         if self.wf_data.data['mode'] == 1:
             command = W5Command.NORMAL
@@ -299,6 +313,15 @@ class WFPower(CoordinatorEntity, SwitchEntity):
         This is equivalent to pausing the water fountain
         from the app.
         """
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.PAUSE)
@@ -376,19 +399,21 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
 
     @property
     def available(self) -> bool:
-        """Determine if device is available.
+        """Determine if device is available."""
 
-        Return true if there is a valid relay
-        and the main relay device is online.
-        """
-
-        if self.wf_data.ble_relay:
-            return True
-        else:
-            return False
+        return True
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn DND on."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DO_NOT_DISTURB)
@@ -402,6 +427,15 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs) -> None:
         """Turn DND off."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DO_NOT_DISTURB_OFF)
@@ -2637,5 +2671,94 @@ class PurifierTone(CoordinatorEntity, SwitchEntity):
         await self.coordinator.client.update_purifier_settings(self.purifier_data, PurifierSetting.SOUND, 0)
 
         self.purifier_data.device_detail['settings']['sound'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+
+class LBEnhancedAdsorption(CoordinatorEntity, SwitchEntity):
+    """Representation of litter box enhanced adsorption setting."""
+
+    def __init__(self, coordinator, lb_id):
+        super().__init__(coordinator)
+        self.lb_id = lb_id
+
+    @property
+    def lb_data(self) -> LitterBox:
+        """Handle coordinator litter box data."""
+
+        return self.coordinator.data.litter_boxes[self.lb_id]
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device registry information for this entity."""
+
+        return {
+            "identifiers": {(DOMAIN, self.lb_data.id)},
+            "name": self.lb_data.device_detail['name'],
+            "manufacturer": "PetKit",
+            "model": LITTER_BOXES[self.lb_data.type],
+            "sw_version": f'{self.lb_data.device_detail["firmware"]}'
+        }
+
+    @property
+    def unique_id(self) -> str:
+        """Sets unique ID for this entity."""
+
+        return str(self.lb_data.id) + '_enhanced_adsorption'
+
+    @property
+    def has_entity_name(self) -> bool:
+        """Indicate that entity has name defined."""
+
+        return True
+
+    @property
+    def translation_key(self) -> str:
+        """Translation key for this entity."""
+
+        return "enhanced_adsorption"
+
+    @property
+    def icon(self) -> str:
+        """Set icon."""
+
+        return 'mdi:water-circle'
+
+    @property
+    def entity_category(self) -> EntityCategory:
+        """Set category to config."""
+
+        return EntityCategory.CONFIG
+
+    @property
+    def is_on(self) -> bool:
+        """Determine if enhanced adsorption is on."""
+
+        return self.lb_data.device_detail['settings']['bury'] == 1
+
+    @property
+    def available(self) -> bool:
+        """Only make available if device is online."""
+
+        if self.lb_data.device_detail['state']['pim'] != 0:
+            return True
+        else:
+            return False
+
+    async def async_turn_on(self, **kwargs) -> None:
+        """Turn enhanced adsorption on."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.ENHANCED_ADSORPTION, 1)
+
+        self.lb_data.device_detail['settings']['bury'] = 1
+        self.async_write_ha_state()
+        await self.coordinator.async_request_refresh()
+
+    async def async_turn_off(self, **kwargs) -> None:
+        """Turn enhanced adsorption off."""
+
+        await self.coordinator.client.update_litter_box_settings(self.lb_data, LitterBoxSetting.ENHANCED_ADSORPTION, 0)
+
+        self.lb_data.device_detail['settings']['bury'] = 0
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()

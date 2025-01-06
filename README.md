@@ -44,7 +44,7 @@ Join the Home Assistant PetKit discord server to follow development news or to s
 
 `Litter Boxes`
 - [Pura X Litter Box](https://www.amazon.com/PETKIT-Self-Cleaning-Scooping-Automatic-Multiple/dp/B08T9CCP1M)
-- [Pura MAX Litter Box with/without Pura Air deodorizer](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
+- [Pura MAX / MAX 2 Litter Box with/without Pura Air deodorizer](https://www.amazon.com/PETKIT-Self-Cleaning-Capacity-Multiple-Automatic/dp/B09KC7Q4YF)
 
 `Purifiers`
 - [Air Magicube](https://www.instachew.com/product-page/petkit-air-magicube-smart-odor-eliminator)
@@ -55,8 +55,6 @@ Join the Home Assistant PetKit discord server to follow development news or to s
 - [Eversweet 3 Pro (UVC Version) Water Fountain](https://petkit.com/products/eversweet-3-pro-wireless-pump-uvc)
 - [Eversweet 5 Mini Water Fountain](https://www.petkit.nl/products/eversweet-5-mini-binnen-2-weken-geleverd)
 
-
-#### Bluetooth only devices that don't use PetKit's BLE relay such as trackers (i.e., PetKit Fit) will not be supported: syncing new data from a bluetooth tracker requires the PetKit mobile app to communicate with the tracker which is not possible when your PetKit account is already in use with this integration. 
 
 
 ## **Prior To Installation**
@@ -74,32 +72,16 @@ Join the Home Assistant PetKit discord server to follow development news or to s
 ### PetKit Account & Family Sharing Feature:
 
 > [!IMPORTANT]
-> - PetKit accounts can only be logged in on one device at a time. Using this integration will result in getting signed out of the mobile app. You can continue using the mobile app by creating a secondary account and sharing devices to it from the main account using the family share feature. <br><br>
-
-> [!CAUTION]
-> - You **MUST** use the primary (main) account with this integration and not the secondary account that had devices shared to it using the family share feature. Using the secondary account will result in no devices being pulled in by this integration.
+> - PetKit accounts can only be logged in on one device at a time. Using a single account for both this integration and the mobile app will result in getting signed out of one of them. You can avoid this by creating a secondary account and sharing the devices/pets to it using the family sharing feature. You may use the primary account or the secondary account with this integration. However, as development was done using a primary account, if you use your secondary account with this integration, I cannot guarantee that all features work.   <br><br>
 
 
 ### If you have a water fountain:
 
 > [!NOTE]
-> `Note #1:` Getting the most recent data from your water fountain, as well as controlling the water fountain, requires that the BLE relay is set up **within the PetKit app**. Otherwise, you will be limited to data that isn't up-to-date and no ability to control the water fountain as it requires another compatible PetKit device acting as a BLE relay.
+> Getting the most recent data from your water fountain, as well as controlling the water fountain, requires that the BLE relay is set up **within the PetKit app**. Otherwise, you will not be able to control the water fountain as it requires another compatible PetKit device acting as a BLE relay and data will only be as recent as the last time your phone connected to the water fountain.
 
-> [!NOTE]
-> `Note #2:` If you have the BLE relay set up, please be sure to follow these direction prior to using the integration:
-> - Sign out of the PetKit app and turn off bluetooth on your phone, tablet, etc.
-> - With bluetooth turned off, force close the PetKit app (be sure to do this on any device that was using your account with the PetKit app).
-> - Unplug all PetKit devices. Once all are off, you may plug them in again.
-> - With all devices powered back on, you can turn bluetooth back on (on your mobile device or tablet).
-> - Proceed with the installation and setup instructions for this integration.
-
-
-> Although these steps may seem tedious, they are a necessary evil. The PetKit app will ping the bluetooth endpoints and initiate the relay even with your account signed out. The only way of giving the integration control/the ability to initiate the relay is to sever any bluetooth connection that the app has started.
-
-
-### Using the PetKit app:
-If you want to momentarily use the PetKit app with your primary account to change some settings, be sure to disable the PetKit integration before logging into the app. If you don't, you will be asked to reauthenticate. Once you are done making changes within the app, re-enable the integration.
-> If you needed the BLE relay while using the app (bluetooth turned on on your device), please be sure to follow the steps in `Note #2` above in order to sever the BLE relay connection started by the PetKit app.
+> [!CAUTION]
+> If you have a Pura MAX litter box acting as a BLE relay for your water fountain, you may want to disable the `Use PetKit BLE relay (if available)` option. A bug exists in the Pura Max firmware that causes the litter box to eventually become unresponsive and needing a reboot if both the integration and PetKit mobile app are in use.  
 
 # Installation
 
@@ -316,16 +298,16 @@ Each water fountain has the following entities:
 
 | Entity                 | Entity Type     | Additional Comments                                                                                                                                                                                                                                                                                                                                                    |
 |------------------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Do not disturb`       | `Switch`        | -`Only available if BLE relay is set up and main BLE relay device is online.` <br/>- Allows for enabling or disabling do not disturb - Use PetKit app to set do not disturb schedule if you plan on using this entity.                                                                                                                                                 |
-| `Light`                | `Switch`        | `Only available if BLE relay is set up and main BLE relay device is online.`                                                                                                                                                                                                                                                                                           |
-| `Power`                | `Switch`        | -`Only available if BLE relay is set up and main BLE relay device is online.` <br/>- Turning power off is equivalent to "Pause" in the PetKit app. <br/>- Turning power on resumes the water fountain in the mode (Normal/Smart) it was in prior to being powered off.                                                                                                 |
+| `Do not disturb`       | `Switch`        | -`Can only be controlled if BLE relay is set up and enabled.` <br/>- Allows for enabling or disabling do not disturb - Use PetKit app to set do not disturb schedule if you plan on using this entity.                                                                                                                                                 |
+| `Light`                | `Switch`        | `Can only be controlled if BLE relay is set up and enabled.`                                                                                                                                                                                                                                                                                           |
+| `Power`                | `Switch`        | -`Can only be controlled if BLE relay is set up and enabled.` <br/>- Turning power off is equivalent to "Pause" in the PetKit app. <br/>- Turning power on resumes the water fountain in the mode (Normal/Smart) it was in prior to being powered off.                                                                                                 |
 | `Filter`               | `Sensor`        | Indicates % filter life left.                                                                                                                                                                                                                                                                                                                                          |
 | `Water level`          | `Binary Sensor` | Indicates if water needs to be added to the water fountain.                                                                                                                                                                                                                                                                                                            |
-| `Light brightness`     | `Select`        | -`Only available if BLE relay is set up and main BLE relay device is online.` <br/>- Only available when light is turned on                                                                                                                                                                                                                                            |
-| `Mode`                 | `Select`        | -`Only available if BLE relay is set up and main BLE relay device is online.` <br/>- Allows setting mode to Normal or Smart. <br/>- For "Smart mode", use the PetKit app to set the water on and off minutes.                                                                                                                                                          |
+| `Light brightness`     | `Select`        | -`Can only be controlled if BLE relay is set up and enabled.` <br/>- Only available when light is turned on                                                                                                                                                                                                                                            |
+| `Mode`                 | `Select`        | -`Can only be controlled if BLE relay is set up and enabled.` <br/>- Allows setting mode to Normal or Smart. <br/>- For "Smart mode", use the PetKit app to set the water on and off minutes.                                                                                                                                                          |
 | `Reset filter`         | `Button`        | `Only available if BLE relay is set up and main BLE relay device is online.`                                                                                                                                                                                                                                                                                           |
 | `Energy usage`         | `Sensor`        |                                                                                                                                                                                                                                                                                                                                                                        |
-| `Last data update`     | `Sensor`        | - Date/Time that the water fountain last reported updated data to PetKit servers. <br/>- This can be used to track and identify if the BLE relay is working correctly as this will change whenever the main BLE relay device polls the water fountain. <br/>- If you have the BLE relay set up, this sensor is only concerning if it shows data was updated hours ago. |
+| `Last data update`     | `Sensor`        | - Date/Time that the water fountain last reported updated data to PetKit servers. <br/>- This can be used to track and identify if the BLE relay is working correctly as this will change whenever the main BLE relay device polls the water fountain. <br/> |
 | `Purified water today` | `Sensor`        | Number of times water has been purified.                                                                                                                                                                                                                                                                                                                               |
 
 
@@ -482,6 +464,7 @@ Each litter box has the following entities:
 | `Deep deodorization` | `Switch` | - Only available if litter box is online (Connected to PetKit's servers) and has a Pura Air associated with it. <br/>- Not available if Auto Cleaning is disabled. <br/>- Not available if Avoid repeat cleaning is disabled. <br/>- Not available if Kitten Mode is turned on. |
 | `Display` | `Switch` | - Turn display on litter box on or off. <br/>- Only available if litter box is online (Connected to PetKit's servers).                                                                                                                   |
 | `Do not disturb` | `Switch` | Only available if litter box is online (Connected to PetKit's servers).                                                                                                                                                                  |
+| `Enhanced adsorption` | `Switch` | Only available if litter box is online (Connected to PetKit's servers).                                                                                                                                                                  |
 | `Kitten mode` | `Switch` | Only available if litter box is online (Connected to PetKit's servers).                                                                                                                                                                  |
 | `Light weight cleaning disabled` | `Switch` | - Only available if litter box is online (Connected to PetKit's servers). <br/>- Not available if Auto Cleaning is disabled. <br/>- Not available if Avoid repeat cleaning is disabled. <br/>- Not available if Kitten Mode is turned on. |
 | `Litter type` | `Select` | Type of litter that is being used in the litter box.                                                                                                                                                                                     |

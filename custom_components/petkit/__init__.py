@@ -4,10 +4,20 @@ from __future__ import annotations
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr
 
-from .const import DOMAIN, LOGGER, PETKIT_COORDINATOR, PLATFORMS, POLLING_INTERVAL, REGION, TIMEZONE, UPDATE_LISTENER
+from .const import (
+    DOMAIN,
+    LOGGER,
+    PETKIT_COORDINATOR,
+    PLATFORMS,
+    POLLING_INTERVAL,
+    REGION,
+    TIMEZONE,
+    UPDATE_LISTENER,
+    USE_BLE_RELAY,
+)
 from .coordinator import PetKitDataUpdateCoordinator
-from .util import async_validate_api, NoDevicesError
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -39,37 +49,19 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Migrate old entry."""
 
-    if entry.version == 1:
+    if entry.version in [1, 2, 3]:
         email = entry.data[CONF_EMAIL]
         password = entry.data[CONF_PASSWORD]
+        if POLLING_INTERVAL in entry.options:
+            polling_interval = entry.options[POLLING_INTERVAL]
+        else:
+            polling_interval = 120
 
         LOGGER.debug('Migrating PetKit config entry')
-        entry.version = 5
 
         hass.config_entries.async_update_entry(
             entry,
-            data={
-                CONF_EMAIL: email,
-                CONF_PASSWORD: password,
-            },
-            options={
-                REGION: None,
-                TIMEZONE: "Set Automatically",
-                POLLING_INTERVAL: 120,
-            },
-        )
-        LOGGER.error("PetKit API has changed. Please reauthenticate and select your country.")
-
-    if entry.version in [2,3]:
-        email = entry.data[CONF_EMAIL]
-        password = entry.data[CONF_PASSWORD]
-        polling_interval = entry.options[POLLING_INTERVAL]
-
-        LOGGER.debug('Migrating PetKit config entry')
-        entry.version = 5
-
-        hass.config_entries.async_update_entry(
-            entry,
+            version=6,
             data={
                 CONF_EMAIL: email,
                 CONF_PASSWORD: password,
@@ -78,29 +70,35 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 REGION: None,
                 TIMEZONE: "Set Automatically",
                 POLLING_INTERVAL: polling_interval,
+                USE_BLE_RELAY: True,
             },
         )
         LOGGER.error("PetKit API has changed. Please reauthenticate and select your country.")
 
-    if entry.version == 4:
+    if entry.version in [4, 5]:
         email = entry.data[CONF_EMAIL]
         password = entry.data[CONF_PASSWORD]
         region = entry.options[REGION]
+        if TIMEZONE in entry.options:
+            timezone = entry.options[TIMEZONE]
+        else:
+            timezone = "Set Automatically"
         polling_interval = entry.options[POLLING_INTERVAL]
 
         LOGGER.debug('Migrating PetKit config entry')
-        entry.version = 5
 
         hass.config_entries.async_update_entry(
             entry,
+            version=6,
             data={
                 CONF_EMAIL: email,
                 CONF_PASSWORD: password,
             },
             options={
                 REGION: region,
-                TIMEZONE: "Set Automatically",
+                TIMEZONE: timezone,
                 POLLING_INTERVAL: polling_interval,
+                USE_BLE_RELAY: True,
             },
         )
 
@@ -110,3 +108,10 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """ Update options. """
 
     await hass.config_entries.async_reload(entry.entry_id)
+
+async def async_remove_config_entry_device(
+    hass: HomeAssistant, config_entry: ConfigEntry, device_entry: dr.DeviceEntry
+) -> bool:
+    """Remove a config entry from a device."""
+    return True
+

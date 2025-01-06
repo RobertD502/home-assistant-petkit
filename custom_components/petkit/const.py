@@ -1,6 +1,7 @@
 """Constants for PetKit"""
 
 import asyncio
+from datetime import timedelta
 import logging
 
 from aiohttp.client_exceptions import ClientConnectionError
@@ -31,6 +32,8 @@ POLLING_INTERVAL = "polling_interval"
 TIMEOUT = 20
 TIMEZONE = "timezone"
 UPDATE_LISTENER = "update_listener"
+USE_BLE_RELAY = "use_ble_relay"
+FAST_INTERVAL = timedelta(seconds=10)
 
 PETKIT_ERRORS = (
     asyncio.TimeoutError,
@@ -303,6 +306,20 @@ LIGHT_BRIGHTNESS_NAMED = {
     3: 'high'
 }
 
+MAX_PAUSED_STATE = {
+    "stopTime": 600,
+    "workMode": 0,
+    "workProcess": 20,
+    "workReason": 2
+}
+
+MAX_CLEANING_STATE = {
+    "stopTime": 600,
+    "workMode": 0,
+    "workProcess": 10,
+    "workReason": 2
+}
+
 WF_MODE_OPTIONS = ['normal', 'smart']
 
 WF_MODE_NAMED = {
@@ -353,7 +370,7 @@ FEEDERS = {
 
 LITTER_BOXES = {
     't3': 'PURA X',
-    't4': 'PURA MAX',
+    't4': 'PURA MAX / PURA MAX 2',
 }
 
 CLEANING_INTERVAL_NAMED = {

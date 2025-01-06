@@ -20,7 +20,8 @@
                     "password": "PetKit lozinka računa",
                     "region": "Odaberite državu povezanu s vašim računom",
                     "timezone": "Odaberite vremensku zonu ručno ili je pokušajte postaviti automatski",
-                    "polling_interval": "Interval prozivanja (sekunde)"
+                    "polling_interval": "Interval prozivanja (sekunde)",
+                    "use_ble_relay": "Koristi PetKit BLE relej (ako je dostupan)"
                 },
                 "title": "Ispunite svoje vjerodajnice za PetKit"
             },
@@ -30,7 +31,8 @@
                     "password": "PetKit lozinka računa",
                     "region": "Odaberite državu povezanu s vašim računom",
                     "timezone": "Odaberite vremensku zonu ručno ili je pokušajte postaviti automatski",
-                    "polling_interval": "Interval prozivanja (sekunde)"
+                    "polling_interval": "Interval prozivanja (sekunde)",
+                    "use_ble_relay": "Koristi PetKit BLE relej (ako je dostupan)"
                 },
                 "title": "Ponovo potvrdite autentičnost svojim PetKit vjerodajnicama"
             }
@@ -42,7 +44,8 @@
           "data": {
             "region": "Odaberite državu povezanu s vašim računom",
             "timezone": "Odaberite vremensku zonu ručno ili je pokušajte postaviti automatski",
-            "polling_interval": "Interval prozivanja (sekunde)"
+            "polling_interval": "Interval prozivanja (sekunde)",
+            "use_ble_relay": "Koristi PetKit BLE relej (ako je dostupan)"
           }
         }
       }
@@ -735,6 +738,9 @@
         },
         "prompt_tone": {
           "name": "Ton"
+        },
+        "enhanced_adsorption": {
+          "name": "Poboljšana adsorpcija"
         }
       },
       "text": {

@@ -14,8 +14,8 @@
     "petkitaio"
   ],
   "requirements": [
-    "petkitaio==0.1.11.3",
+    "petkitaio==0.1.12",
     "tzlocal==5.1"
   ],
-  "version": "0.1.12.4"
+  "version": "0.1.13"
 }

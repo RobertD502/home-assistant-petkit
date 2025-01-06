@@ -20,7 +20,8 @@
                     "password": "PetKit account password",
                     "region": "Select the country associated with your account",
                     "timezone": "Select a timezone manually or attempt to set it automatically",
-                    "polling_interval": "Polling interval (seconds)"
+                    "polling_interval": "Polling interval (seconds)",
+                    "use_ble_relay": "Use PetKit BLE relay (if available)"
                 },
                 "title": "Fill in your PetKit credentials"
             },
@@ -30,7 +31,8 @@
                     "password": "PetKit account password",
                     "region": "Select the country associated with your account",
                     "timezone": "Select a timezone manually or attempt to set it automatically",
-                    "polling_interval": "Polling interval (seconds)"
+                    "polling_interval": "Polling interval (seconds)",
+                    "use_ble_relay": "Use PetKit BLE relay (if available)"
                 },
                 "title": "Reauthenticate with your PetKit credentials"
             }
@@ -42,7 +44,8 @@
           "data": {
             "region": "Select the country associated with your account",
             "timezone": "Select a timezone manually or attempt to set it automatically",
-            "polling_interval": "Polling interval (seconds)"
+            "polling_interval": "Polling interval (seconds)",
+            "use_ble_relay": "Use PetKit BLE relay (if available)"
           }
         }
       }
@@ -735,6 +738,9 @@
         },
         "prompt_tone": {
           "name": "Prompt tone"
+        },
+        "enhanced_adsorption": {
+          "name": "Enhanced adsorption"
         }
       },
       "text": {
