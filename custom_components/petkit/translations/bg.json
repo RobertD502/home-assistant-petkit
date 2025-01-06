@@ -682,9 +682,6 @@
       "do_not_disturb": {
         "name": "Не безпокой"
       },
-      "enhanced_adsorption": {
-        "name": "Подобрена адсорбция"
-      },
       "indicator_light": {
         "name": "Индикаторна светлина"
       },
@@ -741,6 +738,9 @@
       },
       "prompt_tone": {
         "name": "Звук за подсказка"
+      },
+      "enhanced_adsorption": {
+        "name": "Подобрена адсорбция"
       }
     },
     "text": {
