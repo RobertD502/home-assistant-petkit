@@ -1,0 +1,752 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "PetKitアカウントは設定済みです。",
+            "reauth_successful": "再認証に成功しました。"
+        },
+        "error": {
+            "cannot_connect": "接続に失敗しました。",
+            "invalid_auth": "認証に失敗しました。認証情報は正しいですか？",
+            "no_devices": "アカウントにデバイスが見つかりませんでした。",
+            "server_busy": "PetKitサーバーが混雑しています。しばらくしてからもう一度お試しください",
+            "petkit_error": "不明なエラーが発生しました。詳細はHome Assistantのログをご確認ください。",
+            "region_error": "アカウントに登録されている国を選択してください。",
+            "timezone_error": "タイムゾーンが見つかりませんでした。Home AssistantをスタンドアロンのDockerコンテナで使用している場合は、TZ環境変数を設定する必要があります。TZ環境変数が設定されているか、Home Assistant OSを使用している場合でも、あなたのタイムゾーンがtzlocalライブラリに存在しない場合は、セットアップ時にタイムゾーンを手動で選択してください。"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "PetKitアカウントのメールアドレス",
+                    "password": "PetKitアカウントのパスワード",
+                    "region": "アカウントに登録されている国を選択してください。",
+                    "timezone": "タイムゾーンを手動で選択するか、自動設定を試してください。",
+                    "polling_interval": "ポーリング間隔（秒）",
+                    "use_ble_relay": "利用可能な場合は、PetKit BLEリレーを使用してください"
+                },
+                "title": "PetKitの認証情報を入力してください。"
+            },
+            "reauth_confirm": {
+                "data": {
+                    "email": "PetKitアカウントのメールアドレス",
+                    "password": "PetKitアカウントのパスワード",
+                    "region": "アカウントに登録されている国を選択してください。",
+                    "timezone": "タイムゾーンを手動で選択するか、自動設定を試してください。",
+                    "polling_interval": "ポーリング間隔（秒）",
+                    "use_ble_relay": "利用可能な場合は、PetKit BLEリレーを使用してください"
+                },
+                "title": "PetKitの認証情報で再認証してください。"
+            }
+        }
+    },
+    "options": {
+      "step": {
+        "petkit_options": {
+          "data": {
+            "region": "アカウントに登録されている国を選択してください。",
+            "timezone": "タイムゾーンを手動で選択するか、自動設定を試してください。",
+            "polling_interval": "ポーリング間隔（秒）",
+            "use_ble_relay": "利用可能な場合は、PetKit BLEリレーを使用してください"
+          }
+        }
+      }
+    },
+    "entity": {
+      "binary_sensor": {
+        "water_level": {
+          "name": "水位"
+        },
+        "food_level": {
+          "name": "餌の量"
+        },
+        "battery_installed": {
+          "name": "バッテリー装着済"
+        },
+        "battery": {
+          "name": "バッテリー"
+        },
+        "wastebin": {
+          "name": "ゴミ容器"
+        },
+        "litter": {
+          "name": "猫砂"
+        },
+        "deodorizer": {
+          "name": "徐臭液"
+        },
+        "manually_paused": {
+          "name": "手動で一時停止済み"
+        },
+        "pura_air_liquid": {
+          "name": "清浄液"
+        },
+        "food_level_hopper_one": {
+          "name": "餌の量 ホッパー 1"
+        },
+        "food_level_hopper_two": {
+          "name": "餌の量 ホッパー 2"
+        }
+      },
+      "button": {
+        "reset_filter": {
+          "name": "フィルターをリセット"
+        },
+        "reset_desiccant": {
+          "name": "乾燥剤をリセット"
+        },
+        "cancel_manual_feed": {
+          "name": "手動給餌をキャンセル"
+        },
+        "call_pet": {
+          "name": "ペットを呼ぶ"
+        },
+        "start_cleaning": {
+          "name": "クリーニングを開始/再開"
+        },
+        "pause_cleaning": {
+          "name": "クリーニングを一時停止"
+        },
+        "odor_removal": {
+          "name": "徐臭装置"
+        },
+        "reset_deodorizer": {
+          "name": "徐臭液をリセット"
+        },
+        "reset_pura_air_liquid": {
+          "name": "ピュラ・エアをリセット"
+        },
+        "n50_reset": {
+          "name": "N50 消臭剤をリセット"
+        },
+        "light_on": {
+          "name": "照明を点灯"
+        },
+        "start_maintenance": {
+          "name": "メンテナンスモードを開始"
+        },
+        "exit_maintenance": {
+          "name": "メンテナンスモードを終了"
+        },
+        "pause_exit_maintenance": {
+          "name": "メンテナンスモード終了の一時停止"
+        },
+        "resume_exit_maintenance": {
+          "name": "メンテナンスモード終了の再開"
+        },
+        "dump_litter": {
+          "name": "猫砂を排出"
+        },
+        "pause_dump_litter": {
+          "name": "猫砂排出を一時停止"
+        },
+        "resume_dump_litter": {
+          "name": "猫砂排出を再開"
+        },
+        "food_replenished": {
+          "name": "餌が補充されました"
+        },
+        "start_cal": {
+          "name": "校正を開始"
+        },
+        "stop_cal": {
+          "name": "校正を停止"
+        }
+      },
+      "fan": {
+        "purifier": {
+          "name": "空気清浄機",
+          "state_attributes": {
+            "preset_mode": {
+              "state": {
+                "auto": "自動",
+                "silent": "静音",
+                "standard": "標準",
+                "strong": "強力"
+              }
+            }
+          }
+        }
+      },
+      "number": {
+        "set_weight": {
+          "name": "体重を設定"
+        },
+        "surplus": {
+          "name": "余剰"
+        },
+        "volume": {
+          "name": "音量"
+        },
+        "manual_feed": {
+          "name": "手動給餌"
+        },
+        "cleaning_delay": {
+          "name": "クリーニングの遅延"
+        },
+        "min_eating_duration": {
+          "name": "最短食事時間"
+        }
+      },
+      "select": {
+        "light_brightness": {
+          "name": "照明の明るさ",
+          "state": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "mode": {
+          "name": "モード",
+          "state": {
+            "normal": "標準",
+            "smart": "スマート"
+          }
+        },
+        "manual_feed": {
+          "name": "手動給餌"
+        },
+        "sound": {
+          "name": "音"
+        },
+        "cleaning_interval": {
+          "name": "クリーニング間隔"
+        },
+        "litter_type": {
+          "name": "猫砂の種類",
+          "state": {
+            "bentonite": "ベントナイト",
+            "tofu": "TOFU",
+            "mixed": "ミックス"
+          }
+        }
+      },
+      "sensor": {
+        "energy_usage": {
+          "name": "電力使用量"
+        },
+        "last_data_update": {
+          "name": "最終データ更新"
+        },
+        "filter": {
+          "name": "フィルター"
+        },
+        "purified_water_today": {
+          "name": "本日の浄水量"
+        },
+        "feeder_status": {
+          "name": "状態",
+          "state": {
+            "offline": "オフライン",
+            "normal": "標準",
+            "on_batteries": "電池駆動中"
+          }
+        },
+        "desiccant_days_remaining": {
+          "name": "乾燥剤の使用可能残日数"
+        },
+        "battery_status": {
+          "name": "電池の状態",
+          "state": {
+            "normal": "標準",
+            "low": "低"
+          }
+        },
+        "dispensed": {
+          "name": "給餌済"
+        },
+        "planned": {
+          "name": "予定済"
+        },
+        "planned_dispensed": {
+          "name": "予定された給餌"
+        },
+        "manually_dispensed": {
+          "name": "手動で給餌済"
+        },
+        "times_dispensed": {
+          "name": "給餌回数"
+        },
+        "rssi": {
+          "name": "RSSI"
+        },
+        "amount_eaten": {
+          "name": "食事量"
+        },
+        "times_eaten": {
+          "name": "食事回数"
+        },
+        "food_in_bowl": {
+          "name": "フードボウルにある餌"
+        },
+        "error": {
+          "name": "エラー",
+          "state": {
+            "no_error": "エラー無し"
+          }
+        },
+        "deodorizer_level": {
+          "name": "徐臭液の量"
+        },
+        "litter_level": {
+          "name": "猫砂の量"
+        },
+        "litter_weight": {
+          "name": "猫砂の重量"
+        },
+        "times_used": {
+          "name": "使用回数"
+        },
+        "average_use": {
+          "name": "平均使用量"
+        },
+        "total_use": {
+          "name": "総使用量"
+        },
+        "last_used_by": {
+          "name": "最終利用ペット",
+          "state": {
+            "no_record_yet": "記録無し",
+            "unknown_pet": "未知のペット"
+          }
+        },
+        "last_event": {
+          "name": "最後のイベント",
+          "state": {
+            "no_events_yet": "イベント記録無し",
+            "event_type_unknown": "イベントタイプ不明",
+            "cleaning_completed": "クリーニング完了",
+            "dumping_over": "排出完了",
+            "reset_over": "リセット完了",
+            "spray_over": "スプレー完了",
+            "pet_out": "ペット退出",
+            "auto_cleaning_completed": "自動クリーニング完了",
+            "periodic_cleaning_completed": "定期クリーニング完了",
+            "manual_cleaning_completed": "手動クリーニング完了",
+            "auto_cleaning_terminated": "自動クリーニング中止",
+            "periodic_cleaning_terminated": "定期クリーニング中止",
+            "manual_cleaning_terminated": "手動クリーニング中止",
+            "auto_cleaning_failed_full": "自動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "auto_cleaning_failed_hall_l": "自動クリーニングが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+            "auto_cleaning_failed_hall_t": "自動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "scheduled_cleaning_failed_full": "定期クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "scheduled_cleaning_failed_hall_l": "定期クリーニングが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+            "scheduled_cleaning_failed_hall_t": "定期クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "manual_cleaning_failed_full": "手動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "manual_cleaning_failed_hall_l": "手動クリーニングが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+            "manual_cleaning_failed_hall_t": "手動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "auto_cleaning_canceled": "自動クリーニングがキャンセルされました。デバイスは稼働中です。",
+            "periodic_cleaning_canceled": "定期クリーニングがキャンセルされました。デバイスは稼働中です。",
+            "manual_cleaning_canceled": "手動クリーニングがキャンセルされました。デバイスは稼働中です。",
+            "auto_cleaning_canceled_kitten": "子猫モードが有効になり、自動クリーニングがキャンセルされました。",
+            "periodic_cleaning_canceled_kitten": "子猫モードが有効になり、定期クリーニングがキャンセルされました。",
+            "litter_empty_completed": "猫砂を空にする作業完了",
+            "litter_empty_terminated": "猫砂を空にする作業中止",
+            "litter_empty_failed_full": "猫砂を空にする作業が失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "litter_empty_failed_hall_l": "猫砂を空にする作業が失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+            "litter_empty_failed_hall_t": "猫砂を空にする作業が失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "reset_completed": "デバイスのリセット完了",
+            "reset_terminated": "デバイスのリセット中止",
+            "reset_failed_full": "デバイスのリセットが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "reset_failed_hall_l": "デバイスのリセットが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+            "reset_failed_hall_t": "デバイスのリセットが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "deodorant_finished": "消臭剤終了",
+            "periodic_odor_completed": "定期徐臭完了",
+            "manual_odor_completed": "手動徐臭完了",
+            "deodorant_finished_liquid_lack": "消臭剤が終了しました。清浄液が不足しています。適時に補充してください。",
+            "periodic_odor_completed_liquid_lack": "定期徐臭が完了しましたが、清浄液が不足しています。適時に補充してください。",
+            "manual_odor_completed_liquid_lack": "手動徐臭が完了しましたが、清浄液が不足しています。適時に補充してください。",
+            "auto_odor_failed": "自動徐臭が失敗しました。徐臭装置のエラーです。",
+            "periodic_odor_failed": "定期徐臭が失敗しました。徐臭装置のエラーです。",
+            "manual_odor_failed": "手動徐臭が失敗しました。徐臭装置のエラーです。"
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "イベント記録無し",
+                "event_type_unknown": "イベントタイプ不明",
+                "cleaning_completed": "クリーニング完了",
+                "dumping_over": "排出完了",
+                "reset_over": "リセット完了",
+                "spray_over": "スプレー完了",
+                "pet_out": "ペット退出",
+                "auto_cleaning_completed": "自動クリーニング完了",
+                "periodic_cleaning_completed": "定期クリーニング完了",
+                "manual_cleaning_completed": "手動クリーニング完了",
+                "auto_cleaning_terminated": "自動クリーニング中止",
+                "periodic_cleaning_terminated": "定期クリーニング中止",
+                "manual_cleaning_terminated": "手動クリーニング中止",
+                "auto_cleaning_failed_full": "自動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "auto_cleaning_failed_hall_l": "自動クリーニングが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+                "auto_cleaning_failed_hall_t": "自動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "scheduled_cleaning_failed_full": "定期クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "scheduled_cleaning_failed_hall_l": "定期クリーニングが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+                "scheduled_cleaning_failed_hall_t": "定期クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "manual_cleaning_failed_full": "手動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "manual_cleaning_failed_hall_l": "手動クリーニングが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+                "manual_cleaning_failed_hall_t": "手動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "auto_cleaning_canceled": "自動クリーニングがキャンセルされました。デバイスは稼働中です。",
+                "periodic_cleaning_canceled": "定期クリーニングがキャンセルされました。デバイスは稼働中です。",
+                "manual_cleaning_canceled": "手動クリーニングがキャンセルされました。デバイスは稼働中です。",
+                "auto_cleaning_canceled_kitten": "子猫モードが有効になり、自動クリーニングがキャンセルされました。",
+                "periodic_cleaning_canceled_kitten": "子猫モードが有効になり、定期クリーニングがキャンセルされました。",
+                "litter_empty_completed": "猫砂を空にする作業完了",
+                "litter_empty_terminated": "猫砂を空にする作業中止",
+                "litter_empty_failed_full": "猫砂を空にする作業が失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "litter_empty_failed_hall_l": "猫砂を空にする作業が失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+                "litter_empty_failed_hall_t": "猫砂を空にする作業が失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "reset_completed": "デバイスのリセット完了",
+                "reset_terminated": "デバイスのリセット中止",
+                "reset_failed_full": "デバイスのリセットが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "reset_failed_hall_l": "デバイスのリセットが失敗しました。シリンダーが正しく固定されていません。ご確認ください。",
+                "reset_failed_hall_t": "デバイスのリセットが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "deodorant_finished": "消臭剤終了",
+                "periodic_odor_completed": "定期徐臭完了",
+                "manual_odor_completed": "手動徐臭完了",
+                "deodorant_finished_liquid_lack": "消臭剤が終了しました。清浄液が不足しています。適時に補充してください。",
+                "periodic_odor_completed_liquid_lack": "定期徐臭が完了しましたが、清浄液が不足しています。適時に補充してください。",
+                "manual_odor_completed_liquid_lack": "手動徐臭が完了しましたが、清浄液が不足しています。適時に補充してください。",
+                "auto_odor_failed": "自動徐臭が失敗しました。徐臭装置のエラーです。",
+                "periodic_odor_failed": "定期徐臭が失敗しました。徐臭装置のエラーです。",
+                "manual_odor_failed": "手動徐臭が失敗しました。徐臭装置のエラーです。",
+                "no_sub_events": "関連サブイベント無し"
+              }
+            }
+          }
+        },
+        "latest_weight": {
+          "name": "最新の体重"
+        },
+        "last_use_duration": {
+          "name": "最後の使用時間"
+        },
+        "pura_air_battery": {
+          "name": "ピュラ・エアの電池"
+        },
+        "pura_air_liquid": {
+          "name": "ピュラ・エアの清浄液"
+        },
+        "n50_odor_eliminator": {
+          "name": "N50 消臭剤"
+        },
+        "max_last_event": {
+          "name": "最後のイベント",
+          "state": {
+            "no_events_yet": "イベント記録無し",
+            "event_type_unknown": "イベントタイプ不明",
+            "cleaning_completed": "クリーニング完了",
+            "dumping_over": "排出完了",
+            "reset_over": "リセット完了",
+            "spray_over": "スプレー完了",
+            "light_over": "照明切れ",
+            "pet_out": "ペット退出",
+            "auto_cleaning_completed": "自動クリーニング完了",
+            "periodic_cleaning_completed": "定期クリーニング完了",
+            "manual_cleaning_completed": "手動クリーニング完了",
+            "auto_cleaning_terminated": "自動クリーニング中止",
+            "periodic_cleaning_terminated": "定期クリーニング中止",
+            "manual_cleaning_terminated": "手動クリーニング中止",
+            "auto_cleaning_failed_full": "自動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "auto_cleaning_failed_hall_t": "自動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "auto_cleaning_failed_falldown": "自動クリーニングが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+            "auto_cleaning_failed_other": "自動クリーニングが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+            "scheduled_cleaning_failed_full": "定期クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "scheduled_cleaning_failed_hall_t": "定期クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "scheduled_cleaning_failed_falldown": "定期クリーニングが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+            "scheduled_cleaning_failed_other": "定期クリーニングが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+            "manual_cleaning_failed_full": "手動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "manual_cleaning_failed_hall_t": "手動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "manual_cleaning_failed_falldown": "手動クリーニングが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+            "manual_cleaning_failed_other": "手動クリーニングが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+            "auto_cleaning_canceled": "自動クリーニングがキャンセルされました。デバイスは稼働中です。",
+            "periodic_cleaning_canceled": "定期クリーニングがキャンセルされました。デバイスは稼働中です。",
+            "manual_cleaning_canceled": "手動クリーニングがキャンセルされました。デバイスは稼働中です。",
+            "auto_cleaning_failed_maintenance": "自動クリーニングが失敗しました。デバイスはメンテナンスモードになっています。",
+            "periodic_cleaning_failed_maintenance": "定期クリーニングが失敗しました。デバイスはメンテナンスモードになっています。",
+            "auto_cleaning_canceled_kitten": "子猫モードが有効になり、自動クリーニングがキャンセルされました。",
+            "periodic_cleaning_canceled_kitten": "子猫モードが有効になり、定期クリーニングがキャンセルされました。",
+            "litter_empty_completed": "猫砂を空にする作業完了",
+            "litter_empty_terminated": "猫砂を空にする作業中止",
+            "litter_empty_failed_full": "猫砂を空にする作業が失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "litter_empty_failed_hall_t": "猫砂を空にする作業が失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "litter_empty_failed_falldown": "猫砂を空にする作業が失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+            "litter_empty_failed_other": "猫砂を空にする作業が失敗しました。デバイスに故障が発生しています。ご確認ください。",
+            "reset_completed": "デバイスのリセット完了",
+            "reset_terminated": "デバイスのリセット中止",
+            "reset_failed_full": "デバイスのリセットが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+            "reset_failed_hall_t": "デバイスのリセットが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+            "reset_failed_falldown": "デバイスのリセットが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+            "reset_failed_other": "デバイスのリセットが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+            "maintenance_mode": "メンテナンスモード",
+            "deodorant_finished": "消臭剤終了",
+            "periodic_odor_completed": "定期徐臭完了",
+            "manual_odor_completed": "手動徐臭完了",
+            "auto_odor_terminated": "自動徐臭中止",
+            "periodic_odor_terminated": "定期徐臭中止",
+            "manual_odor_terminated": "手動徐臭中止",
+            "auto_odor_failed": "自動徐臭が失敗しました。徐臭装置のエラーです。",
+            "periodic_odor_failed": "定期徐臭が失敗しました、徐臭装置のエラーです。",
+            "manual_odor_failed": "手動徐臭が失敗しました、徐臭装置のエラーです。",
+            "auto_odor_canceled": "自動徐臭がキャンセルされました。デバイスは稼働中です。",
+            "periodic_odor_canceled": "定期徐臭がキャンセルされました。猫砂ボックスは稼働中です。",
+            "manual_odor_canceled": "手動徐臭がキャンセルされました。猫砂ボックスは稼働中です。",
+            "auto_odor_failed_device": "自動徐臭が失敗しました。スマートスプレーが接続されていません。",
+            "periodic_odor_failed_device": "定期徐臭が失敗しました。徐臭装置が切断されています。",
+            "manual_odor_failed_device": "手動徐臭が失敗しました。徐臭装置が切断されています。",
+            "auto_odor_failed_batt": "自動徐臭が失敗しました。スマートスプレーの電池の残量が十分であることをご確認ください。",
+            "periodic_odor_failed_batt": "定期徐臭が失敗しました。徐臭装置の電池の残量が十分であることを確認してください。",
+            "manual_odor_failed_batt": "手動徐臭が失敗しました。徐臭装置の電池の残量が十分であることを確認してください。",
+            "auto_odor_failed_low_batt": "自動徐臭が失敗しました。徐臭装置の電池の残量が少ないです。",
+            "periodic_odor_failed_low_batt": "定期徐臭が失敗しました。徐臭装置の電池の残量が少ないです。",
+            "manual_odor_failed_low_batt": "手動徐臭が失敗しました。徐臭装置の電池の残量が少ないです。",
+            "cat_stopped_odor": "あなたの猫が猫砂ボックスを使用中です。消臭作業はキャンセルされました。",
+            "light_on": "照明は点灯中",
+            "light_already_on": "照明は点灯しています。再度点灯する必要はありません。",
+            "light_malfunc": "照明の点灯に失敗しました。デバイスに故障が発生しています。ご確認ください。",
+            "light_no_device": "照明の点灯に失敗しました。先に徐臭装置を接続してください。",
+            "light_batt_cap": "照明の点灯に失敗しました。徐臭装置の電池の容量を確認してください。",
+            "light_low_batt": "照明の点灯に失敗しました。徐臭装置の電池の容量が低下しています。"
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "イベント記録無し",
+                "event_type_unknown": "イベントタイプ不明",
+                "cleaning_completed": "クリーニング完了",
+                "dumping_over": "排出完了",
+                "reset_over": "リセット完了",
+                "spray_over": "スプレー完了",
+                "light_over": "照明切れ",
+                "pet_out": "ペット退出",
+                "auto_cleaning_completed": "自動クリーニング完了",
+                "periodic_cleaning_completed": "定期クリーニング完了",
+                "manual_cleaning_completed": "手動クリーニング完了",
+                "auto_cleaning_terminated": "自動クリーニング中止",
+                "periodic_cleaning_terminated": "定期クリーニング中止",
+                "manual_cleaning_terminated": "手動クリーニング中止",
+                "auto_cleaning_failed_full": "自動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "auto_cleaning_failed_hall_t": "自動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "auto_cleaning_failed_falldown": "自動クリーニングが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+                "auto_cleaning_failed_other": "自動クリーニングが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+                "scheduled_cleaning_failed_full": "定期クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "scheduled_cleaning_failed_hall_t": "定期クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "scheduled_cleaning_failed_falldown": "定期クリーニングが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+                "scheduled_cleaning_failed_other": "定期クリーニングが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+                "manual_cleaning_failed_full": "手動クリーニングが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "manual_cleaning_failed_hall_t": "手動クリーニングが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "manual_cleaning_failed_falldown": "手動クリーニングが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+                "manual_cleaning_failed_other": "手動クリーニングが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+                "auto_cleaning_canceled": "自動クリーニングがキャンセルされました。デバイスは稼働中です。",
+                "periodic_cleaning_canceled": "定期クリーニングがキャンセルされました。デバイスは稼働中です。",
+                "manual_cleaning_canceled": "手動クリーニングがキャンセルされました。デバイスは稼働中です。",
+                "auto_cleaning_failed_maintenance": "自動クリーニングが失敗しました。デバイスはメンテナンスモードになっています。",
+                "periodic_cleaning_failed_maintenance": "定期クリーニングが失敗しました。デバイスはメンテナンスモードになっています。",
+                "auto_cleaning_canceled_kitten": "子猫モードが有効になり、自動クリーニングがキャンセルされました。",
+                "periodic_cleaning_canceled_kitten": "子猫モードが有効になり、定期クリーニングがキャンセルされました。",
+                "litter_empty_completed": "猫砂を空にする作業完了",
+                "litter_empty_terminated": "猫砂を空にする作業中止",
+                "litter_empty_failed_full": "猫砂を空にする作業が失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "litter_empty_failed_hall_t": "猫砂を空にする作業が失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "litter_empty_failed_falldown": "猫砂を空にする作業が失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+                "litter_empty_failed_other": "猫砂を空にする作業が失敗しました。デバイスに故障が発生しています。ご確認ください。",
+                "reset_completed": "デバイスのリセット完了",
+                "reset_terminated": "デバイスのリセット中止",
+                "reset_failed_full": "デバイスのリセットが失敗しました。ゴミ収集容器が満杯です。ただちに空にしてください。",
+                "reset_failed_hall_t": "デバイスのリセットが失敗しました。猫砂ボックスの上部カバーが正しく設置されていません。ご確認ください。",
+                "reset_failed_falldown": "デバイスのリセットが失敗しました。猫砂ボックスが倒されています。ご確認ください。",
+                "reset_failed_other": "デバイスのリセットが失敗しました。デバイスに故障が発生しています。ご確認ください。",
+                "maintenance_mode": "メンテナンスモード",
+                "deodorant_finished": "消臭剤終了",
+                "periodic_odor_completed": "定期徐臭完了",
+                "manual_odor_completed": "手動徐臭完了",
+                "auto_odor_terminated": "自動徐臭中止",
+                "periodic_odor_terminated": "定期徐臭中止",
+                "manual_odor_terminated": "手動徐臭中止",
+                "auto_odor_failed": "自動徐臭が失敗しました。徐臭装置のエラーです。",
+                "periodic_odor_failed": "定期徐臭が失敗しました、徐臭装置のエラーです。",
+                "manual_odor_failed": "手動徐臭が失敗しました、徐臭装置のエラーです。",
+                "auto_odor_canceled": "自動徐臭がキャンセルされました。デバイスは稼働中です。",
+                "periodic_odor_canceled": "定期徐臭がキャンセルされました。猫砂ボックスは稼働中です。",
+                "manual_odor_canceled": "手動徐臭がキャンセルされました。猫砂ボックスは稼働中です。",
+                "auto_odor_failed_device": "自動徐臭が失敗しました。スマートスプレーが接続されていません。",
+                "periodic_odor_failed_device": "定期徐臭が失敗しました。徐臭装置が切断されています。",
+                "manual_odor_failed_device": "手動徐臭が失敗しました。徐臭装置が切断されています。",
+                "auto_odor_failed_batt": "自動徐臭が失敗しました。スマートスプレーの電池の残量が十分であることをご確認ください。",
+                "periodic_odor_failed_batt": "定期徐臭が失敗しました。徐臭装置の電池の残量が十分であることを確認してください。",
+                "manual_odor_failed_batt": "手動徐臭が失敗しました。徐臭装置の電池の残量が十分であることを確認してください。",
+                "auto_odor_failed_low_batt": "自動徐臭が失敗しました。徐臭装置の電池の残量が少ないです。",
+                "periodic_odor_failed_low_batt": "定期徐臭が失敗しました。徐臭装置の電池の残量が少ないです。",
+                "manual_odor_failed_low_batt": "手動徐臭が失敗しました。徐臭装置の電池の残量が少ないです。",
+                "cat_stopped_odor": "あなたの猫が猫砂ボックスを使用中です。消臭作業はキャンセルされました。",
+                "light_on": "照明は点灯中",
+                "light_already_on": "照明は点灯しています。再度点灯する必要はありません。",
+                "light_malfunc": "照明の点灯に失敗しました。デバイスに故障が発生しています。ご確認ください。",
+                "light_no_device": "照明の点灯に失敗しました。先に徐臭装置を接続してください。",
+                "light_batt_cap": "照明の点灯に失敗しました。徐臭装置の電池の容量を確認してください。",
+                "light_low_batt": "照明の点灯に失敗しました。徐臭装置の電池の容量が低下しています。",
+                "no_sub_events": "関連サブイベント無し"
+              }
+            }
+          }
+        },
+        "max_work_state": {
+          "name": "状態",
+          "state": {
+            "cleaning_litter_box": "猫砂ボックスをクリーニング中",
+            "cleaning_litter_box_paused": "猫砂ボックスクリーニングが一時停止",
+            "cleaning_paused_pet_entered": "猫砂ボックスクリーニングが一時停止: 運転中にペットが入ったため、ピンチ防止センサーが作動し、デバイスが停止しました。早急にデバイスを確認してください。",
+            "cleaning_paused_system_error": "猫砂ボックスクリーニングが一時停止: システムエラー、運転一時停止。",
+            "cleaning_paused_pet_approach": "猫砂ボックスクリーニングが一時停止: あなたの猫が近づいているため、運転が中断されました。",
+            "cleaning_paused_pet_using": "猫砂ボックスクリーニングが一時停止：あなたの猫がデバイスを使用中で、運転が中断されました。",
+            "resetting_device": "デバイスをリセット中",
+            "litter_box_paused": "猫砂ボックスが一時停止",
+            "paused_pet_entered": "猫砂ボックスが一時停止: 運転中にペットが入ったため、ピンチ防止センサーが作動し、デバイスが停止しました。早急にデバイスを確認してください。",
+            "paused_system_error": "猫砂ボックスが一時停止: システムエラー、運転一時停止。",
+            "paused_pet_approach": "猫砂ボックスが一時停止: あなたの猫が近づいているため、運転が中断されました。",
+            "paused_pet_using": "猫砂ボックスが一時停止: あなたの猫がデバイスを使用中で、運転が中断されました。",
+            "dumping_litter": "猫砂を排出中",
+            "dumping_litter_paused": "猫砂排出が一時停止",
+            "dumping_paused_pet_entered": "猫砂排出が一時停止: 運転中にペットが入ったため、ピンチ防止センサーが作動し、デバイスが停止しました。早急にデバイスを確認してください。",
+            "dumping_paused_system_error": "猫砂排出が一時停止: システムエラー、運転一時停止。",
+            "dumping_paused_pet_approach": "猫砂排出が一時停止: あなたの猫が近づいているため、運転が中断されました。",
+            "dumping_paused_pet_using": "猫砂排出が一時停止: あなたの猫がデバイスを使用中で、運転が中断されました。",
+            "resetting": "リセット中",
+            "leveling": "猫砂を均しています。お待ちください。",
+            "calibrating": "猫砂ボックスを校正しています。お待ちください。",
+            "maintenance_mode": "メンテナンスモード",
+            "maintenance_paused_pet_entered": "メンテナンスモードが一時停止: 運転中にペットが入ったため、ピンチ防止センサーが作動し、デバイスが停止しました。早急にデバイスを確認してください。",
+            "maintenance_paused_cover": "メンテナンスモードが一時停止: 上部カバーが装着されていません、運転一時停止。",
+            "maintenance_paused_system_error": "メンテナンスモードが一時停止: システムエラー、運転一時停止。",
+            "maintenance_paused_pet_approach": "メンテナンスモードが一時停止: あなたの猫が近づいているため、運転が中断されました。",
+            "maintenance_paused_pet_using": "メンテナンスモードが一時停止: あなたの猫がデバイスを使用中で、運転が中断されました。",
+            "maintenance_paused": "メンテナンスモードを一時停止",
+            "exit_maintenance": "メンテナンスモードを終了中",
+            "maintenance_exit_paused_pet_entered": "メンテナンスモード終了が一時停止: 運転中にペットが入ったため、ピンチ防止センサーが作動し、デバイスが停止しました。早急にデバイスを確認してください。",
+            "maintenance_exit_paused_cover": "メンテナンスモード終了が一時停止: 上部カバーが装着されていません、運転一時停止。",
+            "maintenance_exit_paused_system_error": "メンテナンスモード終了が一時停止: システムエラー、運転一時停止。",
+            "maintenance_exit_paused_pet_approach": "メンテナンスモード終了が一時停止: あなたの猫が近づいているため、運転が中断されました。",
+            "maintenance_exit_paused_pet_using": "メンテナンスモード終了が一時停止: あなたの猫がデバイスを使用中で、運転が中断されました。",
+            "maintenance_exit_paused": "メンテナンスモード終了が一時停止",
+            "idle": "待機状態"
+          }
+        },
+        "avg_eating_time": {
+          "name": "平均食事時間"
+        },
+        "manually_dispensed_hopp_one": {
+          "name": "手動給餌 ホッパー 1"
+        },
+        "manually_dispensed_hopp_two": {
+          "name": "手動給餌 ホッパー 2"
+        },
+        "planned_hopp_one": {
+          "name": "予定 ホッパー 1"
+        },
+        "planned_hopp_two": {
+          "name": "予定 ホッパー 2"
+        },
+        "planned_dispensed_hopp_one": {
+          "name": "給餌予定 ホッパー 1"
+        },
+        "planned_dispensed_hopp_two": {
+          "name": "給餌予定 ホッパー 2"
+        },
+        "dispensed_hopp_one": {
+          "name": "給餌 ホッパー 1"
+        },
+        "dispensed_hopp_two": {
+          "name": "給餌 ホッパー 2"
+        },
+        "humidity": {
+          "name": "湿度"
+        },
+        "temperature": {
+          "name": "温度"
+        },
+        "air_purified": {
+          "name": "空気清浄"
+        },
+        "liquid": {
+          "name": "液体"
+        },
+        "food_left": {
+          "name": "餌の残量"
+        }
+      },
+      "switch": {
+        "light": {
+          "name": "照明"
+        },
+        "power": {
+          "name": "電源"
+        },
+        "do_not_disturb": {
+          "name": "おやすみモード"
+        },
+        "indicator_light": {
+          "name": "表示灯"
+        },
+        "child_lock": {
+          "name": "チャイルドロック"
+        },
+        "food_shortage_alarm": {
+          "name": "餌不足アラーム"
+        },
+        "dispense_tone": {
+          "name": "給餌音"
+        },
+        "voice_with_dispense": {
+          "name": "給餌時の音声"
+        },
+        "surplus_control": {
+          "name": "余剰管理"
+        },
+        "system_notification_sound": {
+          "name": "システム通知オン"
+        },
+        "auto_odor_removal": {
+          "name": "自動徐臭"
+        },
+        "auto_cleaning": {
+          "name": "自動クリーニング"
+        },
+        "avoid_repeat_cleaning": {
+          "name": "クリーニング繰り返し防止"
+        },
+        "periodic_cleaning": {
+          "name": "定期クリーニング"
+        },
+        "periodic_odor_removal": {
+          "name": "定期徐臭"
+        },
+        "kitten_mode": {
+          "name": "子猫モード"
+        },
+        "display": {
+          "name": "画面"
+        },
+        "light_weight_cleaning_disabled": {
+          "name": "軽量クリーニングが無効"
+        },
+        "cont_rotation": {
+          "name": "連続回転"
+        },
+        "deep_cleaning": {
+          "name": "集中クリーニング"
+        },
+        "deep_deodor": {
+          "name": "集中消臭"
+        },
+        "prompt_tone": {
+          "name": "プロンプト音"
+        },
+        "enhanced_adsorption": {
+          "name": "強化された吸着"
+        }
+      },
+      "text": {
+        "manual_feed": {
+          "name": "手動給餌"
+        }
+      }
+    }
+}
