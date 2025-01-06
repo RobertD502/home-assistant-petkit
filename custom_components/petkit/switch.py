@@ -11,6 +11,7 @@ from petkitaio.model import Feeder, LitterBox, Purifier, W5Fountain
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -31,12 +32,11 @@ async def async_setup_entry(
 
     for wf_id, wf_data in coordinator.data.water_fountains.items():
         # Water Fountains (W5)
-        if wf_data.ble_relay:
-            switches.extend((
-                WFLight(coordinator, wf_id),
-                WFPower(coordinator, wf_id),
-                WFDisturb(coordinator, wf_id),
-            ))
+        switches.extend((
+            WFLight(coordinator, wf_id),
+            WFPower(coordinator, wf_id),
+            WFDisturb(coordinator, wf_id),
+        ))
 
     for feeder_id, feeder_data in coordinator.data.feeders.items():
         # All Feeders
@@ -164,19 +164,21 @@ class WFLight(CoordinatorEntity, SwitchEntity):
 
     @property
     def available(self) -> bool:
-        """Determine if device is available.
-
-        Return true if there is a valid relay
-        and the main relay device is online.
-        """
-
-        if self.wf_data.ble_relay:
-            return True
-        else:
-            return False
+        """Determine if device is available."""
+        
+        return True
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn light on."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHT_ON)
@@ -190,6 +192,15 @@ class WFLight(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs) -> None:
         """Turn light off."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.LIGHT_OFF)
@@ -261,16 +272,9 @@ class WFPower(CoordinatorEntity, SwitchEntity):
 
     @property
     def available(self) -> bool:
-        """Determine if device is available.
+        """Determine if device is available."""
 
-        Return true if there is a valid relay
-        and the main relay device is online.
-        """
-
-        if self.wf_data.ble_relay:
-            return True
-        else:
-            return False
+        return True
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn power on.
@@ -278,6 +282,15 @@ class WFPower(CoordinatorEntity, SwitchEntity):
         Turning power on, puts the device back to the
         mode (normal, smart) it was in before it was paused.
         """
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         if self.wf_data.data['mode'] == 1:
             command = W5Command.NORMAL
@@ -300,6 +313,15 @@ class WFPower(CoordinatorEntity, SwitchEntity):
         This is equivalent to pausing the water fountain
         from the app.
         """
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.PAUSE)
@@ -377,19 +399,21 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
 
     @property
     def available(self) -> bool:
-        """Determine if device is available.
+        """Determine if device is available."""
 
-        Return true if there is a valid relay
-        and the main relay device is online.
-        """
-
-        if self.wf_data.ble_relay:
-            return True
-        else:
-            return False
+        return True
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn DND on."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DO_NOT_DISTURB)
@@ -403,6 +427,15 @@ class WFDisturb(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs) -> None:
         """Turn DND off."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         try:
             await self.coordinator.client.control_water_fountain(self.wf_data, W5Command.DO_NOT_DISTURB_OFF)
