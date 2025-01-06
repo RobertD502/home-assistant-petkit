@@ -1,0 +1,752 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "PetKit 帳戶已經設定完成",
+      "reauth_successful": "認證成功"
+    },
+    "error": {
+      "cannot_connect": "無法連接",
+      "invalid_auth": "認證失敗，請確認帳號及密碼是否正確",
+      "no_devices": "在此帳戶中找不到裝置",
+      "server_busy": "PetKit 伺服器忙碌中，請稍後再試",
+      "petkit_error": "發生未知錯誤，請檢查 Home Assistant 記錄以取得更多資訊",
+      "region_error": "請選擇正確的服務區域",
+      "timezone_error": "時區參數錯誤，如果 Home Assistant 以 Docker 執行，請將 TZ 加入環境變數中，如果 TZ 變數已設定或是目前執行的是 Home Assistant OS，您設定的時區無法在 tzlocal 套件中找到，請手動設定時區"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "email": "PetKit 帳戶 Email",
+          "password": "PetKit 帳戶密碼",
+          "region": "請選擇與帳戶相關聯的區域",
+          "timezone": "手動設定時區或自動偵測時區",
+          "polling_interval": "更新資料間隔 (秒)",
+          "use_ble_relay": "如果可用，請使用 PetKit BLE 中繼器"
+        },
+        "title": "請輸入 PetKit 帳戶資訊"
+      },
+      "reauth_confirm": {
+        "data": {
+          "email": "PetKit 帳戶 Email",
+          "password": "PetKit 帳戶密碼",
+          "region": "請選擇與帳戶相關聯的區域",
+          "timezone": "手動設定時區或自動偵測時區",
+          "polling_interval": "更新資料間隔 (秒)",
+          "use_ble_relay": "如果可用，請使用 PetKit BLE 中繼器"
+        },
+        "title": "請重新輸入 PetKit 帳戶資訊"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "petkit_options": {
+        "data": {
+          "region": "請選擇與帳戶相關聯的區域",
+          "timezone": "手動設定時區或自動偵測時區",
+          "polling_interval": "更新資料間隔 (秒)",
+          "use_ble_relay": "如果可用，請使用 PetKit BLE 中繼器"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_level": {
+        "name": "水量"
+      },
+      "food_level": {
+        "name": "飼料存量"
+      },
+      "battery_installed": {
+        "name": "電池已安裝"
+      },
+      "battery": {
+        "name": "電池"
+      },
+      "wastebin": {
+        "name": "垃圾桶"
+      },
+      "litter": {
+        "name": "貓砂"
+      },
+      "deodorizer": {
+        "name": "除臭劑"
+      },
+      "manually_paused": {
+        "name": "手動暫停"
+      },
+      "pura_air_liquid": {
+        "name": "Pura Air 除臭液存量"
+      },
+      "food_level_hopper_one": {
+        "name": "飼料桶 1 存量"
+      },
+      "food_level_hopper_two": {
+        "name": "飼料桶 2 存量"
+      }
+    },
+    "button": {
+      "reset_filter": {
+        "name": "重設濾心"
+      },
+      "reset_desiccant": {
+        "name": "重設乾燥劑"
+      },
+      "cancel_manual_feed": {
+        "name": "取消手動餵食"
+      },
+      "call_pet": {
+        "name": "呼叫寵物"
+      },
+      "start_cleaning": {
+        "name": "開始/繼續清理"
+      },
+      "pause_cleaning": {
+        "name": "暫停清理"
+      },
+      "odor_removal": {
+        "name": "除臭"
+      },
+      "reset_deodorizer": {
+        "name": "重設除臭劑"
+      },
+      "reset_pura_air_liquid": {
+        "name": "重設 Pura Air 存量"
+      },
+      "n50_reset": {
+        "name": "重設 N50 除臭小方"
+      },
+      "light_on": {
+        "name": "開燈"
+      },
+      "start_maintenance": {
+        "name": "進入維護模式"
+      },
+      "exit_maintenance": {
+        "name": "離開維護模式"
+      },
+      "pause_exit_maintenance": {
+        "name": "暫停 離開維護模式"
+      },
+      "resume_exit_maintenance": {
+        "name": "繼續 離開維護模式"
+      },
+      "dump_litter": {
+        "name": "傾倒貓砂"
+      },
+      "pause_dump_litter": {
+        "name": "暫停傾倒貓砂"
+      },
+      "resume_dump_litter": {
+        "name": "繼續傾倒貓砂"
+      },
+      "food_replenished": {
+        "name": "補充飼料"
+      },
+      "start_cal": {
+        "name": "開始校正"
+      },
+      "stop_cal": {
+        "name": "停止校正"
+      }
+    },
+    "fan": {
+      "purifier": {
+        "name": "除臭器",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "自動",
+              "silent": "靜音",
+              "standard": "標準",
+              "strong": "強力"
+            }
+          }
+        }
+      }
+    },
+    "number": {
+      "set_weight": {
+        "name": "設定體重"
+      },
+      "surplus": {
+        "name": "剩餘"
+      },
+      "volume": {
+        "name": "音量"
+      },
+      "manual_feed": {
+        "name": "手動餵食"
+      },
+      "cleaning_delay": {
+        "name": "清理延遲"
+      },
+      "min_eating_duration": {
+        "name": "最小進食時間"
+      }
+    },
+    "select": {
+      "light_brightness": {
+        "name": "亮度",
+        "state": {
+          "low": "低",
+          "medium": "中",
+          "high": "高"
+        }
+      },
+      "mode": {
+        "name": "模式",
+        "state": {
+          "normal": "標準",
+          "smart": "智慧"
+        }
+      },
+      "manual_feed": {
+        "name": "手動餵食"
+      },
+      "sound": {
+        "name": "聲音"
+      },
+      "cleaning_interval": {
+        "name": "清理間隔"
+      },
+      "litter_type": {
+        "name": "貓砂類型",
+        "state": {
+          "bentonite": "澎潤土",
+          "tofu": "豆腐砂",
+          "mixed": "混合"
+        }
+      }
+    },
+    "sensor": {
+      "energy_usage": {
+        "name": "耗電量"
+      },
+      "last_data_update": {
+        "name": "最後更新時間"
+      },
+      "filter": {
+        "name": "濾心"
+      },
+      "purified_water_today": {
+        "name": "今日淨化水量"
+      },
+      "feeder_status": {
+        "name": "狀態",
+        "state": {
+          "offline": "離線",
+          "normal": "正常",
+          "on_batteries": "電池供電中"
+        }
+      },
+      "desiccant_days_remaining": {
+        "name": "乾燥劑剩餘天數"
+      },
+      "battery_status": {
+        "name": "電池狀態",
+        "state": {
+          "normal": "正常",
+          "low": "低"
+        }
+      },
+      "dispensed": {
+        "name": "已出糧"
+      },
+      "planned": {
+        "name": "預計"
+      },
+      "planned_dispensed": {
+        "name": "預計出糧"
+      },
+      "manually_dispensed": {
+        "name": "手動出糧"
+      },
+      "times_dispensed": {
+        "name": "出糧次數"
+      },
+      "rssi": {
+        "name": "訊號強度 RSSI"
+      },
+      "amount_eaten": {
+        "name": "已食用"
+      },
+      "times_eaten": {
+        "name": "進食時間"
+      },
+      "food_in_bowl": {
+        "name": "碗中食物"
+      },
+      "error": {
+        "name": "錯誤",
+        "state": {
+          "no_error": "正常"
+        }
+      },
+      "deodorizer_level": {
+        "name": "除臭劑存量"
+      },
+      "litter_level": {
+        "name": "貓砂存量"
+      },
+      "litter_weight": {
+        "name": "貓砂重量"
+      },
+      "times_used": {
+        "name": "使用次數"
+      },
+      "average_use": {
+        "name": "平均使用時間"
+      },
+      "total_use": {
+        "name": "總使用時間"
+      },
+      "last_used_by": {
+        "name": "最後一次使用",
+        "state": {
+          "no_record_yet": "無紀錄",
+          "unknown_pet": "未知寵物"
+        }
+      },
+      "last_event": {
+        "name": "最後事件",
+        "state": {
+          "no_events_yet": "無事件",
+          "event_type_unknown": "未知事件",
+          "cleaning_completed": "清理完成",
+          "dumping_over": "傾倒貓砂完成",
+          "reset_over": "已重設",
+          "spray_over": "已噴灑",
+          "pet_out": "寵物離開",
+          "auto_cleaning_completed": "自動清理完成",
+          "periodic_cleaning_completed": "定時清理完成",
+          "manual_cleaning_completed": "手動清理完成",
+          "auto_cleaning_terminated": "自動清理中斷",
+          "periodic_cleaning_terminated": "定時清理中斷",
+          "manual_cleaning_terminated": "手動清理中斷",
+          "auto_cleaning_failed_full": "自動清理失敗，垃圾桶已滿",
+          "auto_cleaning_failed_hall_l": "自動清理失敗，旋轉機構無法鎖定，請檢查",
+          "auto_cleaning_failed_hall_t": "自動清理失敗，貓砂機上蓋未安裝，請檢查",
+          "scheduled_cleaning_failed_full": "定時清理失敗，垃圾桶已滿",
+          "scheduled_cleaning_failed_hall_l": "定時清理失敗，旋轉機構無法鎖定，請檢查",
+          "scheduled_cleaning_failed_hall_t": "定時清理失敗，貓砂機上蓋未安裝，請檢查",
+          "manual_cleaning_failed_full": "手動清理失敗，垃圾桶已滿",
+          "manual_cleaning_failed_hall_l": "手動清理失敗，旋轉機構無法鎖定，請檢查",
+          "manual_cleaning_failed_hall_t": "手動清理失敗，貓砂機上蓋未安裝，請檢查",
+          "auto_cleaning_canceled": "自動清理已取消，機器運作中",
+          "periodic_cleaning_canceled": "定時清理已取消，機器運作中",
+          "manual_cleaning_canceled": "手動清理已取消，機器運作中",
+          "auto_cleaning_canceled_kitten": "幼貓模式已啟動，自動清理已取消",
+          "periodic_cleaning_canceled_kitten": "幼貓模式已啟動，定時清理已取消",
+          "litter_empty_completed": "傾倒貓砂完成",
+          "litter_empty_terminated": "傾倒貓砂已終止",
+          "litter_empty_failed_full": "傾倒貓砂失敗，垃圾桶已滿",
+          "litter_empty_failed_hall_l": "傾倒貓砂失敗，旋轉機構無法鎖定，請檢查",
+          "litter_empty_failed_hall_t": "傾倒貓砂失敗，貓砂機上蓋未安裝，請檢查",
+          "reset_completed": "重設成功",
+          "reset_terminated": "重設已終止",
+          "reset_failed_full": "重設失敗，垃圾桶已滿",
+          "reset_failed_hall_l": "重設失敗，旋轉機構無法鎖定，請檢查",
+          "reset_failed_hall_t": "重設失敗，貓砂機上蓋未安裝，請檢查",
+          "deodorant_finished": "除臭完成",
+          "periodic_odor_completed": "定時除臭完成",
+          "manual_odor_completed": "手動除臭完成",
+          "deodorant_finished_liquid_lack": "除臭完成，除臭劑已不足，請及時補充",
+          "periodic_odor_completed_liquid_lack": "定時除臭完成，除臭劑已不足，請及時補充",
+          "manual_odor_completed_liquid_lack": "手動除臭完成，除臭劑已不足，請及時補充",
+          "auto_odor_failed": "自動除臭失敗，除臭器錯誤",
+          "periodic_odor_failed": "定時自動除臭失敗，除臭器錯誤",
+          "manual_odor_failed": "手動除臭失敗，除臭器錯誤"
+        },
+        "state_attributes": {
+          "sub_events": {
+            "state": {
+              "no_events_yet": "無事件",
+              "event_type_unknown": "未知事件",
+              "cleaning_completed": "清理完成",
+              "dumping_over": "傾倒貓砂完成",
+              "reset_over": "已重設",
+              "spray_over": "已噴灑",
+              "pet_out": "寵物離開",
+              "auto_cleaning_completed": "自動清理完成",
+              "periodic_cleaning_completed": "定時清理完成",
+              "manual_cleaning_completed": "手動清理完成",
+              "auto_cleaning_terminated": "自動清理中斷",
+              "periodic_cleaning_terminated": "定時清理中斷",
+              "manual_cleaning_terminated": "手動清理中斷",
+              "auto_cleaning_failed_full": "自動清理失敗，垃圾桶已滿",
+              "auto_cleaning_failed_hall_l": "自動清理失敗，旋轉機構無法鎖定，請檢查",
+              "auto_cleaning_failed_hall_t": "自動清理失敗，貓砂機上蓋未安裝，請檢查",
+              "scheduled_cleaning_failed_full": "定時清理失敗，垃圾桶已滿",
+              "scheduled_cleaning_failed_hall_l": "定時清理失敗，旋轉機構無法鎖定，請檢查",
+              "scheduled_cleaning_failed_hall_t": "定時清理失敗，貓砂機上蓋未安裝，請檢查",
+              "manual_cleaning_failed_full": "手動清理失敗，垃圾桶已滿",
+              "manual_cleaning_failed_hall_l": "手動清理失敗，旋轉機構無法鎖定，請檢查",
+              "manual_cleaning_failed_hall_t": "手動清理失敗，貓砂機上蓋未安裝，請檢查",
+              "auto_cleaning_canceled": "自動清理已取消，機器運作中",
+              "periodic_cleaning_canceled": "定時清理已取消，機器運作中",
+              "manual_cleaning_canceled": "手動清理已取消，機器運作中",
+              "auto_cleaning_canceled_kitten": "幼貓模式已啟動，自動清理已取消",
+              "periodic_cleaning_canceled_kitten": "幼貓模式已啟動，定時清理已取消",
+              "litter_empty_completed": "傾倒貓砂完成",
+              "litter_empty_terminated": "傾倒貓砂已終止",
+              "litter_empty_failed_full": "傾倒貓砂失敗，垃圾桶已滿",
+              "litter_empty_failed_hall_l": "傾倒貓砂失敗，旋轉機構無法鎖定，請檢查",
+              "litter_empty_failed_hall_t": "傾倒貓砂失敗，貓砂機上蓋未安裝，請檢查",
+              "reset_completed": "重設成功",
+              "reset_terminated": "重設已終止",
+              "reset_failed_full": "重設失敗，垃圾桶已滿",
+              "reset_failed_hall_l": "重設失敗，旋轉機構無法鎖定，請檢查",
+              "reset_failed_hall_t": "重設失敗，貓砂機上蓋未安裝，請檢查",
+              "deodorant_finished": "除臭完成",
+              "periodic_odor_completed": "定時除臭完成",
+              "manual_odor_completed": "手動除臭完成",
+              "deodorant_finished_liquid_lack": "除臭完成，除臭劑已不足，請及時補充",
+              "periodic_odor_completed_liquid_lack": "定時除臭完成，除臭劑已不足，請及時補充",
+              "manual_odor_completed_liquid_lack": "手動除臭完成，除臭劑已不足，請及時補充",
+              "auto_odor_failed": "自動除臭失敗，除臭器錯誤",
+              "periodic_odor_failed": "定時自動除臭失敗，除臭器錯誤",
+              "manual_odor_failed": "手動除臭失敗，除臭器錯誤",
+              "no_sub_events": "無關聯的子事件"
+            }
+          }
+        }
+      },
+      "latest_weight": {
+        "name": "最新重量"
+      },
+      "last_use_duration": {
+        "name": "最後使用時間"
+      },
+      "pura_air_battery": {
+        "name": "Pura Air 電池"
+      },
+      "pura_air_liquid": {
+        "name": "Pura Air 除臭液"
+      },
+      "n50_odor_eliminator": {
+        "name": "N50 除臭小方"
+      },
+      "max_last_event": {
+        "name": "最後事件",
+        "state": {
+          "no_events_yet": "無事件",
+          "event_type_unknown": "未知事件",
+          "cleaning_completed": "清理完成",
+          "dumping_over": "傾倒貓砂完成",
+          "reset_over": "已重設",
+          "spray_over": "已噴灑",
+          "light_over": "已開燈",
+          "pet_out": "寵物離開",
+          "auto_cleaning_completed": "自動清理完成",
+          "periodic_cleaning_completed": "定時清理完成",
+          "manual_cleaning_completed": "手動清理完成",
+          "auto_cleaning_terminated": "自動清理中斷",
+          "periodic_cleaning_terminated": "定時清理中斷",
+          "manual_cleaning_terminated": "手動清理中斷",
+          "auto_cleaning_failed_full": "自動清理失敗，垃圾桶已滿",
+          "auto_cleaning_failed_hall_t": "自動清理失敗，貓砂機上蓋未安裝，請檢查",
+          "auto_cleaning_failed_falldown": "自動清理失敗，貓砂機已傾倒，請檢查",
+          "auto_cleaning_failed_other": "自動清理失敗，裝置錯誤，請檢查",
+          "scheduled_cleaning_failed_full": "定時清理失敗，垃圾桶已滿",
+          "scheduled_cleaning_failed_hall_t": "定時清理失敗，貓砂機上蓋未安裝，請檢查",
+          "scheduled_cleaning_failed_falldown": "定時清理失敗，貓砂機已傾倒，請檢查",
+          "scheduled_cleaning_failed_other": "定時清理失敗，裝置錯誤，請檢查",
+          "manual_cleaning_failed_full": "手動清理失敗，垃圾桶已滿",
+          "manual_cleaning_failed_hall_t": "手動清理失敗，垃圾桶已滿",
+          "manual_cleaning_failed_falldown": "手動清理失敗，貓砂機已傾倒，請檢查",
+          "manual_cleaning_failed_other": "手動清理失敗，裝置錯誤，請檢查",
+          "auto_cleaning_canceled": "自動清理已取消，機器運作中",
+          "periodic_cleaning_canceled": "定時清理已取消，機器運作中",
+          "manual_cleaning_canceled": "手動清理已取消，機器運作中",
+          "auto_cleaning_failed_maintenance": "自動清理失敗，維護模式已啟動",
+          "periodic_cleaning_failed_maintenance": "定時清理失敗，維護模式已啟動",
+          "auto_cleaning_canceled_kitten": "幼貓模式已啟動，自動清理已取消",
+          "periodic_cleaning_canceled_kitten": "幼貓模式已啟動，定時清理已取消",
+          "litter_empty_completed": "傾倒貓砂完成",
+          "litter_empty_terminated": "傾倒貓砂已終止",
+          "litter_empty_failed_full": "傾倒貓砂失敗，垃圾桶已滿",
+          "litter_empty_failed_hall_t": "傾倒貓砂失敗，貓砂機上蓋未安裝，請檢查",
+          "litter_empty_failed_falldown": "傾倒貓砂失敗，貓砂機已傾倒，請檢查",
+          "litter_empty_failed_other": "傾倒貓砂失敗，裝置錯誤，請檢查",
+          "reset_completed": "重設成功",
+          "reset_terminated": "重設已終止",
+          "reset_failed_full": "重設失敗，垃圾桶已滿",
+          "reset_failed_hall_t": "重設失敗，貓砂機上蓋未安裝，請檢查",
+          "reset_failed_falldown": "重設失敗，貓砂機已傾倒，請檢查",
+          "reset_failed_other": "重設失敗，裝置錯誤，請檢查",
+          "maintenance_mode": "維護模式",
+          "deodorant_finished": "除臭完成",
+          "periodic_odor_completed": "定時除臭完成",
+          "manual_odor_completed": "手動除臭完成",
+          "auto_odor_terminated": "自動除臭已終止",
+          "periodic_odor_terminated": "定時除臭已終止",
+          "manual_odor_terminated": "手動除臭已終止",
+          "auto_odor_failed": "自動除臭失敗，除臭器錯誤",
+          "periodic_odor_failed": "定時除臭失敗，除臭器錯誤",
+          "manual_odor_failed": "手動除臭失敗，除臭器錯誤",
+          "auto_odor_canceled": "自動除臭已取消，機器作業中",
+          "periodic_odor_canceled": "定時除臭已取消，機器作業中",
+          "manual_odor_canceled": "手動除臭已取消，機器作業中",
+          "auto_odor_failed_device": "自動除臭失敗，除臭器未安裝",
+          "periodic_odor_failed_device": "定時除臭失敗，除臭器未安裝",
+          "manual_odor_failed_device": "手動除臭失敗，除臭器未安裝",
+          "auto_odor_failed_batt": "自動除臭失敗，除臭器電量不足",
+          "periodic_odor_failed_batt": "定時除臭失敗，除臭器電量不足",
+          "manual_odor_failed_batt": "手動除臭失敗，除臭器電量不足",
+          "auto_odor_failed_low_batt": "自動除臭失敗，除臭器電量低",
+          "periodic_odor_failed_low_batt": "定時除臭失敗，除臭器電量低",
+          "manual_odor_failed_low_batt": "手動除臭失敗，除臭器電量低",
+          "cat_stopped_odor": "除臭已取消，寵物使用中",
+          "light_on": "已開燈",
+          "light_already_on": "已開燈",
+          "light_malfunc": "無法開燈，機器錯誤",
+          "light_no_device": "無法開燈，請安裝除臭器",
+          "light_batt_cap": "無法開燈，除臭器電量不足",
+          "light_low_batt": "無法開燈，除臭器電量低"
+        },
+        "state_attributes": {
+          "sub_events": {
+            "state": {
+              "no_events_yet": "無事件",
+              "event_type_unknown": "未知事件",
+              "cleaning_completed": "清理完成",
+              "dumping_over": "傾倒貓砂完成",
+              "reset_over": "已重設",
+              "spray_over": "已噴灑",
+              "light_over": "已開燈",
+              "pet_out": "寵物離開",
+              "auto_cleaning_completed": "自動清理完成",
+              "periodic_cleaning_completed": "定時清理完成",
+              "manual_cleaning_completed": "手動清理完成",
+              "auto_cleaning_terminated": "自動清理中斷",
+              "periodic_cleaning_terminated": "定時清理中斷",
+              "manual_cleaning_terminated": "手動清理中斷",
+              "auto_cleaning_failed_full": "自動清理失敗，垃圾桶已滿",
+              "auto_cleaning_failed_hall_t": "自動清理失敗，貓砂機上蓋未安裝，請檢查",
+              "auto_cleaning_failed_falldown": "自動清理失敗，貓砂機已傾倒，請檢查",
+              "auto_cleaning_failed_other": "自動清理失敗，裝置錯誤，請檢查",
+              "scheduled_cleaning_failed_full": "定時清理失敗，垃圾桶已滿",
+              "scheduled_cleaning_failed_hall_t": "定時清理失敗，貓砂機上蓋未安裝，請檢查",
+              "scheduled_cleaning_failed_falldown": "定時清理失敗，貓砂機已傾倒，請檢查",
+              "scheduled_cleaning_failed_other": "定時清理失敗，裝置錯誤，請檢查",
+              "manual_cleaning_failed_full": "手動清理失敗，垃圾桶已滿",
+              "manual_cleaning_failed_hall_t": "手動清理失敗，垃圾桶已滿",
+              "manual_cleaning_failed_falldown": "手動清理失敗，貓砂機已傾倒，請檢查",
+              "manual_cleaning_failed_other": "手動清理失敗，裝置錯誤，請檢查",
+              "auto_cleaning_canceled": "自動清理已取消，機器運作中",
+              "periodic_cleaning_canceled": "定時清理已取消，機器運作中",
+              "manual_cleaning_canceled": "手動清理已取消，機器運作中",
+              "auto_cleaning_failed_maintenance": "自動清理失敗，維護模式已啟動",
+              "periodic_cleaning_failed_maintenance": "定時清理失敗，維護模式已啟動",
+              "auto_cleaning_canceled_kitten": "幼貓模式已啟動，自動清理已取消",
+              "periodic_cleaning_canceled_kitten": "幼貓模式已啟動，定時清理已取消",
+              "litter_empty_completed": "傾倒貓砂完成",
+              "litter_empty_terminated": "傾倒貓砂已終止",
+              "litter_empty_failed_full": "傾倒貓砂失敗，垃圾桶已滿",
+              "litter_empty_failed_hall_t": "傾倒貓砂失敗，貓砂機上蓋未安裝，請檢查",
+              "litter_empty_failed_falldown": "傾倒貓砂失敗，貓砂機已傾倒，請檢查",
+              "litter_empty_failed_other": "傾倒貓砂失敗，裝置錯誤，請檢查",
+              "reset_completed": "重設成功",
+              "reset_terminated": "重設已終止",
+              "reset_failed_full": "重設失敗，垃圾桶已滿",
+              "reset_failed_hall_t": "重設失敗，貓砂機上蓋未安裝，請檢查",
+              "reset_failed_falldown": "重設失敗，貓砂機已傾倒，請檢查",
+              "reset_failed_other": "重設失敗，裝置錯誤，請檢查",
+              "maintenance_mode": "維護模式",
+              "deodorant_finished": "除臭完成",
+              "periodic_odor_completed": "定時除臭完成",
+              "manual_odor_completed": "手動除臭完成",
+              "auto_odor_terminated": "自動除臭已終止",
+              "periodic_odor_terminated": "定時除臭已終止",
+              "manual_odor_terminated": "手動除臭已終止",
+              "auto_odor_failed": "自動除臭失敗，除臭器錯誤",
+              "periodic_odor_failed": "定時除臭失敗，除臭器錯誤",
+              "manual_odor_failed": "手動除臭失敗，除臭器錯誤",
+              "auto_odor_canceled": "自動除臭已取消，機器作業中",
+              "periodic_odor_canceled": "定時除臭已取消，機器作業中",
+              "manual_odor_canceled": "手動除臭已取消，機器作業中",
+              "auto_odor_failed_device": "自動除臭失敗，除臭器未安裝",
+              "periodic_odor_failed_device": "定時除臭失敗，除臭器未安裝",
+              "manual_odor_failed_device": "手動除臭失敗，除臭器未安裝",
+              "auto_odor_failed_batt": "自動除臭失敗，除臭器電量不足",
+              "periodic_odor_failed_batt": "定時除臭失敗，除臭器電量不足",
+              "manual_odor_failed_batt": "手動除臭失敗，除臭器電量不足",
+              "auto_odor_failed_low_batt": "自動除臭失敗，除臭器電量低",
+              "periodic_odor_failed_low_batt": "定時除臭失敗，除臭器電量低",
+              "manual_odor_failed_low_batt": "手動除臭失敗，除臭器電量低",
+              "cat_stopped_odor": "除臭已取消，寵物使用中",
+              "light_on": "已開燈",
+              "light_already_on": "已開燈",
+              "light_malfunc": "無法開燈，機器錯誤",
+              "light_no_device": "無法開燈，請安裝除臭器",
+              "light_batt_cap": "無法開燈，除臭器電量不足",
+              "light_low_batt": "無法開燈，除臭器電量低",
+              "no_sub_events": "無關聯的子事件"
+            }
+          }
+        }
+      },
+      "max_work_state": {
+        "name": "State",
+        "state": {
+          "cleaning_litter_box": "清理中",
+          "cleaning_litter_box_paused": "清理已暫停",
+          "cleaning_paused_pet_entered": "清理已暫停，寵物已進入機器，感應器已觸發，請檢查機器",
+          "cleaning_paused_system_error": "清理已暫停，機器錯誤",
+          "cleaning_paused_pet_approach": "清理已暫停，寵物已靠近機器",
+          "cleaning_paused_pet_using": "清理已暫停，寵物使用中",
+          "resetting_device": "正在重設機器",
+          "litter_box_paused": "暫停操作",
+          "paused_pet_entered": "操作已暫停，寵物已進入機器，感應器已觸發，請檢查機器",
+          "paused_system_error": "操作已暫停，機器錯誤",
+          "paused_pet_approach": "操作已暫停，寵物已靠近機器",
+          "paused_pet_using": "操作已暫停，寵物使用中",
+          "dumping_litter": "正在傾倒貓砂",
+          "dumping_litter_paused": "傾倒貓砂已暫停",
+          "dumping_paused_pet_entered": "傾倒貓砂已暫停，寵物已進入機器，感應器已觸發，請檢查機器",
+          "dumping_paused_system_error": "傾倒貓砂已暫停，機器錯誤",
+          "dumping_paused_pet_approach": "傾倒貓砂已暫停，寵物已靠近機器",
+          "dumping_paused_pet_using": "傾倒貓砂已暫停，寵物使用中",
+          "resetting": "重設中",
+          "leveling": "平整貓砂中，請稍後",
+          "calibrating": "校正中，請稍後",
+          "maintenance_mode": "維護模式",
+          "maintenance_paused_pet_entered": "進入維護模式已暫停，寵物已進入機器，感應器已觸發，請檢查機器",
+          "maintenance_paused_cover": "進入維護模式已暫停，上蓋未安裝",
+          "maintenance_paused_system_error": "進入維護模式已暫停，機器錯誤",
+          "maintenance_paused_pet_approach": "進入維護模式已暫停，寵物已靠近機器",
+          "maintenance_paused_pet_using": "進入維護模式已暫停，寵物使用中",
+          "maintenance_paused": "進入維護模式已暫停",
+          "exit_maintenance": "離開維護模式",
+          "maintenance_exit_paused_pet_entered": "離開維護模式已暫停，寵物已進入機器，感應器已觸發，請檢查機器",
+          "maintenance_exit_paused_cover": "離開維護模式已暫停，上蓋未安裝",
+          "maintenance_exit_paused_system_error": "離開維護模式已暫停，機器錯誤",
+          "maintenance_exit_paused_pet_approach": "離開維護模式已暫停，寵物已靠近機器",
+          "maintenance_exit_paused_pet_using": "離開維護模式已暫停，寵物使用中",
+          "maintenance_exit_paused": "離開維護模式已暫停",
+          "idle": "待命"
+        }
+      },
+      "avg_eating_time": {
+        "name": "平均進食時間"
+      },
+      "manually_dispensed_hopp_one": {
+        "name": "飼料桶 1 手動出糧"
+      },
+      "manually_dispensed_hopp_two": {
+        "name": "飼料桶 2 手動出糧"
+      },
+      "planned_hopp_one": {
+        "name": "飼料桶 1 已計畫"
+      },
+      "planned_hopp_two": {
+        "name": "飼料桶 2 已計畫"
+      },
+      "planned_dispensed_hopp_one": {
+        "name": "飼料桶 2 已計畫出糧"
+      },
+      "planned_dispensed_hopp_two": {
+        "name": "飼料桶 2 已計畫出糧"
+      },
+      "dispensed_hopp_one": {
+        "name": "飼料桶 2 出糧"
+      },
+      "dispensed_hopp_two": {
+        "name": "飼料桶 2 出糧"
+      },
+      "humidity": {
+        "name": "濕度"
+      },
+      "temperature": {
+        "name": "溫度"
+      },
+      "air_purified": {
+        "name": "已除臭"
+      },
+      "liquid": {
+        "name": "除臭液"
+      },
+      "food_left": {
+        "name": "剩餘飼料"
+      }
+    },
+    "switch": {
+      "light": {
+        "name": "燈"
+      },
+      "power": {
+        "name": "電源"
+      },
+      "do_not_disturb": {
+        "name": "請勿打擾"
+      },
+      "indicator_light": {
+        "name": "指示燈"
+      },
+      "child_lock": {
+        "name": "兒童鎖"
+      },
+      "food_shortage_alarm": {
+        "name": "缺糧警示"
+      },
+      "dispense_tone": {
+        "name": "出糧提示音"
+      },
+      "voice_with_dispense": {
+        "name": "出糧語音"
+      },
+      "surplus_control": {
+        "name": "過量控制"
+      },
+      "system_notification_sound": {
+        "name": "系統提示音"
+      },
+      "auto_odor_removal": {
+        "name": "自動除臭"
+      },
+      "auto_cleaning": {
+        "name": "自動清理"
+      },
+      "avoid_repeat_cleaning": {
+        "name": "防止重複清理"
+      },
+      "periodic_cleaning": {
+        "name": "定時清理"
+      },
+      "periodic_odor_removal": {
+        "name": "定時除臭"
+      },
+      "kitten_mode": {
+        "name": "幼貓模式"
+      },
+      "display": {
+        "name": "顯示螢幕"
+      },
+      "light_weight_cleaning_disabled": {
+        "name": "重量過輕時不清理"
+      },
+      "cont_rotation": {
+        "name": "繼續清理"
+      },
+      "deep_cleaning": {
+        "name": "深度清理"
+      },
+      "deep_deodor": {
+        "name": "深度除臭"
+      },
+      "prompt_tone": {
+        "name": "操作提示音"
+      },
+      "enhanced_adsorption": {
+        "name": "增強吸附"
+      }
+    },
+    "text": {
+      "manual_feed": {
+        "name": "手動餵食"
+      }
+    }
+  }
+}
