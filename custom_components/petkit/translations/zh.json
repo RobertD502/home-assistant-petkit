@@ -1,0 +1,752 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "小佩账户已配置",
+      "reauth_successful": "重新验证成功"
+    },
+    "error": {
+      "cannot_connect": "连接失败",
+      "invalid_auth": "无效的身份验证。您的凭据是否正确？",
+      "no_devices": "账户上未找到设备",
+      "server_busy": "小佩服务器繁忙，请稍后再试。",
+      "petkit_error": "遇到未知错误。请查看Home Assistant日志获取更多详细信息。",
+      "region_error": "请选择与您的账户关联的国家。",
+      "timezone_error": "找不到时区。如果您正在运行独立的Docker容器的Home Assistant，请定义TZ环境变量。如果已定义TZ变量或者您正在运行Home Assistant OS，则在tzlocal库中找不到您的时区 - 请在设置过程中手动选择时区。"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "email": "小佩账户电子邮件",
+          "password": "小佩账户密码",
+          "region": "选择与您的账户关联的国家",
+          "timezone": "手动选择时区或尝试自动设置",
+          "polling_interval": "轮询间隔（秒）",
+          "use_ble_relay": "使用 PetKit BLE 继电器（如果可用"
+        },
+        "title": "填写您的小佩凭据"
+      },
+      "reauth_confirm": {
+        "data": {
+          "email": "小佩账户电子邮件",
+          "password": "小佩账户密码",
+          "region": "选择与您的账户关联的国家",
+          "timezone": "手动选择时区或尝试自动设置",
+          "polling_interval": "轮询间隔（秒）",
+          "use_ble_relay": "使用 PetKit BLE 继电器（如果可用"
+        },
+        "title": "使用您的小佩凭据重新验证"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "petkit_options": {
+        "data": {
+          "region": "选择与您的账户关联的国家",
+          "timezone": "手动选择时区或尝试自动设置",
+          "polling_interval": "轮询间隔（秒）",
+          "use_ble_relay": "使用 PetKit BLE 继电器（如果可用"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_level": {
+        "name": "水位"
+      },
+      "food_level": {
+        "name": "食物水平"
+      },
+      "battery_installed": {
+        "name": "电池已安装"
+      },
+      "battery": {
+        "name": "电池"
+      },
+      "wastebin": {
+        "name": "垃圾箱"
+      },
+      "litter": {
+        "name": "猫砂"
+      },
+      "deodorizer": {
+        "name": "除臭剂"
+      },
+      "manually_paused": {
+        "name": "手动暂停"
+      },
+      "pura_air_liquid": {
+        "name": "猫厕所空气净化液"
+      },
+      "food_level_hopper_one": {
+        "name": "料盒余量1"
+      },
+      "food_level_hopper_two": {
+        "name": "料盒余量2"
+      }
+    },
+    "button": {
+      "reset_filter": {
+        "name": "重置过滤器"
+      },
+      "reset_desiccant": {
+        "name": "重置干燥剂"
+      },
+      "cancel_manual_feed": {
+        "name": "取消手动喂食"
+      },
+      "call_pet": {
+        "name": "呼叫宠物"
+      },
+      "start_cleaning": {
+        "name": "开始/恢复清洁"
+      },
+      "pause_cleaning": {
+        "name": "暂停清洁"
+      },
+      "odor_removal": {
+        "name": "除臭"
+      },
+      "reset_deodorizer": {
+        "name": "重置除臭剂"
+      },
+      "reset_pura_air_liquid": {
+        "name": "重置猫厕所空气净化液"
+      },
+      "n50_reset": {
+        "name": "重置N50除臭剂"
+      },
+      "light_on": {
+        "name": "打开灯光"
+      },
+      "start_maintenance": {
+        "name": "开始维护模式"
+      },
+      "exit_maintenance": {
+        "name": "退出维护模式"
+      },
+      "pause_exit_maintenance": {
+        "name": "暂停退出维护模式"
+      },
+      "resume_exit_maintenance": {
+        "name": "恢复退出维护模式"
+      },
+      "dump_litter": {
+        "name": "倒掉猫砂"
+      },
+      "pause_dump_litter": {
+        "name": "暂停倒掉猫砂"
+      },
+      "resume_dump_litter": {
+        "name": "恢复倒掉猫砂"
+      },
+      "food_replenished": {
+        "name": "食物补充"
+      },
+      "start_cal": {
+        "name": "开始校准"
+      },
+      "stop_cal": {
+        "name": "停止校准"
+      }
+    },
+    "fan": {
+      "purifier": {
+        "name": "净化器",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "自动",
+              "silent": "静音",
+              "standard": "标准",
+              "strong": "强力"
+            }
+          }
+        }
+      }
+    },
+    "number": {
+      "set_weight": {
+        "name": "设置重量"
+      },
+      "surplus": {
+        "name": "剩余量"
+      },
+      "volume": {
+        "name": "音量"
+      },
+      "manual_feed": {
+        "name": "手动喂食"
+      },
+      "cleaning_delay": {
+        "name": "清洁延迟"
+      },
+      "min_eating_duration": {
+        "name": "最短进食时间"
+      }
+    },
+    "select": {
+      "light_brightness": {
+        "name": "灯光亮度",
+        "state": {
+          "low": "低",
+          "medium": "中",
+          "high": "高"
+        }
+      },
+      "mode": {
+        "name": "模式",
+        "state": {
+          "normal": "普通",
+          "smart": "智能"
+        }
+      },
+      "manual_feed": {
+        "name": "手动喂食"
+      },
+      "sound": {
+        "name": "声音"
+      },
+      "cleaning_interval": {
+        "name": "清洁间隔"
+      },
+      "litter_type": {
+        "name": "猫砂类型",
+        "state": {
+          "bentonite": "膨润土",
+          "tofu": "豆腐猫砂",
+          "mixed": "混合猫砂"
+        }
+      }
+    },
+    "sensor": {
+      "energy_usage": {
+        "name": "能源使用"
+      },
+      "last_data_update": {
+        "name": "最后数据更新"
+      },
+      "filter": {
+        "name": "过滤器"
+      },
+      "purified_water_today": {
+        "name": "今日净化水量"
+      },
+      "feeder_status": {
+        "name": "状态",
+        "state": {
+          "offline": "离线",
+          "normal": "正常",
+          "on_batteries": "使用电池"
+        }
+      },
+      "desiccant_days_remaining": {
+        "name": "干燥剂剩余天数"
+      },
+      "battery_status": {
+        "name": "电池状态",
+        "state": {
+          "normal": "正常",
+          "low": "低电量"
+        }
+      },
+      "dispensed": {
+        "name": "已分配"
+      },
+      "planned": {
+        "name": "计划"
+      },
+      "planned_dispensed": {
+        "name": "计划分配"
+      },
+      "manually_dispensed": {
+        "name": "手动分配"
+      },
+      "times_dispensed": {
+        "name": "分配次数"
+      },
+      "rssi": {
+        "name": "信号强度"
+      },
+      "amount_eaten": {
+        "name": "食物摄入量"
+      },
+      "times_eaten": {
+        "name": "进食次数"
+      },
+      "food_in_bowl": {
+        "name": "碗中食物"
+      },
+      "error": {
+        "name": "错误",
+        "state": {
+          "no_error": "无错误"
+        }
+      },
+      "deodorizer_level": {
+        "name": "除臭剂水平"
+      },
+      "litter_level": {
+        "name": "猫砂水平"
+      },
+      "litter_weight": {
+        "name": "猫砂重量"
+      },
+      "times_used": {
+        "name": "使用次数"
+      },
+      "average_use": {
+        "name": "平均使用量"
+      },
+      "total_use": {
+        "name": "总使用量"
+      },
+      "last_used_by": {
+        "name": "最后使用者",
+        "state": {
+          "no_record_yet": "尚无记录",
+          "unknown_pet": "未知宠物"
+        }
+      },
+      "last_event": {
+        "name": "最后事件",
+        "state": {
+          "no_events_yet": "尚无事件",
+          "event_type_unknown": "未知事件类型",
+          "cleaning_completed": "清洁完成",
+          "dumping_over": "倒掉完成",
+          "reset_over": "重置完成",
+          "spray_over": "喷雾完成",
+          "pet_out": "宠物离开",
+          "auto_cleaning_completed": "自动清洁完成",
+          "periodic_cleaning_completed": "定期清洁完成",
+          "manual_cleaning_completed": "手动清洁完成",
+          "auto_cleaning_terminated": "自动清洁终止",
+          "periodic_cleaning_terminated": "定期清洁终止",
+          "manual_cleaning_terminated": "手动清洁终止",
+          "auto_cleaning_failed_full": "自动清洁失败，垃圾箱已满，请及时清空",
+          "auto_cleaning_failed_hall_l": "自动清洁失败，垃圾箱未正确锁定，请检查",
+          "auto_cleaning_failed_hall_t": "自动清洁失败，猫厕所上部盖未正确放置，请检查",
+          "scheduled_cleaning_failed_full": "计划清洁失败，垃圾箱已满，请及时清空",
+          "scheduled_cleaning_failed_hall_l": "计划清洁失败，垃圾箱未正确锁定，请检查",
+          "scheduled_cleaning_failed_hall_t": "计划清洁失败，猫厕所上部盖未正确放置，请检查",
+          "manual_cleaning_failed_full": "手动清洁失败，垃圾箱已满，请及时清空",
+          "manual_cleaning_failed_hall_l": "手动清洁失败，垃圾箱未正确锁定，请检查",
+          "manual_cleaning_failed_hall_t": "手动清洁失败，猫厕所上部盖未正确放置，请检查",
+          "auto_cleaning_canceled": "自动清洁已取消，设备正在运行",
+          "periodic_cleaning_canceled": "定期清洁已取消，设备正在运行",
+          "manual_cleaning_canceled": "手动清洁已取消，设备正在运行",
+          "auto_cleaning_canceled_kitten": "已启用小猫模式，自动清洁已取消",
+          "periodic_cleaning_canceled_kitten": "已启用小猫模式，定期清洁已取消",
+          "litter_empty_completed": "猫砂清空完成",
+          "litter_empty_terminated": "猫砂清空终止",
+          "litter_empty_failed_full": "猫砂清空失败，垃圾箱已满，请及时清空",
+          "litter_empty_failed_hall_l": "猫砂清空失败，垃圾箱未正确锁定，请检查",
+          "litter_empty_failed_hall_t": "猫砂清空失败，猫厕所上部盖未正确放置，请检查",
+          "reset_completed": "设备重置完成",
+          "reset_terminated": "设备重置终止",
+          "reset_failed_full": "设备重置失败，垃圾箱已满，请及时清空",
+          "reset_failed_hall_l": "设备重置失败，垃圾箱未正确锁定，请检查",
+          "reset_failed_hall_t": "设备重置失败，猫厕所上部盖未正确放置，请检查",
+          "deodorant_finished": "除臭剂用尽",
+          "periodic_odor_completed": "定期除臭完成",
+          "manual_odor_completed": "手动除臭完成",
+          "deodorant_finished_liquid_lack": "除臭剂用尽，请及时补充净化液",
+          "periodic_odor_completed_liquid_lack": "定期除臭完成，请及时补充净化液",
+          "manual_odor_completed_liquid_lack": "手动除臭完成，请及时补充净化液",
+          "auto_odor_failed": "自动除臭失败，除臭剂出现错误",
+          "periodic_odor_failed": "定期除臭失败，除臭剂故障",
+          "manual_odor_failed": "手动除臭失败，除臭剂故障"
+        },
+        "state_attributes": {
+          "sub_events": {
+            "state": {
+              "no_events_yet": "尚无事件",
+              "event_type_unknown": "未知事件类型",
+              "cleaning_completed": "清洁完成",
+              "dumping_over": "倒掉完成",
+              "reset_over": "重置完成",
+              "spray_over": "喷雾完成",
+              "pet_out": "宠物离开",
+              "auto_cleaning_completed": "自动清洁完成",
+              "periodic_cleaning_completed": "定期清洁完成",
+              "manual_cleaning_completed": "手动清洁完成",
+              "auto_cleaning_terminated": "自动清洁终止",
+              "periodic_cleaning_terminated": "定期清洁终止",
+              "manual_cleaning_terminated": "手动清洁终止",
+              "auto_cleaning_failed_full": "自动清洁失败，垃圾箱已满，请及时清空",
+              "auto_cleaning_failed_hall_l": "自动清洁失败，垃圾箱未正确锁定，请检查",
+              "auto_cleaning_failed_hall_t": "自动清洁失败，猫厕所上部盖未正确放置，请检查",
+              "scheduled_cleaning_failed_full": "计划清洁失败，垃圾箱已满，请及时清空",
+              "scheduled_cleaning_failed_hall_l": "计划清洁失败，垃圾箱未正确锁定，请检查",
+              "scheduled_cleaning_failed_hall_t": "计划清洁失败，猫厕所上部盖未正确放置，请检查",
+              "manual_cleaning_failed_full": "手动清洁失败，垃圾箱已满，请及时清空",
+              "manual_cleaning_failed_hall_l": "手动清洁失败，垃圾箱未正确锁定，请检查",
+              "manual_cleaning_failed_hall_t": "手动清洁失败，猫厕所上部盖未正确放置，请检查",
+              "auto_cleaning_canceled": "自动清洁已取消，设备正在运行",
+              "periodic_cleaning_canceled": "定期清洁已取消，设备正在运行",
+              "manual_cleaning_canceled": "手动清洁已取消，设备正在运行",
+              "auto_cleaning_canceled_kitten": "已启用小猫模式，自动清洁已取消",
+              "periodic_cleaning_canceled_kitten": "已启用小猫模式，定期清洁已取消",
+              "litter_empty_completed": "猫砂清空完成",
+              "litter_empty_terminated": "猫砂清空终止",
+              "litter_empty_failed_full": "猫砂清空失败，垃圾箱已满，请及时清空",
+              "litter_empty_failed_hall_l": "猫砂清空失败，垃圾箱未正确锁定，请检查",
+              "litter_empty_failed_hall_t": "猫砂清空失败，猫厕所上部盖未正确放置，请检查",
+              "reset_completed": "设备重置完成",
+              "reset_terminated": "设备重置终止",
+              "reset_failed_full": "设备重置失败，垃圾箱已满，请及时清空",
+              "reset_failed_hall_l": "设备重置失败，垃圾箱未正确锁定，请检查",
+              "reset_failed_hall_t": "设备重置失败，猫厕所上部盖未正确放置，请检查",
+              "deodorant_finished": "除臭剂用尽",
+              "periodic_odor_completed": "定期除臭完成",
+              "manual_odor_completed": "手动除臭完成",
+              "deodorant_finished_liquid_lack": "除臭剂用尽，请及时补充净化液",
+              "periodic_odor_completed_liquid_lack": "定期除臭完成，请及时补充净化液",
+              "manual_odor_completed_liquid_lack": "手动除臭完成，请及时补充净化液",
+              "auto_odor_failed": "自动除臭失败，除臭剂出现错误",
+              "periodic_odor_failed": "定期除臭失败，除臭剂故障",
+              "manual_odor_failed": "手动除臭失败，除臭剂故障",
+              "no_sub_events": "无关联子事件"
+            }
+          }
+        }
+      },
+      "latest_weight": {
+        "name": "最新重量"
+      },
+      "last_use_duration": {
+        "name": "上次使用时长"
+      },
+      "pura_air_battery": {
+        "name": "猫厕所电池"
+      },
+      "pura_air_liquid": {
+        "name": "猫厕所空气净化液"
+      },
+      "n50_odor_eliminator": {
+        "name": "N50除臭剂"
+      },
+      "max_last_event": {
+        "name": "最后事件",
+        "state": {
+          "no_events_yet": "尚无事件",
+          "event_type_unknown": "未知事件类型",
+          "cleaning_completed": "清洁完成",
+          "dumping_over": "倒掉完成",
+          "reset_over": "重置完成",
+          "spray_over": "喷雾完成",
+          "light_over": "灯光完成",
+          "pet_out": "宠物离开",
+          "auto_cleaning_completed": "自动清洁完成",
+          "periodic_cleaning_completed": "定期清洁完成",
+          "manual_cleaning_completed": "手动清洁完成",
+          "auto_cleaning_terminated": "自动清洁终止",
+          "periodic_cleaning_terminated": "定期清洁终止",
+          "manual_cleaning_terminated": "手动清洁终止",
+          "auto_cleaning_failed_full": "自动清洁失败，垃圾箱已满，请及时清空",
+          "auto_cleaning_failed_hall_t": "自动清洁失败，猫厕所上部盖未正确放置，请检查",
+          "auto_cleaning_failed_falldown": "自动清洁失败，猫厕所已被拆开，请检查",
+          "auto_cleaning_failed_other": "自动清洁失败，设备故障，请检查",
+          "scheduled_cleaning_failed_full": "计划清洁失败，垃圾箱已满，请及时清空",
+          "scheduled_cleaning_failed_hall_t": "计划清洁失败，猫厕所上部盖未正确放置，请检查",
+          "scheduled_cleaning_failed_falldown": "计划清洁失败，猫厕所已被拆开，请检查",
+          "scheduled_cleaning_failed_other": "计划清洁失败，设备故障，请检查",
+          "manual_cleaning_failed_full": "手动清洁失败，垃圾箱已满，请及时清空",
+          "manual_cleaning_failed_hall_t": "手动清洁失败，猫厕所上部盖未正确放置，请检查",
+          "manual_cleaning_failed_falldown": "手动清洁失败，猫厕所已被拆开，请检查",
+          "manual_cleaning_failed_other": "手动清洁失败，设备故障，请检查",
+          "auto_cleaning_canceled": "自动清洁已取消，设备正在运行",
+          "periodic_cleaning_canceled": "定期清洁已取消，设备正在运行",
+          "manual_cleaning_canceled": "手动清洁已取消，设备正在运行",
+          "auto_cleaning_failed_maintenance": "自动清洁失败，设备处于维护模式",
+          "periodic_cleaning_failed_maintenance": "定期清洁失败，设备处于维护模式",
+          "auto_cleaning_canceled_kitten": "已启用小猫模式，自动清洁已取消",
+          "periodic_cleaning_canceled_kitten": "已启用小猫模式，定期清洁已取消",
+          "litter_empty_completed": "猫砂清空完成",
+          "litter_empty_terminated": "猫砂清空终止",
+          "litter_empty_failed_full": "猫砂清空失败，垃圾箱已满，请及时清空",
+          "litter_empty_failed_hall_t": "猫砂清空失败，猫厕所上部盖未正确放置，请检查",
+          "litter_empty_failed_falldown": "猫砂清空失败，猫厕所已被拆开，请检查",
+          "litter_empty_failed_other": "猫砂清空失败，设备故障，请检查",
+          "reset_completed": "设备重置完成",
+          "reset_terminated": "设备重置终止",
+          "reset_failed_full": "设备重置失败，垃圾箱已满，请及时清空",
+          "reset_failed_hall_t": "设备重置失败，猫厕所上部盖未正确放置，请检查",
+          "reset_failed_falldown": "设备重置失败，猫厕所已被拆开，请检查",
+          "reset_failed_other": "设备重置失败，设备故障，请检查",
+          "maintenance_mode": "维护模式",
+          "deodorant_finished": "除臭剂用尽",
+          "periodic_odor_completed": "定期除臭完成",
+          "manual_odor_completed": "手动除臭完成",
+          "auto_odor_terminated": "自动除臭已终止",
+          "periodic_odor_terminated": "定期除臭已终止",
+          "manual_odor_terminated": "手动除臭已终止",
+          "auto_odor_failed": "自动除臭失败，除臭剂出现错误",
+          "periodic_odor_failed": "定期除臭失败，除臭剂故障",
+          "manual_odor_failed": "手动除臭失败，除臭剂故障",
+          "auto_odor_canceled": "自动除臭已取消，设备正在运行",
+          "periodic_odor_canceled": "定期除臭已取消，猫厕所正在工作",
+          "manual_odor_canceled": "手动除臭已取消，猫厕所正在工作",
+          "auto_odor_failed_device": "自动除臭失败，未连接智能喷雾",
+          "periodic_odor_failed_device": "定期除臭失败，除臭设备已断开连接",
+          "manual_odor_failed_device": "手动除臭失败，除臭设备已断开连接",
+          "auto_odor_failed_batt": "自动除臭失败，请确认智能喷雾电池电量充足",
+          "periodic_odor_failed_batt": "定期除臭失败，请确保除臭设备电池电量充足",
+          "manual_odor_failed_batt": "手动除臭失败，请确保除臭设备电池电量充足",
+          "auto_odor_failed_low_batt": "自动除臭失败，电池电量低",
+          "periodic_odor_failed_low_batt": "定期除臭失败，除臭设备电池电量低",
+          "manual_odor_failed_low_batt": "手动除臭失败，除臭设备电池电量低",
+          "cat_stopped_odor": "您的猫正在使用猫厕所，除臭已取消",
+          "light_on": "灯光已打开",
+          "light_already_on": "灯光已打开，无需再次打开",
+          "light_malfunc": "无法打开灯光，设备故障，请检查",
+          "light_no_device": "无法打开灯光，请先绑定除臭设备",
+          "light_batt_cap": "无法打开灯光，请检查除臭设备的电池容量",
+          "light_low_batt": "无法打开灯光，除臭设备电池电量低"
+        },
+        "state_attributes": {
+          "sub_events": {
+            "state": {
+              "no_events_yet": "尚无事件",
+              "event_type_unknown": "未知事件类型",
+              "cleaning_completed": "清洁完成",
+              "dumping_over": "倒掉完成",
+              "reset_over": "重置完成",
+              "spray_over": "喷雾完成",
+              "light_over": "灯光完成",
+              "pet_out": "宠物离开",
+              "auto_cleaning_completed": "自动清洁完成",
+              "periodic_cleaning_completed": "定期清洁完成",
+              "manual_cleaning_completed": "手动清洁完成",
+              "auto_cleaning_terminated": "自动清洁终止",
+              "periodic_cleaning_terminated": "定期清洁终止",
+              "manual_cleaning_terminated": "手动清洁终止",
+              "auto_cleaning_failed_full": "自动清洁失败，垃圾箱已满，请及时清空",
+              "auto_cleaning_failed_hall_t": "自动清洁失败，猫厕所上部盖未正确放置，请检查",
+              "auto_cleaning_failed_falldown": "自动清洁失败，猫厕所已被拆开，请检查",
+              "auto_cleaning_failed_other": "自动清洁失败，设备故障，请检查",
+              "scheduled_cleaning_failed_full": "计划清洁失败，垃圾箱已满，请及时清空",
+              "scheduled_cleaning_failed_hall_t": "计划清洁失败，猫厕所上部盖未正确放置，请检查",
+              "scheduled_cleaning_failed_falldown": "计划清洁失败，猫厕所已被拆开，请检查",
+              "scheduled_cleaning_failed_other": "计划清洁失败，设备故障，请检查",
+              "manual_cleaning_failed_full": "手动清洁失败，垃圾箱已满，请及时清空",
+              "manual_cleaning_failed_hall_t": "手动清洁失败，猫厕所上部盖未正确放置，请检查",
+              "manual_cleaning_failed_falldown": "手动清洁失败，猫厕所已被拆开，请检查",
+              "manual_cleaning_failed_other": "手动清洁失败，设备故障，请检查",
+              "auto_cleaning_canceled": "自动清洁已取消，设备正在运行",
+              "periodic_cleaning_canceled": "定期清洁已取消，设备正在运行",
+              "manual_cleaning_canceled": "手动清洁已取消，设备正在运行",
+              "auto_cleaning_failed_maintenance": "自动清洁失败，设备处于维护模式",
+              "periodic_cleaning_failed_maintenance": "定期清洁失败，设备处于维护模式",
+              "auto_cleaning_canceled_kitten": "已启用小猫模式，自动清洁已取消",
+              "periodic_cleaning_canceled_kitten": "已启用小猫模式，定期清洁已取消",
+              "litter_empty_completed": "猫砂清空完成",
+              "litter_empty_terminated": "猫砂清空终止",
+              "litter_empty_failed_full": "猫砂清空失败，垃圾箱已满，请及时清空",
+              "litter_empty_failed_hall_t": "猫砂清空失败，猫厕所上部盖未正确放置，请检查",
+              "litter_empty_failed_falldown": "猫砂清空失败，猫厕所已被拆开，请检查",
+              "litter_empty_failed_other": "猫砂清空失败，设备故障，请检查",
+              "reset_completed": "设备重置完成",
+              "reset_terminated": "设备重置终止",
+              "reset_failed_full": "设备重置失败，垃圾箱已满，请及时清空",
+              "reset_failed_hall_t": "设备重置失败，猫厕所上部盖未正确放置，请检查",
+              "reset_failed_falldown": "设备重置失败，猫厕所已被拆开，请检查",
+              "reset_failed_other": "设备重置失败，设备故障，请检查",
+              "maintenance_mode": "维护模式",
+              "deodorant_finished": "除臭剂用尽",
+              "periodic_odor_completed": "定期除臭完成",
+              "manual_odor_completed": "手动除臭完成",
+              "auto_odor_terminated": "自动除臭已终止",
+              "periodic_odor_terminated": "定期除臭已终止",
+              "manual_odor_terminated": "手动除臭已终止",
+              "auto_odor_failed": "自动除臭失败，除臭剂出现错误",
+              "periodic_odor_failed": "定期除臭失败，除臭剂故障",
+              "manual_odor_failed": "手动除臭失败，除臭剂故障",
+              "auto_odor_canceled": "自动除臭已取消，设备正在运行",
+              "periodic_odor_canceled": "定期除臭已取消，猫厕所正在工作",
+              "manual_odor_canceled": "手动除臭已取消，猫厕所正在工作",
+              "auto_odor_failed_device": "自动除臭失败，未连接智能喷雾",
+              "periodic_odor_failed_device": "定期除臭失败，除臭设备已断开连接",
+              "manual_odor_failed_device": "手动除臭失败，除臭设备已断开连接",
+              "auto_odor_failed_batt": "自动除臭失败，请确认智能喷雾电池电量充足",
+              "periodic_odor_failed_batt": "定期除臭失败，请确保除臭设备电池电量充足",
+              "manual_odor_failed_batt": "手动除臭失败，请确保除臭设备电池电量充足",
+              "auto_odor_failed_low_batt": "自动除臭失败，电池电量低",
+              "periodic_odor_failed_low_batt": "定期除臭失败，除臭设备电池电量低",
+              "manual_odor_failed_low_batt": "手动除臭失败，除臭设备电池电量低",
+              "cat_stopped_odor": "您的猫正在使用猫厕所，除臭已取消",
+              "light_on": "灯光已打开",
+              "light_already_on": "灯光已打开，无需再次打开",
+              "light_malfunc": "无法打开灯光，设备故障，请检查",
+              "light_no_device": "无法打开灯光，请先绑定除臭设备",
+              "light_batt_cap": "无法打开灯光，请检查除臭设备的电池容量",
+              "light_low_batt": "无法打开灯光，除臭设备电池电量低",
+              "no_sub_events": "无关联子事件"
+            }
+          }
+        }
+      },
+      "max_work_state": {
+        "name": "工作状态",
+        "state": {
+          "cleaning_litter_box": "清洁猫厕所中",
+          "cleaning_litter_box_paused": "猫厕所清洁已暂停",
+          "cleaning_paused_pet_entered": "猫厕所清洁已暂停：宠物进入时，防夹传感器被触发，设备停止工作。请立即检查设备。",
+          "cleaning_paused_system_error": "猫厕所清洁已暂停：系统错误，操作已暂停",
+          "cleaning_paused_pet_approach": "猫厕所清洁已暂停：您的猫正在靠近，操作已暂停",
+          "cleaning_paused_pet_using": "猫厕所清洁已暂停：您的猫正在使用设备，操作已暂停",
+          "resetting_device": "设备重置中",
+          "litter_box_paused": "猫厕所已暂停",
+          "paused_pet_entered": "猫厕所已暂停：宠物进入时，防夹传感器被触发，设备停止工作。请立即检查设备。",
+          "paused_system_error": "猫厕所已暂停：系统错误，操作已暂停",
+          "paused_pet_approach": "猫厕所已暂停：您的猫正在靠近，操作已暂停",
+          "paused_pet_using": "猫厕所已暂停：您的猫正在使用设备，操作已暂停",
+          "dumping_litter": "倒掉猫砂中",
+          "dumping_litter_paused": "倒掉猫砂已暂停",
+          "dumping_paused_pet_entered": "倒掉猫砂已暂停：宠物进入时，防夹传感器被触发，设备停止工作。请立即检查设备。",
+          "dumping_paused_system_error": "倒掉猫砂已暂停：系统错误，操作已暂停",
+          "dumping_paused_pet_approach": "倒掉猫砂已暂停：您的猫正在靠近，操作已暂停",
+          "dumping_paused_pet_using": "倒掉猫砂已暂停：您的猫正在使用设备，操作已暂停",
+          "resetting": "设备重置中",
+          "leveling": "正在调平猫砂，请稍候。",
+          "calibrating": "正在校准猫厕所，请稍候。",
+          "maintenance_mode": "维护模式中",
+          "maintenance_paused_pet_entered": "维护模式已暂停：宠物进入时，防夹传感器被触发，设备停止工作。请立即检查设备。",
+          "maintenance_paused_cover": "维护模式已暂停：顶盖未安装，操作已暂停",
+          "maintenance_paused_system_error": "维护模式已暂停：系统错误，操作已暂停",
+          "maintenance_paused_pet_approach": "维护模式已暂停：您的猫正在靠近，操作已暂停",
+          "maintenance_paused_pet_using": "维护模式已暂停：您的猫正在使用设备，操作已暂停",
+          "maintenance_paused": "维护模式已暂停",
+          "exit_maintenance": "正在退出维护模式",
+          "maintenance_exit_paused_pet_entered": "退出维护模式已暂停：宠物进入时，防夹传感器被触发，设备停止工作。请立即检查设备。",
+          "maintenance_exit_paused_cover": "退出维护模式已暂停：顶盖未安装，操作已暂停",
+          "maintenance_exit_paused_system_error": "退出维护模式已暂停：系统错误，操作已暂停",
+          "maintenance_exit_paused_pet_approach": "退出维护模式已暂停：您的猫正在靠近，操作已暂停",
+          "maintenance_exit_paused_pet_using": "退出维护模式已暂停：您的猫正在使用设备，操作已暂停",
+          "maintenance_exit_paused": "退出维护模式已暂停",
+          "idle": "空闲"
+        }
+      },
+      "avg_eating_time": {
+        "name": "平均进食时间"
+      },
+      "manually_dispensed_hopp_one": {
+        "name": "手动投放的料盒1"
+      },
+      "manually_dispensed_hopp_two": {
+        "name": "手动投放的料盒2"
+      },
+      "planned_hopp_one": {
+        "name": "计划投放的料盒1"
+      },
+      "planned_hopp_two": {
+        "name": "计划投放的料盒2"
+      },
+      "planned_dispensed_hopp_one": {
+        "name": "计划投放的料盒1"
+      },
+      "planned_dispensed_hopp_two": {
+        "name": "计划投放的料盒2"
+      },
+      "dispensed_hopp_one": {
+        "name": "已投放的料盒1"
+      },
+      "dispensed_hopp_two": {
+        "name": "已投放的料盒2"
+      },
+      "humidity": {
+        "name": "湿度"
+      },
+      "temperature": {
+        "name": "温度"
+      },
+      "air_purified": {
+        "name": "空气净化"
+      },
+      "liquid": {
+        "name": "液体"
+      },
+      "food_left": {
+        "name": "剩余食物"
+      }
+    },
+    "switch": {
+      "light": {
+        "name": "灯光"
+      },
+      "power": {
+        "name": "电源"
+      },
+      "do_not_disturb": {
+        "name": "请勿打扰"
+      },
+      "indicator_light": {
+        "name": "指示灯"
+      },
+      "child_lock": {
+        "name": "儿童锁"
+      },
+      "food_shortage_alarm": {
+        "name": "食物短缺警报"
+      },
+      "dispense_tone": {
+        "name": "分配音调"
+      },
+      "voice_with_dispense": {
+        "name": "配送语音"
+      },
+      "surplus_control": {
+        "name": "剩余控制"
+      },
+      "system_notification_sound": {
+        "name": "系统通知声音"
+      },
+      "auto_odor_removal": {
+        "name": "自动除臭"
+      },
+      "auto_cleaning": {
+        "name": "自动清洁"
+      },
+      "avoid_repeat_cleaning": {
+        "name": "避免重复清洁"
+      },
+      "periodic_cleaning": {
+        "name": "定期清洁"
+      },
+      "periodic_odor_removal": {
+        "name": "定期除臭"
+      },
+      "kitten_mode": {
+        "name": "小猫模式"
+      },
+      "display": {
+        "name": "显示"
+      },
+      "light_weight_cleaning_disabled": {
+        "name": "禁用轻量级清洁"
+      },
+      "cont_rotation": {
+        "name": "连续旋转"
+      },
+      "deep_cleaning": {
+        "name": "深度清洁"
+      },
+      "deep_deodor": {
+        "name": "深度除臭"
+      },
+      "prompt_tone": {
+        "name": "提示音"
+      },
+      "enhanced_adsorption": {
+        "name": "Enhanced adsorption"
+      }
+    },
+    "text": {
+      "manual_feed": {
+        "name": "手动喂食"
+      }
+    }
+  }
+}
