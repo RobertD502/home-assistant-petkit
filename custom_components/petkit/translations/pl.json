@@ -20,7 +20,8 @@
                     "password": "Hasło do konta PetKit",
                     "region": "Wybierz kraj powiązany z Twoim kontem",
                     "timezone": "Wybierz strefę czasową, lub spróbuj autokonfiguracji",
-                    "polling_interval": "Czas pomiędzy zapytaniami (sekund)"
+                    "polling_interval": "Czas pomiędzy zapytaniami (sekund)",
+                    "use_ble_relay": "Użyj przekaźnika PetKit BLE (jeśli dostępny)"
                 },
                 "title": "Podaj dane logowania do konta PetKit"
             },
@@ -30,7 +31,8 @@
                     "password": "Hasło do konta PetKit",
                     "region": "Wybierz kraj powiązany z Twoim kontem",
                     "timezone": "Wybierz strefę czasową, lub spróbuj autokonfiguracji",
-                    "polling_interval": "Czas pomiędzy zapytaniami (sekund)"
+                    "polling_interval": "Czas pomiędzy zapytaniami (sekund)",
+                    "use_ble_relay": "Użyj przekaźnika PetKit BLE (jeśli dostępny)"
                 },
                 "title": "Ponownie uwierzytelnij konto PetKit"
             }
@@ -42,7 +44,8 @@
           "data": {
             "region": "Wybierz kraj powiązany z Twoim kontem",
             "timezone": "Wybierz strefę czasową, lub spróbuj autokonfiguracji",
-            "polling_interval": "Czas pomiędzy zapytaniami (sekund)"
+            "polling_interval": "Czas pomiędzy zapytaniami (sekund)",
+            "use_ble_relay": "Użyj przekaźnika PetKit BLE (jeśli dostępny)"
           }
         }
       }
@@ -736,7 +739,7 @@
         "prompt_tone": {
           "name": "Dźwięk przywołania"
         },
-        "adsorption_enhance": {
+        "enhanced_adsorption": {
           "name": "Zwiększenie wchłaniania"
         }
       },
