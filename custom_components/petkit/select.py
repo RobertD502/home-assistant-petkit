@@ -11,6 +11,7 @@ from petkitaio.model import Feeder, LitterBox, W5Fountain
 from homeassistant.components.select import SelectEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -56,11 +57,10 @@ async def async_setup_entry(
 
     for wf_id, wf_data in coordinator.data.water_fountains.items():
         # Water Fountains (W5)
-        if wf_data.ble_relay:
-            selects.extend((
-                WFLightBrightness(coordinator, wf_id),
-                WFMode(coordinator, wf_id),
-            ))
+        selects.extend((
+            WFLightBrightness(coordinator, wf_id),
+            WFMode(coordinator, wf_id),
+        ))
     for feeder_id, feeder_data in coordinator.data.feeders.items():
         # D4 and Mini Feeders
         if feeder_data.type in ['d4', 'feedermini']:
@@ -149,11 +149,10 @@ class WFLightBrightness(CoordinatorEntity, SelectEntity):
     def available(self) -> bool:
         """Determine if device is available.
 
-        Return true if there is a valid relay
-        and the main relay device is online.
+        Return true if light is on
         """
 
-        if self.wf_data.ble_relay and (self.wf_data.data['settings']['lampRingSwitch'] == 1):
+        if self.wf_data.data['settings']['lampRingSwitch'] == 1:
             return True
         else:
             return False
@@ -173,6 +172,15 @@ class WFLightBrightness(CoordinatorEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         ha_to_petkit = LIGHT_BRIGHTNESS_TO_PETKIT.get(option)
         try:
@@ -247,16 +255,10 @@ class WFMode(CoordinatorEntity, SelectEntity):
 
     @property
     def available(self) -> bool:
-        """Determine if device is available.
+        """Determine if device is available."""
+        
+        return True
 
-        Return true if there is a valid relay
-        and the main relay device is online.
-        """
-
-        if self.wf_data.ble_relay:
-            return True
-        else:
-            return False
 
     @property
     def current_option(self) -> str:
@@ -273,6 +275,15 @@ class WFMode(CoordinatorEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
+
+        if not self.coordinator.client.use_ble_relay:
+            raise HomeAssistantError(f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}')
+        if not self.wf_data.group_relay:
+            raise HomeAssistantError(
+                f'A PetKit BLE relay is required to control {self.wf_data.data["name"]}. '
+                f'PetKit did not return a valid relay device. If you do have a relay device, '
+                f'it may temporarily be offline.'
+            )
 
         ha_to_petkit = WF_MODE_TO_PETKIT.get(option)
         try:
