@@ -21,7 +21,7 @@
           "region": "选择与您的账户关联的国家",
           "timezone": "手动选择时区或尝试自动设置",
           "polling_interval": "轮询间隔（秒）",
-          "use_ble_relay": "使用 PetKit BLE 继电器（如果可用"
+          "use_ble_relay": "如果可用，使用 Petkit 低功耗蓝牙中继"
         },
         "title": "填写您的小佩凭据"
       },
@@ -32,7 +32,7 @@
           "region": "选择与您的账户关联的国家",
           "timezone": "手动选择时区或尝试自动设置",
           "polling_interval": "轮询间隔（秒）",
-          "use_ble_relay": "使用 PetKit BLE 继电器（如果可用"
+          "use_ble_relay": "如果可用，使用 Petkit 低功耗蓝牙中继"
         },
         "title": "使用您的小佩凭据重新验证"
       }
@@ -45,7 +45,7 @@
           "region": "选择与您的账户关联的国家",
           "timezone": "手动选择时区或尝试自动设置",
           "polling_interval": "轮询间隔（秒）",
-          "use_ble_relay": "使用 PetKit BLE 继电器（如果可用"
+          "use_ble_relay": "如果可用，使用 Petkit 低功耗蓝牙中继"
         }
       }
     }
@@ -740,7 +740,7 @@
         "name": "提示音"
       },
       "enhanced_adsorption": {
-        "name": "Enhanced adsorption"
+        "name": "增强吸附"
       }
     },
     "text": {
