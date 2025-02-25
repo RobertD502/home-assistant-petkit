@@ -626,7 +626,8 @@
           "maintenance_exit_paused_pet_approach": "退出维护模式已暂停：您的猫正在靠近，操作已暂停",
           "maintenance_exit_paused_pet_using": "退出维护模式已暂停：您的猫正在使用设备，操作已暂停",
           "maintenance_exit_paused": "退出维护模式已暂停",
-          "idle": "空闲"
+          "idle": "空闲",
+          "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
         }
       },
       "avg_eating_time": {
