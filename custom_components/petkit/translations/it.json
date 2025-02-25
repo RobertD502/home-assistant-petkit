@@ -626,7 +626,8 @@
             "maintenance_exit_paused_pet_approach": "Uscita dalla modalità manutenzione in pausa: Il gatto si sta avvicinando, operazione in pausa.",
             "maintenance_exit_paused_pet_using": "Uscita dalla modalità manutenzione in pausa: Il gatto sta utilizzando il dispositivo, operazione in pausa.",
             "maintenance_exit_paused": "Uscita dalla modalità manutenzione in pausa",
-            "idle": "Inattivo"
+            "idle": "Inattivo",
+	    "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
           }
         },
         "avg_eating_time": {
