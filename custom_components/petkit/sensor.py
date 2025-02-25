@@ -2898,10 +2898,13 @@ class MAXWorkState(CoordinatorEntity, SensorEntity):
                                     return 'cleaning_paused_system_error'
                             if work_state['safeWarn'] == 0:
                                 ### petInTime could be referring to key in state and not workState
-                                if work_state['petInTime'] == 0:
+                                if (pet_time := work_state.get('petInTime')) == 0:
                                     return 'cleaning_paused_pet_approach'
                                 else:
-                                    return 'cleaning_paused_pet_using'
+                                    if pet_time:
+                                        return 'cleaning_paused_pet_using'
+                                    else:
+                                        return 'unknown_safe_warn_state'
                     else:
                         return 'cleaning_litter_box_paused'
                 elif work_process / 10 == 3:
