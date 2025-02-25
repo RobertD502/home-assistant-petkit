@@ -626,7 +626,8 @@
             "maintenance_exit_paused_pet_approach": "Выход из режима обслуживания приостановлен: Ваша кошка приближается, работа приостановлена",
             "maintenance_exit_paused_pet_using": "Выход из режима обслуживания приостановлен: Ваша кошка использует устройство, работа приостановлена",
             "maintenance_exit_paused": "Выход из режима обслуживания приостановлен",
-            "idle": "Простой"
+            "idle": "Простой",
+            "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
           }
         },
         "avg_eating_time": {
