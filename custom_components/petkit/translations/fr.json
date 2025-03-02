@@ -627,7 +627,7 @@
             "maintenance_exit_paused_pet_using": "Sortie du mode maintenance en pause : Votre chat utilise l'appareil, opération mise en pause",
             "maintenance_exit_paused": "Sortie du mode maintenance en pause",
             "idle": "Inactif",
-            "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
+            "unknown_safe_warn_state": "État de sécurité inconnu"
           }
         },
         "avg_eating_time": {
