@@ -1,0 +1,753 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Le compte PetKit est déjà configuré",
+            "reauth_successful": "La réauthentification a réussi"
+        },
+        "error": {
+            "cannot_connect": "Échec de la connexion",
+            "invalid_auth": "Authentification invalide. Vos identifiants sont-ils corrects ?",
+            "no_devices": "Aucun appareil trouvé sur le compte",
+            "server_busy": "Les serveurs PetKit sont occupés. Veuillez réessayer plus tard.",
+            "petkit_error": "Erreur inconnue rencontrée. Veuillez consulter les journaux de Home Assistant pour plus de détails.",
+            "region_error": "Veuillez sélectionner le pays associé à votre compte.",
+            "timezone_error": "Impossible de trouver un fuseau horaire. Si vous exécutez Home Assistant comme un conteneur Docker autonome, vous devez définir la variable d'environnement TZ. Si la variable TZ est définie ou si vous exécutez Home Assistant OS, votre fuseau horaire n'a pas été trouvé dans la bibliothèque tzlocal - Veuillez sélectionner manuellement un fuseau horaire lors de la configuration."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "Adresse e-mail du compte PetKit",
+                    "password": "Mot de passe du compte PetKit",
+                    "region": "Sélectionnez le pays associé à votre compte",
+                    "timezone": "Sélectionnez un fuseau horaire manuellement ou tentez de le définir automatiquement",
+                    "polling_interval": "Intervalle d'interrogation (secondes)",
+                    "use_ble_relay": "Utiliser le relais BLE de PetKit (si disponible)"
+                },
+                "title": "Renseignez vos identifiants PetKit"
+            },
+            "reauth_confirm": {
+                "data": {
+                  "email": "Adresse e-mail du compte PetKit",
+                  "password": "Mot de passe du compte PetKit",
+                  "region": "Sélectionnez le pays associé à votre compte",
+                  "timezone": "Sélectionnez un fuseau horaire manuellement ou tentez de le définir automatiquement",
+                  "polling_interval": "Intervalle d'interrogation (secondes)",
+                  "use_ble_relay": "Utiliser le relais BLE de PetKit (si disponible)"
+                },
+                "title": "Réauthentifiez-vous avec vos identifiants PetKit"
+            }
+        }
+    },
+    "options": {
+      "step": {
+        "petkit_options": {
+          "data": {
+            "region": "Sélectionnez le pays associé à votre compte",
+            "timezone": "Sélectionnez un fuseau horaire manuellement ou tentez de le définir automatiquement",
+            "polling_interval": "Intervalle d'interrogation (secondes)",
+            "use_ble_relay": "Utiliser le relais BLE de PetKit (si disponible)"
+          }
+        }
+      }
+    },
+    "entity": {
+      "binary_sensor": {
+        "water_level": {
+          "name": "Niveau d'eau"
+        },
+        "food_level": {
+          "name": "Niveau de nourriture"
+        },
+        "battery_installed": {
+          "name": "Batterie installée"
+        },
+        "battery": {
+          "name": "Batterie"
+        },
+        "wastebin": {
+          "name": "Poubelle"
+        },
+        "litter": {
+          "name": "Litière"
+        },
+        "deodorizer": {
+          "name": "Désodorisant"
+        },
+        "manually_paused": {
+          "name": "Mis en pause manuellement"
+        },
+        "pura_air_liquid": {
+          "name": "Liquide Pura Air"
+        },
+        "food_level_hopper_one": {
+          "name": "Niveau de nourriture Trémie 1"
+        },
+        "food_level_hopper_two": {
+          "name": "Niveau de nourriture Trémie 2"
+        }
+      },
+      "button": {
+        "reset_filter": {
+          "name": "Réinitialiser le filtre"
+        },
+        "reset_desiccant": {
+          "name": "Réinitialiser le dessicant"
+        },
+        "cancel_manual_feed": {
+          "name": "Annuler l'alimentation manuelle"
+        },
+        "call_pet": {
+          "name": "Appeler l'animal"
+        },
+        "start_cleaning": {
+          "name": "Démarrer/Reprendre le nettoyage"
+        },
+        "pause_cleaning": {
+          "name": "Mettre le nettoyage en pause"
+        },
+        "odor_removal": {
+          "name": "Élimination des odeurs"
+        },
+        "reset_deodorizer": {
+          "name": "Réinitialiser le désodorisant"
+        },
+        "reset_pura_air_liquid": {
+          "name": "Réinitialiser le liquide Pura Air"
+        },
+        "n50_reset": {
+          "name": "Réinitialiser l'éliminateur d'odeur N50"
+        },
+        "light_on": {
+          "name": "Allumer la lumière"
+        },
+        "start_maintenance": {
+          "name": "Démarrer le mode de maintenance"
+        },
+        "exit_maintenance": {
+          "name": "Quitter le mode de maintenance"
+        },
+        "pause_exit_maintenance": {
+          "name": "Mettre en pause la sortie du mode maintenance"
+        },
+        "resume_exit_maintenance": {
+          "name": "Reprendre la sortie du mode maintenance"
+        },
+        "dump_litter": {
+          "name": "Vider la litière"
+        },
+        "pause_dump_litter": {
+          "name": "Mettre en pause le vidage de la litière"
+        },
+        "resume_dump_litter": {
+          "name": "Reprendre le vidage de la litière"
+        },
+        "food_replenished": {
+          "name": "Nourriture réapprovisionnée"
+        },
+        "start_cal": {
+          "name": "Démarrer la calibration"
+        },
+        "stop_cal": {
+          "name": "Arrêter la calibration"
+        }
+      },
+      "fan": {
+        "purifier": {
+          "name": "Purificateur",
+          "state_attributes": {
+            "preset_mode": {
+              "state": {
+                "auto": "Auto",
+                "silent": "Silencieux",
+                "standard": "Standard",
+                "strong": "Fort"
+              }
+            }
+          }
+        }
+      },
+      "number": {
+        "set_weight": {
+          "name": "Définir le poids"
+        },
+        "surplus": {
+          "name": "Surplus"
+        },
+        "volume": {
+          "name": "Volume"
+        },
+        "manual_feed": {
+          "name": "Alimentation manuelle"
+        },
+        "cleaning_delay": {
+          "name": "Délai de nettoyage"
+        },
+        "min_eating_duration": {
+          "name": "Durée minimale de repas"
+        }
+      },
+      "select": {
+        "light_brightness": {
+          "name": "Luminosité de la lumière",
+          "state": {
+            "low": "Faible",
+            "medium": "Moyenne",
+            "high": "Forte"
+          }
+        },
+        "mode": {
+          "name": "Mode",
+          "state": {
+            "normal": "Normal",
+            "smart": "Intelligent"
+          }
+        },
+        "manual_feed": {
+          "name": "Alimentation manuelle"
+        },
+        "sound": {
+          "name": "Son"
+        },
+        "cleaning_interval": {
+          "name": "Intervalle de nettoyage"
+        },
+        "litter_type": {
+          "name": "Type de litière",
+          "state": {
+            "bentonite": "Bentonite",
+            "tofu": "Tofu",
+            "mixed": "Mélange"
+          }
+        }
+      },
+      "sensor": {
+        "energy_usage": {
+          "name": "Utilisation de l'énergie"
+        },
+        "last_data_update": {
+          "name": "Dernière mise à jour des données"
+        },
+        "filter": {
+          "name": "Filtre"
+        },
+        "purified_water_today": {
+          "name": "Eau purifiée aujourd'hui"
+        },
+        "feeder_status": {
+          "name": "Statut",
+          "state": {
+            "offline": "Hors ligne",
+            "normal": "Normal",
+            "on_batteries": "Sur batteries"
+          }
+        },
+        "desiccant_days_remaining": {
+          "name": "Jours restants de dessicant"
+        },
+        "battery_status": {
+          "name": "Statut de la batterie",
+          "state": {
+            "normal": "Normal",
+            "low": "Faible"
+          }
+        },
+        "dispensed": {
+          "name": "Distribué"
+        },
+        "planned": {
+          "name": "Planifié"
+        },
+        "planned_dispensed": {
+          "name": "Distribué planifié"
+        },
+        "manually_dispensed": {
+          "name": "Distribué manuellement"
+        },
+        "times_dispensed": {
+          "name": "Nombre de fois distribué"
+        },
+        "rssi": {
+          "name": "RSSI"
+        },
+        "amount_eaten": {
+          "name": "Quantité mangée"
+        },
+        "times_eaten": {
+          "name": "Nombre de fois mangé"
+        },
+        "food_in_bowl": {
+          "name": "Nourriture dans le bol"
+        },
+        "error": {
+          "name": "Erreur",
+          "state": {
+            "no_error": "Aucune erreur"
+          }
+        },
+        "deodorizer_level": {
+          "name": "Niveau de désodorisant"
+        },
+        "litter_level": {
+          "name": "Niveau de litière"
+        },
+        "litter_weight": {
+          "name": "Poids de la litière"
+        },
+        "times_used": {
+          "name": "Nombre de fois utilisé"
+        },
+        "average_use": {
+          "name": "Utilisation moyenne"
+        },
+        "total_use": {
+          "name": "Utilisation totale"
+        },
+        "last_used_by": {
+          "name": "Dernière utilisation par",
+          "state": {
+            "no_record_yet": "Aucun enregistrement pour l'instant",
+            "unknown_pet": "Animal inconnu"
+          }
+        },
+        "last_event": {
+          "name": "Dernier événement",
+          "state": {
+            "no_events_yet": "Aucun événement pour le moment",
+            "event_type_unknown": "Type d'événement inconnu",
+            "cleaning_completed": "Nettoyage terminé",
+            "dumping_over": "Vidage terminé",
+            "reset_over": "Réinitialisation terminée",
+            "spray_over": "Pulvérisation terminée",
+            "pet_out": "Animal sorti",
+            "auto_cleaning_completed": "Nettoyage automatique terminé",
+            "periodic_cleaning_completed": "Nettoyage périodique terminé",
+            "manual_cleaning_completed": "Nettoyage manuel terminé",
+            "auto_cleaning_terminated": "Nettoyage automatique terminé",
+            "periodic_cleaning_terminated": "Nettoyage périodique terminé",
+            "manual_cleaning_terminated": "Nettoyage manuel terminé",
+            "auto_cleaning_failed_full": "Échec du nettoyage automatique, la poubelle est pleine, veuillez la vider rapidement",
+            "auto_cleaning_failed_hall_l": "Échec du nettoyage automatique, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+            "auto_cleaning_failed_hall_t": "Échec du nettoyage automatique, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "scheduled_cleaning_failed_full": "Échec du nettoyage programmé, la poubelle est pleine, veuillez la vider rapidement",
+            "scheduled_cleaning_failed_hall_l": "Échec du nettoyage programmé, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+            "scheduled_cleaning_failed_hall_t": "Échec du nettoyage programmé, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "manual_cleaning_failed_full": "Échec du nettoyage manuel, la poubelle est pleine, veuillez la vider rapidement",
+            "manual_cleaning_failed_hall_l": "Échec du nettoyage manuel, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+            "manual_cleaning_failed_hall_t": "Échec du nettoyage manuel, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "auto_cleaning_canceled": "Nettoyage automatique annulé, appareil en fonctionnement",
+            "periodic_cleaning_canceled": "Nettoyage périodique annulé, appareil en fonctionnement",
+            "manual_cleaning_canceled": "Nettoyage manuel annulé, appareil en fonctionnement",
+            "auto_cleaning_canceled_kitten": "Le mode chaton est activé, nettoyage automatique annulé",
+            "periodic_cleaning_canceled_kitten": "Le mode chaton est activé, nettoyage périodique annulé",
+            "litter_empty_completed": "Vidage de la litière terminé",
+            "litter_empty_terminated": "Vidage de la litière annulé",
+            "litter_empty_failed_full": "Échec du vidage de la litière, la poubelle est pleine, veuillez la vider rapidement",
+            "litter_empty_failed_hall_l": "Échec du vidage de la litière, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+            "litter_empty_failed_hall_t": "Échec du vidage de la litière, le couvercle de la litière n'est pas correctement placé, veuillez vérifier",
+            "reset_completed": "Réinitialisation de l'appareil terminée",
+            "reset_terminated": "Réinitialisation de l'appareil annulée",
+            "reset_failed_full": "Échec de la réinitialisation de l'appareil, la poubelle est pleine, veuillez la vider rapidement",
+            "reset_failed_hall_l": "Échec de la réinitialisation de l'appareil, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+            "reset_failed_hall_t": "Échec de la réinitialisation de l'appareil, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "deodorant_finished": "Désodorisant terminé",
+            "periodic_odor_completed": "Élimination périodique des odeurs terminée",
+            "manual_odor_completed": "Élimination manuelle des odeurs terminée",
+            "deodorant_finished_liquid_lack": "Désodorisant terminé, manque de liquide purifiant, veuillez remplir à temps",
+            "periodic_odor_completed_liquid_lack": "Élimination périodique des odeurs terminée, manque de liquide purifiant, veuillez remplir à temps",
+            "manual_odor_completed_liquid_lack": "Élimination manuelle des odeurs terminée, manque de liquide purifiant, veuillez remplir à temps",
+            "auto_odor_failed": "Échec de l'élimination automatique des odeurs, erreur de l'éliminateur d'odeurs",
+            "periodic_odor_failed": "Échec de l'élimination périodique des odeurs, dysfonctionnement de l'éliminateur d'odeurs",
+            "manual_odor_failed": "Échec de l'élimination manuelle des odeurs, dysfonctionnement de l'éliminateur d'odeurs"
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Aucun événement pour le moment",
+                "event_type_unknown": "Type d'événement inconnu",
+                "cleaning_completed": "Nettoyage terminé",
+                "dumping_over": "Vidage terminé",
+                "reset_over": "Réinitialisation terminée",
+                "spray_over": "Pulvérisation terminée",
+                "pet_out": "Animal sorti",
+                "auto_cleaning_completed": "Nettoyage automatique terminé",
+                "periodic_cleaning_completed": "Nettoyage périodique terminé",
+                "manual_cleaning_completed": "Nettoyage manuel terminé",
+                "auto_cleaning_terminated": "Nettoyage automatique annulé",
+                "periodic_cleaning_terminated": "Nettoyage périodique annulé",
+                "manual_cleaning_terminated": "Nettoyage manuel annulé",
+                "auto_cleaning_failed_full": "Échec du nettoyage automatique, la poubelle est pleine, veuillez la vider rapidement",
+                "auto_cleaning_failed_hall_l": "Échec du nettoyage automatique, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+                "auto_cleaning_failed_hall_t": "Échec du nettoyage automatique, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+                "scheduled_cleaning_failed_full": "Échec du nettoyage programmé, la poubelle est pleine, veuillez la vider rapidement",
+                "scheduled_cleaning_failed_hall_l": "Échec du nettoyage programmé, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+                "scheduled_cleaning_failed_hall_t": "Échec du nettoyage programmé, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+                "manual_cleaning_failed_full": "Échec du nettoyage manuel, la poubelle est pleine, veuillez la vider rapidement",
+                "manual_cleaning_failed_hall_l": "Échec du nettoyage manuel, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+                "manual_cleaning_failed_hall_t": "Échec du nettoyage manuel, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+                "auto_cleaning_canceled": "Nettoyage automatique annulé, appareil en fonctionnement",
+                "periodic_cleaning_canceled": "Nettoyage périodique annulé, appareil en fonctionnement",
+                "manual_cleaning_canceled": "Nettoyage manuel annulé, appareil en fonctionnement",
+                "auto_cleaning_canceled_kitten": "Mode chaton activé, nettoyage automatique annulé",
+                "periodic_cleaning_canceled_kitten": "Mode chaton activé, nettoyage périodique annulé",
+                "litter_empty_completed": "Vidage de la litière terminé",
+                "litter_empty_terminated": "Vidage de la litière annulé",
+                "litter_empty_failed_full": "Échec du vidage de la litière, la poubelle est pleine, veuillez la vider rapidement",
+                "litter_empty_failed_hall_l": "Échec du vidage de la litière, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+                "litter_empty_failed_hall_t": "Échec du vidage de la litière, le couvercle de la litière n'est pas correctement placé, veuillez vérifier",
+                "reset_completed": "Réinitialisation de l'appareil terminée",
+                "reset_terminated": "Réinitialisation de l'appareil annulée",
+                "reset_failed_full": "Échec de la réinitialisation de l'appareil, la poubelle est pleine, veuillez la vider rapidement",
+                "reset_failed_hall_l": "Échec de la réinitialisation de l'appareil, le cylindre n'est pas correctement verrouillé, veuillez vérifier",
+                "reset_failed_hall_t": "Échec de la réinitialisation de l'appareil, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+                "deodorant_finished": "Désodorisant terminé",
+                "periodic_odor_completed": "Élimination périodique des odeurs terminée",
+                "manual_odor_completed": "Élimination manuelle des odeurs terminée",
+                "deodorant_finished_liquid_lack": "Désodorisant terminé, manque de liquide purifiant, veuillez remplir à temps",
+                "periodic_odor_completed_liquid_lack": "Élimination périodique des odeurs terminée, manque de liquide purifiant, veuillez remplir à temps",
+                "manual_odor_completed_liquid_lack": "Élimination manuelle des odeurs terminée, manque de liquide purifiant, veuillez remplir à temps",
+                "auto_odor_failed": "Échec de l'élimination automatique des odeurs, erreur de l'éliminateur d'odeurs",
+                "periodic_odor_failed": "Échec de l'élimination périodique des odeurs, dysfonctionnement de l'éliminateur d'odeurs",
+                "manual_odor_failed": "Échec de l'élimination manuelle des odeurs, dysfonctionnement de l'éliminateur d'odeurs",
+                "no_sub_events": "Aucun sous-événement associé"
+              }
+            }
+          }
+        },
+        "latest_weight": {
+          "name": "Poids le plus récent"
+        },
+        "last_use_duration": {
+          "name": "Durée de la dernière utilisation"
+        },
+        "pura_air_battery": {
+          "name": "Batterie Pura Air"
+        },
+        "pura_air_liquid": {
+          "name": "Liquide Pura Air"
+        },
+        "n50_odor_eliminator": {
+          "name": "Éliminateur d'odeurs N50"
+        },
+        "max_last_event": {
+          "name": "Dernier événement",
+          "state": {
+            "no_events_yet": "Aucun événement pour le moment",
+            "event_type_unknown": "Type d'événement inconnu",
+            "cleaning_completed": "Nettoyage terminé",
+            "dumping_over": "Vidage terminé",
+            "reset_over": "Réinitialisation terminée",
+            "spray_over": "Pulvérisation terminée",
+            "light_over": "Lumière éteinte",
+            "pet_out": "Animal sorti",
+            "auto_cleaning_completed": "Nettoyage automatique terminé",
+            "periodic_cleaning_completed": "Nettoyage périodique terminé",
+            "manual_cleaning_completed": "Nettoyage manuel terminé",
+            "auto_cleaning_terminated": "Nettoyage automatique terminé",
+            "periodic_cleaning_terminated": "Nettoyage périodique terminé",
+            "manual_cleaning_terminated": "Nettoyage manuel terminé",
+            "auto_cleaning_failed_full": "Échec du nettoyage automatique, la poubelle est pleine, veuillez la vider rapidement",
+            "auto_cleaning_failed_hall_t": "Échec du nettoyage automatique, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "auto_cleaning_failed_falldown": "Échec du nettoyage automatique, la litière a été renversée, veuillez vérifier.",
+            "auto_cleaning_failed_other": "Échec du nettoyage automatique, dysfonctionnement de l'appareil, veuillez vérifier.",
+            "scheduled_cleaning_failed_full": "Échec du nettoyage programmé, la poubelle est pleine, veuillez la vider rapidement",
+            "scheduled_cleaning_failed_hall_t": "Échec du nettoyage programmé, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "scheduled_cleaning_failed_falldown": "Échec du nettoyage programmé, la litière a été renversée, veuillez vérifier.",
+            "scheduled_cleaning_failed_other": "Échec du nettoyage programmé, dysfonctionnement de l'appareil, veuillez vérifier.",
+            "manual_cleaning_failed_full": "Échec du nettoyage manuel, la poubelle est pleine, veuillez la vider rapidement",
+            "manual_cleaning_failed_hall_t": "Échec du nettoyage manuel, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "manual_cleaning_failed_falldown": "Échec du nettoyage manuel, la litière a été renversée, veuillez vérifier.",
+            "manual_cleaning_failed_other": "Échec du nettoyage manuel, dysfonctionnement de l'appareil, veuillez vérifier.",
+            "auto_cleaning_canceled": "Nettoyage automatique annulé, appareil en fonctionnement",
+            "periodic_cleaning_canceled": "Nettoyage périodique annulé, appareil en fonctionnement",
+            "manual_cleaning_canceled": "Nettoyage manuel annulé, appareil en fonctionnement",
+            "auto_cleaning_failed_maintenance": "Échec du nettoyage automatique, l'appareil est en mode maintenance",
+            "periodic_cleaning_failed_maintenance": "Échec du nettoyage périodique, l'appareil est en mode maintenance",
+            "auto_cleaning_canceled_kitten": "Le mode chaton est activé, nettoyage automatique annulé",
+            "periodic_cleaning_canceled_kitten": "Le mode chaton est activé, nettoyage périodique annulé",
+            "litter_empty_completed": "Vidage de la litière terminé",
+            "litter_empty_terminated": "Vidage de la litière annulé",
+            "litter_empty_failed_full": "Échec du vidage de la litière, la poubelle est pleine, veuillez la vider rapidement",
+            "litter_empty_failed_hall_t": "Échec du vidage de la litière, le couvercle de la litière n'est pas correctement placé, veuillez vérifier",
+            "litter_empty_failed_falldown": "Échec du vidage de la litière, la litière a été renversée, veuillez vérifier",
+            "litter_empty_failed_other": "Échec du vidage de la litière, dysfonctionnement de l'appareil, veuillez vérifier.",
+            "reset_completed": "Réinitialisation de l'appareil terminée",
+            "reset_terminated": "Réinitialisation de l'appareil annulée",
+            "reset_failed_full": "Échec de la réinitialisation de l'appareil, la poubelle est pleine, veuillez la vider rapidement",
+            "reset_failed_hall_t": "Échec de la réinitialisation de l'appareil, le couvercle supérieur de la litière n'est pas correctement placé, veuillez vérifier",
+            "reset_failed_falldown": "Échec de la réinitialisation de l'appareil, la litière a été renversée, veuillez vérifier.",
+            "reset_failed_other": "Échec de la réinitialisation de l'appareil, dysfonctionnement de l'appareil, veuillez vérifier.",
+            "maintenance_mode": "Mode maintenance",
+            "deodorant_finished": "Désodorisant terminé",
+            "periodic_odor_completed": "Élimination périodique des odeurs terminée",
+            "manual_odor_completed": "Élimination manuelle des odeurs terminée",
+            "auto_odor_terminated": "L'élimination automatique des odeurs a été terminée.",
+            "periodic_odor_terminated": "L'élimination périodique des odeurs terminée.",
+            "manual_odor_terminated": "L'élimination manuelle des odeurs terminée.",
+            "auto_odor_failed": "Échec de l'élimination automatique des odeurs, erreur de l'éliminateur d'odeurs",
+            "periodic_odor_failed": "Échec de l'élimination périodique des odeurs, dysfonctionnement de l'éliminateur d'odeurs",
+            "manual_odor_failed": "Échec de l'élimination manuelle des odeurs, dysfonctionnement de l'éliminateur d'odeurs",
+            "auto_odor_canceled": "L'élimination automatique des odeurs a été annulée, l'appareil est en fonctionnement.",
+            "periodic_odor_canceled": "L'élimination périodique des odeurs a été annulée. La litière fonctionne.",
+            "manual_odor_canceled": "L'élimination manuelle des odeurs a été annulée. La litière fonctionne.",
+            "auto_odor_failed_device": "Échec de l'élimination automatique des odeurs, aucun spray intelligent connecté.",
+            "periodic_odor_failed_device": "Échec de l'élimination périodique des odeurs. L'appareil d'élimination des odeurs est déconnecté.",
+            "manual_odor_failed_device": "Échec de l'élimination manuelle des odeurs. L'appareil d'élimination des odeurs est déconnecté.",
+            "auto_odor_failed_batt": "Échec de l'élimination automatique des odeurs, veuillez vérifier que la batterie du spray intelligent est suffisante.",
+            "periodic_odor_failed_batt": "Échec de l'élimination périodique des odeurs. Veuillez vous assurer que l'appareil d'élimination des odeurs a suffisamment de batterie.",
+            "manual_odor_failed_batt": "Échec de l'élimination manuelle des odeurs. Veuillez vous assurer que l'appareil d'élimination des odeurs a suffisamment de batterie.",
+            "auto_odor_failed_low_batt": "Échec de l'élimination automatique des odeurs, batterie faible.",
+            "periodic_odor_failed_low_batt": "Échec de l'élimination périodique des odeurs. Batterie faible de l'appareil d'élimination des odeurs.",
+            "manual_odor_failed_low_batt": "Échec de l'élimination manuelle des odeurs. Batterie faible de l'appareil d'élimination des odeurs.",
+            "cat_stopped_odor": "Votre chat utilise la litière, la désodorisation a été annulée",
+            "light_on": "La lumière est allumée",
+            "light_already_on": "La lumière est allumée. Il n'est pas nécessaire de la rallumer.",
+            "light_malfunc": "Échec de l'allumage de la lumière. Dysfonctionnement de l'appareil, veuillez vérifier.",
+            "light_no_device": "Échec de l'allumage de la lumière. Veuillez d'abord lier l'appareil d'élimination des odeurs.",
+            "light_batt_cap": "Échec de l'allumage de la lumière. Veuillez vérifier la capacité de la batterie de l'appareil d'élimination des odeurs.",
+            "light_low_batt": "Échec de l'allumage de la lumière. Capacité de batterie faible de l'appareil d'élimination des odeurs."
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Aucun événement pour le moment",
+                "event_type_unknown": "Type d'événement inconnu",
+                "cleaning_completed": "Nettoyage terminé",
+                "dumping_over": "Vidage terminé",
+                "reset_over": "Réinitialisation terminée",
+                "spray_over": "Vaporisation terminée",
+                "light_over": "Lumière éteinte",
+                "pet_out": "Animal dehors",
+                "auto_cleaning_completed": "Nettoyage automatique terminé",
+                "periodic_cleaning_completed": "Nettoyage périodique terminé",
+                "manual_cleaning_completed": "Nettoyage manuel terminé",
+                "auto_cleaning_terminated": "Nettoyage automatique interrompu",
+                "periodic_cleaning_terminated": "Nettoyage périodique interrompu",
+                "manual_cleaning_terminated": "Nettoyage manuel interrompu",
+                "auto_cleaning_failed_full": "Échec du nettoyage automatique, le bac de collecte des déchets est plein, veuillez le vider rapidement",
+                "auto_cleaning_failed_hall_t": "Échec du nettoyage automatique, le couvercle supérieur de la litière n'est pas correctement positionné, veuillez vérifier",
+                "auto_cleaning_failed_falldown": "Échec du nettoyage automatique, la litière a été renversée, veuillez vérifier",
+                "auto_cleaning_failed_other": "Échec du nettoyage automatique, dysfonctionnement de l'appareil, veuillez vérifier",
+                "scheduled_cleaning_failed_full": "Échec du nettoyage programmé, le bac de collecte des déchets est plein, veuillez le vider rapidement",
+                "scheduled_cleaning_failed_hall_t": "Échec du nettoyage programmé, le couvercle supérieur de la litière n'est pas correctement positionné, veuillez vérifier",
+                "scheduled_cleaning_failed_falldown": "Échec du nettoyage programmé, la litière a été renversée, veuillez vérifier",
+                "scheduled_cleaning_failed_other": "Échec du nettoyage programmé, dysfonctionnement de l'appareil, veuillez vérifier",
+                "manual_cleaning_failed_full": "Échec du nettoyage manuel, le bac de collecte des déchets est plein, veuillez le vider rapidement",
+                "manual_cleaning_failed_hall_t": "Échec du nettoyage manuel, le couvercle supérieur de la litière n'est pas correctement positionné, veuillez vérifier",
+                "manual_cleaning_failed_falldown": "Échec du nettoyage manuel, la litière a été renversée, veuillez vérifier",
+                "manual_cleaning_failed_other": "Échec du nettoyage manuel, dysfonctionnement de l'appareil, veuillez vérifier",
+                "auto_cleaning_canceled": "Nettoyage automatique annulé, appareil en fonctionnement",
+                "periodic_cleaning_canceled": "Nettoyage périodique annulé, appareil en fonctionnement",
+                "manual_cleaning_canceled": "Nettoyage manuel annulé, appareil en fonctionnement",
+                "auto_cleaning_failed_maintenance": "Échec du nettoyage automatique, l'appareil est en mode maintenance",
+                "periodic_cleaning_failed_maintenance": "Échec du nettoyage périodique, l'appareil est en mode maintenance",
+                "auto_cleaning_canceled_kitten": "Le mode chaton est activé, le nettoyage automatique est annulé",
+                "periodic_cleaning_canceled_kitten": "Le mode chaton est activé, le nettoyage périodique est annulé",
+                "litter_empty_completed": "Vidage de la litière terminé",
+                "litter_empty_terminated": "Vidage de la litière annulé",
+                "litter_empty_failed_full": "Échec du vidage de la litière, le bac de collecte des déchets est plein, veuillez le vider rapidement",
+                "litter_empty_failed_hall_t": "Échec du vidage de la litière, le couvercle supérieur de la litière n'est pas correctement positionné, veuillez vérifier",
+                "litter_empty_failed_falldown": "Échec du vidage de la litière, la litière a été renversée, veuillez vérifier",
+                "litter_empty_failed_other": "Échec du vidage de la litière, dysfonctionnement de l'appareil, veuillez vérifier",
+                "reset_completed": "Réinitialisation de l'appareil terminée",
+                "reset_terminated": "Réinitialisation de l'appareil annulée",
+                "reset_failed_full": "Échec de la réinitialisation de l'appareil, le bac de collecte des déchets est plein, veuillez le vider rapidement",
+                "reset_failed_hall_t": "Échec de la réinitialisation de l'appareil, le couvercle supérieur de la litière n'est pas correctement positionné, veuillez vérifier",
+                "reset_failed_falldown": "Échec de la réinitialisation de l'appareil, la litière a été renversée, veuillez vérifier",
+                "reset_failed_other": "Échec de la réinitialisation de l'appareil, dysfonctionnement de l'appareil, veuillez vérifier",
+                "maintenance_mode": "Mode maintenance",
+                "deodorant_finished": "Désodorisant terminé",
+                "periodic_odor_completed": "Élimination périodique des odeurs terminée",
+                "manual_odor_completed": "Élimination manuelle des odeurs terminée",
+                "auto_odor_terminated": "Élimination automatique des odeurs terminée",
+                "periodic_odor_terminated": "Élimination périodique des odeurs terminée",
+                "manual_odor_terminated": "Élimination manuelle des odeurs terminée",
+                "auto_odor_failed": "Échec de l'élimination automatique des odeurs, erreur de l'éliminateur d'odeurs",
+                "periodic_odor_failed": "Échec de l'élimination périodique des odeurs, dysfonctionnement de l'éliminateur d'odeurs",
+                "manual_odor_failed": "Échec de l'élimination manuelle des odeurs, dysfonctionnement de l'éliminateur d'odeurs",
+                "auto_odor_canceled": "Élimination automatique des odeurs annulée, l'appareil est en fonctionnement",
+                "periodic_odor_canceled": "Élimination périodique des odeurs annulée. La litière est en fonctionnement.",
+                "manual_odor_canceled": "Élimination manuelle des odeurs annulée. La litière est en fonctionnement.",
+                "auto_odor_failed_device": "Échec de l'élimination automatique des odeurs, aucun spray intelligent connecté",
+                "periodic_odor_failed_device": "Échec de l'élimination périodique des odeurs. Appareil de suppression des odeurs déconnecté",
+                "manual_odor_failed_device": "Échec de l'élimination manuelle des odeurs. Appareil de suppression des odeurs déconnecté",
+                "auto_odor_failed_batt": "Échec de l'élimination automatique des odeurs, veuillez vérifier que la batterie du spray intelligent est suffisante",
+                "periodic_odor_failed_batt": "Échec de l'élimination périodique des odeurs. Veuillez vous assurer que l'appareil de suppression des odeurs a suffisamment de batterie",
+                "manual_odor_failed_batt": "Échec de l'élimination manuelle des odeurs. Veuillez vous assurer que l'appareil de suppression des odeurs a suffisamment de batterie",
+                "auto_odor_failed_low_batt": "Échec de l'élimination automatique des odeurs, batterie faible",
+                "periodic_odor_failed_low_batt": "Échec de l'élimination périodique des odeurs. Appareil de suppression des odeurs batterie faible",
+                "manual_odor_failed_low_batt": "Échec de l'élimination manuelle des odeurs. Appareil de suppression des odeurs batterie faible",
+                "cat_stopped_odor": "Votre chat utilise la litière, la désodorisation a été annulée",
+                "light_on": "La lumière est allumée",
+                "light_already_on": "La lumière est allumée. Il n'est pas nécessaire de la rallumer.",
+                "light_malfunc": "Échec d'allumer la lumière. Dysfonctionnement de l'appareil, veuillez vérifier.",
+                "light_no_device": "Échec d'allumer la lumière. Veuillez d'abord lier l'appareil de suppression des odeurs",
+                "light_batt_cap": "Échec d'allumer la lumière. Veuillez vérifier la capacité de la batterie de l'appareil de suppression des odeurs",
+                "light_low_batt": "Échec d'allumer la lumière. Batterie de l'appareil de suppression des odeurs faible",
+                "no_sub_events": "Aucun sous-événement associé"
+              }
+            }
+          }          
+        },
+        "max_work_state": {
+          "name": "État",
+          "state": {
+            "cleaning_litter_box": "Nettoyage de la litière",
+            "cleaning_litter_box_paused": "Nettoyage de la litière en pause",
+            "cleaning_paused_pet_entered": "Nettoyage de la litière en pause : Un animal est entré pendant l'opération, les capteurs anti-pincement ont été activés, l'appareil a cessé de fonctionner. Veuillez vérifier l'appareil immédiatement.",
+            "cleaning_paused_system_error": "Nettoyage de la litière en pause : Erreur système, opération mise en pause",
+            "cleaning_paused_pet_approach": "Nettoyage de la litière en pause : Votre chat approche, opération mise en pause",
+            "cleaning_paused_pet_using": "Nettoyage de la litière en pause : Votre chat utilise l'appareil, opération mise en pause",
+            "resetting_device": "Réinitialisation de l'appareil",
+            "litter_box_paused": "Litière en pause",
+            "paused_pet_entered": "Litière en pause : Un animal est entré pendant l'opération, les capteurs anti-pincement ont été activés, l'appareil a cessé de fonctionner. Veuillez vérifier l'appareil immédiatement.",
+            "paused_system_error": "Litière en pause : Erreur système, opération mise en pause",
+            "paused_pet_approach": "Litière en pause : Votre chat approche, opération mise en pause",
+            "paused_pet_using": "Litière en pause : Votre chat utilise l'appareil, opération mise en pause",
+            "dumping_litter": "Vidage de la litière",
+            "dumping_litter_paused": "Vidage de la litière en pause",
+            "dumping_paused_pet_entered": "Vidage de la litière en pause : Un animal est entré pendant l'opération, les capteurs anti-pincement ont été activés, l'appareil a cessé de fonctionner. Veuillez vérifier l'appareil immédiatement.",
+            "dumping_paused_system_error": "Vidage de la litière en pause : Erreur système, opération mise en pause",
+            "dumping_paused_pet_approach": "Vidage de la litière en pause : Votre chat approche, opération mise en pause",
+            "dumping_paused_pet_using": "Vidage de la litière en pause : Votre chat utilise l'appareil, opération mise en pause",
+            "resetting": "Réinitialisation",
+            "leveling": "Nivellement de la litière, veuillez patienter.",
+            "calibrating": "Calibrage de la litière, veuillez patienter.",
+            "maintenance_mode": "En mode maintenance",
+            "maintenance_paused_pet_entered": "Mode maintenance en pause : Un animal est entré pendant l'opération, les capteurs anti-pincement ont été activés, l'appareil a cessé de fonctionner. Veuillez vérifier l'appareil immédiatement.",
+            "maintenance_paused_cover": "Mode maintenance en pause : Le couvercle supérieur n'est pas installé, opération mise en pause",
+            "maintenance_paused_system_error": "Mode maintenance en pause : Erreur système, opération mise en pause",
+            "maintenance_paused_pet_approach": "Mode maintenance en pause : Votre chat approche, opération mise en pause",
+            "maintenance_paused_pet_using": "Mode maintenance en pause : Votre chat utilise l'appareil, opération mise en pause",
+            "maintenance_paused": "Mode maintenance en pause",
+            "exit_maintenance": "Sortie du mode maintenance",
+            "maintenance_exit_paused_pet_entered": "Sortie du mode maintenance en pause : Un animal est entré pendant l'opération, les capteurs anti-pincement ont été activés, l'appareil a cessé de fonctionner. Veuillez vérifier l'appareil immédiatement.",
+            "maintenance_exit_paused_cover": "Sortie du mode maintenance en pause : Le couvercle supérieur n'est pas installé, opération mise en pause",
+            "maintenance_exit_paused_system_error": "Sortie du mode maintenance en pause : Erreur système, opération mise en pause",
+            "maintenance_exit_paused_pet_approach": "Sortie du mode maintenance en pause : Votre chat approche, opération mise en pause",
+            "maintenance_exit_paused_pet_using": "Sortie du mode maintenance en pause : Votre chat utilise l'appareil, opération mise en pause",
+            "maintenance_exit_paused": "Sortie du mode maintenance en pause",
+            "idle": "Inactif",
+            "unknown_safe_warn_state": "État de sécurité inconnu"
+          }
+        },
+        "avg_eating_time": {
+          "name": "Temps moyen de repas"
+        },
+        "manually_dispensed_hopp_one": {
+          "name": "Trémie 1 distribuée manuellement"
+        },
+        "manually_dispensed_hopp_two": {
+          "name": "Trémie 2 distribuée manuellement"
+        },
+        "planned_hopp_one": {
+          "name": "Trémie 1 planifiée"
+        },
+        "planned_hopp_two": {
+          "name": "Trémie 2 planifiée"
+        },
+        "planned_dispensed_hopp_one": {
+          "name": "Trémie 1 distribuée selon plan"
+        },
+        "planned_dispensed_hopp_two": {
+          "name": "Trémie 2 distribuée selon plan"
+        },
+        "dispensed_hopp_one": {
+          "name": "Trémie 1 distribuée"
+        },
+        "dispensed_hopp_two": {
+          "name": "Trémie 2 distribuée"
+        },
+        "humidity": {
+          "name": "Humidité"
+        },
+        "temperature": {
+          "name": "Température"
+        },
+        "air_purified": {
+          "name": "Air purifié"
+        },
+        "liquid": {
+          "name": "Liquide"
+        },
+        "food_left": {
+          "name": "Nourriture restante"
+        }
+      },
+      "switch": {
+        "light": {
+          "name": "Lumière"
+        },
+        "power": {
+          "name": "Alimentation"
+        },
+        "do_not_disturb": {
+          "name": "Ne pas déranger"
+        },
+        "indicator_light": {
+          "name": "Voyant lumineux"
+        },
+        "child_lock": {
+          "name": "Verrouillage enfant"
+        },
+        "food_shortage_alarm": {
+          "name": "Alerte pénurie de nourriture"
+        },
+        "dispense_tone": {
+          "name": "Ton de distribution"
+        },
+        "voice_with_dispense": {
+          "name": "Voix avec distribution"
+        },
+        "surplus_control": {
+          "name": "Contrôle des excédents"
+        },
+        "system_notification_sound": {
+          "name": "Son de notification système"
+        },
+        "auto_odor_removal": {
+          "name": "Élimination automatique des odeurs"
+        },
+        "auto_cleaning": {
+          "name": "Nettoyage automatique"
+        },
+        "avoid_repeat_cleaning": {
+          "name": "Éviter le nettoyage répété"
+        },
+        "periodic_cleaning": {
+          "name": "Nettoyage périodique"
+        },
+        "periodic_odor_removal": {
+          "name": "Élimination périodique des odeurs"
+        },
+        "kitten_mode": {
+          "name": "Mode chaton"
+        },
+        "display": {
+          "name": "Affichage"
+        },
+        "light_weight_cleaning_disabled": {
+          "name": "Nettoyage léger désactivé"
+        },
+        "cont_rotation": {
+          "name": "Rotation continue"
+        },
+        "deep_cleaning": {
+          "name": "Nettoyage en profondeur"
+        },
+        "deep_deodor": {
+          "name": "Désodorisation en profondeur"
+        },
+        "prompt_tone": {
+          "name": "Ton d'invite"
+        },
+        "enhanced_adsorption": {
+          "name": "Adsorption améliorée"
+        }
+      },
+      "text": {
+        "manual_feed": {
+          "name": "Alimentation manuelle"
+        }
+      }
+    }
+}
