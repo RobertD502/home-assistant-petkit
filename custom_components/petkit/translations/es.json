@@ -626,7 +626,8 @@
             "maintenance_exit_paused_pet_approach": "Salida del modo de mantenimiento pausada: Tu gato se está acercando, operación pausada",
             "maintenance_exit_paused_pet_using": "Salida del modo de mantenimiento pausada: Tu gato está usando el dispositivo, operación pausada",
             "maintenance_exit_paused": "Salida del modo de mantenimiento pausada",
-            "idle": "Inactivo"
+            "idle": "Inactivo",
+            "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
           }
         },
         "avg_eating_time": {

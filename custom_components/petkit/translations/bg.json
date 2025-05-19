@@ -626,7 +626,8 @@
           "maintenance_exit_paused_pet_approach": "Излизането от режим на поддръжка е поставено на пауза: Котката ви се приближава, работата е поставена на пауза",
           "maintenance_exit_paused_pet_using": "Излизането от режим на поддръжка е поставено на пауза: Котката ви използва устройството, работата е поставена на пауза",
           "maintenance_exit_paused": "Излизането от режим на поддръжка е поставено на пауза",
-          "idle": "Бездействащ"
+          "idle": "Бездействащ",
+          "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
         }
       },
       "avg_eating_time": {

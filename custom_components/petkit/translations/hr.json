@@ -626,7 +626,8 @@
             "maintenance_exit_paused_pet_approach": "Izlazak iz načina održavanja pauziran: Vaša mačka se približava, rad je pauziran",
             "maintenance_exit_paused_pet_using": "Izlazak iz načina održavanja pauziran: Vaša mačka koristi uređaj, rad je pauziran",
             "maintenance_exit_paused": "Izlazak iz načina održavanja pauziran",
-            "idle": "Besposlen"
+            "idle": "Besposlen",
+            "unknown_safe_warn_state": "Nepoznato safeWarn stanje"
           }
         },
         "avg_eating_time": {

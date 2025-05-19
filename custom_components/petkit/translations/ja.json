@@ -626,7 +626,8 @@
             "maintenance_exit_paused_pet_approach": "メンテナンスモード終了が一時停止: あなたの猫が近づいているため、運転が中断されました。",
             "maintenance_exit_paused_pet_using": "メンテナンスモード終了が一時停止: あなたの猫がデバイスを使用中で、運転が中断されました。",
             "maintenance_exit_paused": "メンテナンスモード終了が一時停止",
-            "idle": "待機状態"
+            "idle": "待機状態",
+            "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
           }
         },
         "avg_eating_time": {

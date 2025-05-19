@@ -626,7 +626,8 @@
             "maintenance_exit_paused_pet_approach": "Opuszczanie trybu serwisowego wstrzymane: kot zbliżył się do kuwety.",
             "maintenance_exit_paused_pet_using": "Opuszczanie trybu serwisowego wstrzymane: kot wszedł do kuwety.",
             "maintenance_exit_paused": "Opuszczanie trybu serwisowego wstrzymane.",
-            "idle": "Gotowa"
+            "idle": "Gotowa",
+            "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
           }
         },
         "avg_eating_time": {

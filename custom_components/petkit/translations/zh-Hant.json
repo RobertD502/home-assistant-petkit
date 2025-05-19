@@ -626,7 +626,8 @@
           "maintenance_exit_paused_pet_approach": "離開維護模式已暫停，寵物已靠近機器",
           "maintenance_exit_paused_pet_using": "離開維護模式已暫停，寵物使用中",
           "maintenance_exit_paused": "離開維護模式已暫停",
-          "idle": "待命"
+          "idle": "待命",
+          "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
         }
       },
       "avg_eating_time": {

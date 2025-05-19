@@ -626,7 +626,8 @@
             "maintenance_exit_paused_pet_approach": "Maintenance mode exiting paused: Your cat is approaching, operation paused",
             "maintenance_exit_paused_pet_using": "Maintenance mode exiting paused: Your cat is using the device, operation paused",
             "maintenance_exit_paused": "Maintenance mode exiting paused",
-            "idle": "Idle"
+            "idle": "Idle",
+            "unknown_safe_warn_state": "Unknown safeWarn state"
           }
         },
         "avg_eating_time": {
