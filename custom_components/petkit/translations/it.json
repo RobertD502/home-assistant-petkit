@@ -627,7 +627,7 @@
             "maintenance_exit_paused_pet_using": "Uscita dalla modalità manutenzione in pausa: Il gatto sta utilizzando il dispositivo, operazione in pausa.",
             "maintenance_exit_paused": "Uscita dalla modalità manutenzione in pausa",
             "idle": "Inattivo",
-	    "unknown_safe_warn_state": "Unknown safeWarn state (Needs translation)"
+	    "unknown__warn_state": "Stato sicurezza sconosciuto"
           }
         },
         "avg_eating_time": {
