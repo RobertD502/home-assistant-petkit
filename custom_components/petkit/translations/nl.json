@@ -627,7 +627,7 @@
             "maintenance_exit_paused_pet_using": "Verlaten onderhoudsmodus gepauzeerd: uw kat gebruikt het apparaat, bewerking gepauzeerd",
             "maintenance_exit_paused": "Verlaten onderhoudsmodus gepauzeerd",
             "idle": "Inactief",
-            "unknown_safe_warn_state": "Onbekende veiligheidswaarchuwingsstatus"
+            "unknown_safe_warn_state": "Onbekende veiligheidswaarschuwingsstatus"
           }
         },
         "avg_eating_time": {
