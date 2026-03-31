@@ -1,0 +1,753 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "PetKit-account is al geconfigureerd",
+            "reauth_successful": "Herauthenticatie was succesvol"
+        },
+        "error": {
+            "cannot_connect": "Verbinding mislukt",
+            "invalid_auth": "Ongeldige authenticatie. Zijn uw inloggegevens correct?",
+            "no_devices": "Geen apparaten gevonden op het account",
+            "server_busy": "PetKit-servers zijn bezet. Probeer het later opnieuw.",
+            "petkit_error": "Onbekende fout opgetreden. Raadpleeg de Home Assistant-logboeken voor meer details.",
+            "region_error": "Selecteer het land dat aan uw account is gekoppeld.",
+            "timezone_error": "Er kon geen tijdzone worden gevonden. Als u Home Assistant als een zelfstandige Docker-container uitvoert, moet u de TZ-omgevingsvariabele definiëren. Als de TZ-variabele is gedefinieerd of als u Home Assistant OS gebruikt, werd uw tijdzone niet gevonden in de tzlocal-bibliotheek. Selecteer handmatig een tijdzone tijdens de installatie."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "email": "E-mailadres PetKit-account",
+                    "password": "Wachtwoord PetKit-account",
+                    "region": "Selecteer het land dat aan uw account is gekoppeld",
+                    "timezone": "Selecteer handmatig een tijdzone of probeer deze automatisch in te stellen",
+                    "polling_interval": "Polling-interval (seconden)",
+                    "use_ble_relay": "Gebruik PetKit BLE-relay (indien beschikbaar)"
+                },
+                "title": "Vul uw PetKit-inloggegevens in"
+            },
+            "reauth_confirm": {
+                "data": {
+                    "email": "E-mailadres PetKit-account",
+                    "password": "Wachtwoord PetKit-account",
+                    "region": "Selecteer het land dat aan uw account is gekoppeld",
+                    "timezone": "Selecteer handmatig een tijdzone of probeer deze automatisch in te stellen",
+                    "polling_interval": "Polling-interval (seconden)",
+                    "use_ble_relay": "Gebruik PetKit BLE-relay (indien beschikbaar)"
+                },
+                "title": "Herauthenticeer met uw PetKit-inloggegevens"
+            }
+        }
+    },
+    "options": {
+      "step": {
+        "petkit_options": {
+          "data": {
+            "region": "Selecteer het land dat aan uw account is gekoppeld",
+            "timezone": "Selecteer handmatig een tijdzone of probeer deze automatisch in te stellen",
+            "polling_interval": "Polling-interval (seconden)",
+            "use_ble_relay": "Gebruik PetKit BLE-relay (indien beschikbaar)"
+          }
+        }
+      }
+    },
+    "entity": {
+      "binary_sensor": {
+        "water_level": {
+          "name": "Waterniveau"
+        },
+        "food_level": {
+          "name": "Voedselniveau"
+        },
+        "battery_installed": {
+          "name": "Batterij geplaatst"
+        },
+        "battery": {
+          "name": "Batterij"
+        },
+        "wastebin": {
+          "name": "Afvalbak"
+        },
+        "litter": {
+          "name": "Kattenbakvulling"
+        },
+        "deodorizer": {
+          "name": "Geurverwijderaar"
+        },
+        "manually_paused": {
+          "name": "Handmatig gepauzeerd"
+        },
+        "pura_air_liquid": {
+          "name": "Pura Air vloeistof"
+        },
+        "food_level_hopper_one": {
+          "name": "Voedselniveau hopper 1"
+        },
+        "food_level_hopper_two": {
+          "name": "Voedseliveau hopper 2"
+        }
+      },
+      "button": {
+        "reset_filter": {
+          "name": "Filter resetten"
+        },
+        "reset_desiccant": {
+          "name": "Droogmiddel resetten"
+        },
+        "cancel_manual_feed": {
+          "name": "Handmatig voeren annuleren"
+        },
+        "call_pet": {
+          "name": "Huisdier roepen"
+        },
+        "start_cleaning": {
+          "name": "Reiniging starten/hervatten"
+        },
+        "pause_cleaning": {
+          "name": "Reiniging pauzeren"
+        },
+        "odor_removal": {
+          "name": "Geurverwijdering"
+        },
+        "reset_deodorizer": {
+          "name": "Geurverwijderaar resetten"
+        },
+        "reset_pura_air_liquid": {
+          "name": "Pura Air vloeistof resetten"
+        },
+        "n50_reset": {
+          "name": "N50 geureliminator resetten"
+        },
+        "light_on": {
+          "name": "Licht AAN zetten"
+        },
+        "start_maintenance": {
+          "name": "Onderhoudsmodus starten"
+        },
+        "exit_maintenance": {
+          "name": "Onderhoudsmodus verlaten"
+        },
+        "pause_exit_maintenance": {
+          "name": "Verlaten onderhoudsmodus pauzeren"
+        },
+        "resume_exit_maintenance": {
+          "name": "Verlaten onderhoudsmodus hervatten"
+        },
+        "dump_litter": {
+          "name": "Kattenbakvulling legen"
+        },
+        "pause_dump_litter": {
+          "name": "Legen kattenbakvulling pauzeren"
+        },
+        "resume_dump_litter": {
+          "name": "Legen kattenbakvulling hervatten"
+        },
+        "food_replenished": {
+          "name": "Voedsel aangevuld"
+        },
+        "start_cal": {
+          "name": "Kalibratie starten"
+        },
+        "stop_cal": {
+          "name": "Kalibratie stoppen"
+        }
+      },
+      "fan": {
+        "purifier": {
+          "name": "Luchtreiniger",
+          "state_attributes": {
+            "preset_mode": {
+              "state": {
+                "auto": "Automatisch",
+                "silent": "Stil",
+                "standard": "Standaard",
+                "strong": "Sterk"
+              }
+            }
+          }
+        }
+      },
+      "number": {
+        "set_weight": {
+          "name": "Gewicht instellen"
+        },
+        "surplus": {
+          "name": "Overschot"
+        },
+        "volume": {
+          "name": "Volume"
+        },
+        "manual_feed": {
+          "name": "Handmatig voeren"
+        },
+        "cleaning_delay": {
+          "name": "Reinigingsvertraging"
+        },
+        "min_eating_duration": {
+          "name": "Minimale eetduur"
+        }
+      },
+      "select": {
+        "light_brightness": {
+          "name": "Lichthelderheid",
+          "state": {
+            "low": "Laag",
+            "medium": "Gemiddeld",
+            "high": "Hoog"
+          }
+        },
+        "mode": {
+          "name": "Modus",
+          "state": {
+            "normal": "Normaal",
+            "smart": "Slim"
+          }
+        },
+        "manual_feed": {
+          "name": "Handmatig voeren"
+        },
+        "sound": {
+          "name": "Geluid"
+        },
+        "cleaning_interval": {
+          "name": "Reinigingsinterval"
+        },
+        "litter_type": {
+          "name": "Type kattenbakvulling",
+          "state": {
+            "bentonite": "Bentoniet",
+            "tofu": "Tofu",
+            "mixed": "Gemengd"
+          }
+        }
+      },
+      "sensor": {
+        "energy_usage": {
+          "name": "Energieverbruik"
+        },
+        "last_data_update": {
+          "name": "Laatste gegevensupdate"
+        },
+        "filter": {
+          "name": "Filter"
+        },
+        "purified_water_today": {
+          "name": "Gezuiverd water vandaag"
+        },
+        "feeder_status": {
+          "name": "Status",
+          "state": {
+            "offline": "Offline",
+            "normal": "Normaal",
+            "on_batteries": "Op batterijen"
+          }
+        },
+        "desiccant_days_remaining": {
+          "name": "Resterende dagen droogmiddel"
+        },
+        "battery_status": {
+          "name": "Batterijstatus",
+          "state": {
+            "normal": "Normaal",
+            "low": "Laag"
+          }
+        },
+        "dispensed": {
+          "name": "Verstrekt"
+        },
+        "planned": {
+          "name": "Gepland"
+        },
+        "planned_dispensed": {
+          "name": "Gepland verstrekt"
+        },
+        "manually_dispensed": {
+          "name": "Handmatig verstrekt"
+        },
+        "times_dispensed": {
+          "name": "Aantal keren verstrekt"
+        },
+        "rssi": {
+          "name": "RSSI"
+        },
+        "amount_eaten": {
+          "name": "Hoeveelheid gegeten"
+        },
+        "times_eaten": {
+          "name": "Aantal keren gegeten"
+        },
+        "food_in_bowl": {
+          "name": "Voedsel in bak"
+        },
+        "error": {
+          "name": "Fout",
+          "state": {
+            "no_error": "Geen fout"
+          }
+        },
+        "deodorizer_level": {
+          "name": "Niveau geurverwijderaar"
+        },
+        "litter_level": {
+          "name": "Niveau kattenbakvulling"
+        },
+        "litter_weight": {
+          "name": "Gewicht kattenbakvulling"
+        },
+        "times_used": {
+          "name": "Aantal keren gebruikt"
+        },
+        "average_use": {
+          "name": "Gemiddeld gebruik"
+        },
+        "total_use": {
+          "name": "Totaal gebruik"
+        },
+        "last_used_by": {
+          "name": "Laatst gebruikt door",
+          "state": {
+            "no_record_yet": "Nog geen registratie",
+            "unknown_pet": "Onbekend huisdier"
+          }
+        },
+        "last_event": {
+          "name": "Laatste gebeurtenis",
+          "state": {
+            "no_events_yet": "Nog geen gebeurtenissen",
+            "event_type_unknown": "Gebeurtenistype onbekend",
+            "cleaning_completed": "Reiniging voltooid",
+            "dumping_over": "Legen voltooid",
+            "reset_over": "Reset voltooid",
+            "spray_over": "Spray voltooid",
+            "pet_out": "Huisdier weg",
+            "auto_cleaning_completed": "Automatische reiniging voltooid",
+            "periodic_cleaning_completed": "Periodieke reiniging voltooid",
+            "manual_cleaning_completed": "Handmatige reiniging voltooid",
+            "auto_cleaning_terminated": "Automatische reiniging beëindigd",
+            "periodic_cleaning_terminated": "Periodieke reiniging beëindigd",
+            "manual_cleaning_terminated": "Handmatige reiniging beëindigd",
+            "auto_cleaning_failed_full": "Automatische reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "auto_cleaning_failed_hall_l": "Automatische reiniging mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+            "auto_cleaning_failed_hall_t": "Automatische reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "scheduled_cleaning_failed_full": "Geplande reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "scheduled_cleaning_failed_hall_l": "Geplande reiniging mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+            "scheduled_cleaning_failed_hall_t": "Geplande reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "manual_cleaning_failed_full": "Handmatige reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "manual_cleaning_failed_hall_l": "Handmatige reiniging mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+            "manual_cleaning_failed_hall_t": "Handmatige reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "auto_cleaning_canceled": "Automatische reiniging geannuleerd, apparaat in gebruik",
+            "periodic_cleaning_canceled": "Periodieke reiniging geannuleerd, apparaat in gebruik",
+            "manual_cleaning_canceled": "Handmatige reiniging geannuleerd, apparaat in gebruik",
+            "auto_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, automatische reiniging is geannuleerd",
+            "periodic_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, periodieke reiniging is geannuleerd",
+            "litter_empty_completed": "Legen kattenbakvulling voltooid",
+            "litter_empty_terminated": "Legen kattenbakvulling beëindigd",
+            "litter_empty_failed_full": "Legen kattenbakvulling mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "litter_empty_failed_hall_l": "Legen kattenbakvulling mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+            "litter_empty_failed_hall_t": "Legen kattenbakvulling mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "reset_completed": "Apparaatreset voltooid",
+            "reset_terminated": "Apparaatreset beëindigd",
+            "reset_failed_full": "Apparaatreset mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "reset_failed_hall_l": "Apparaatreset mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+            "reset_failed_hall_t": "Apparaatreset mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "deodorant_finished": "Geurmiddel op",
+            "periodic_odor_completed": "Periodieke geurverwijdering voltooid",
+            "manual_odor_completed": "Handmatige geurverwijdering voltooid",
+            "deodorant_finished_liquid_lack": "Geurmiddel op, niet genoeg reinigingsvloeistof, vul dit op tijd bij",
+            "periodic_odor_completed_liquid_lack": "Periodieke geurverwijdering voltooid, niet genoeg reinigingsvloeistof, vul dit op tijd bij",
+            "manual_odor_completed_liquid_lack": "Handmatige geurverwijdering voltooid, niet genoeg reinigingsvloeistof, vul dit op tijd bij",
+            "auto_odor_failed": "Automatische geurverwijdering mislukt, fout met geureliminator",
+            "periodic_odor_failed": "Periodieke geurverwijdering mislukt, storing geureliminator",
+            "manual_odor_failed": "Handmatige geurverwijdering mislukt, storing geureliminator"
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Nog geen gebeurtenissen",
+                "event_type_unknown": "Gebeurtenistype onbekend",
+                "cleaning_completed": "Reiniging voltooid",
+                "dumping_over": "Legen voltooid",
+                "reset_over": "Reset voltooid",
+                "spray_over": "Spray voltooid",
+                "pet_out": "Huisdier weg",
+                "auto_cleaning_completed": "Automatische reiniging voltooid",
+                "periodic_cleaning_completed": "Periodieke reiniging voltooid",
+                "manual_cleaning_completed": "Handmatige reiniging voltooid",
+                "auto_cleaning_terminated": "Automatische reiniging beëindigd",
+                "periodic_cleaning_terminated": "Periodieke reiniging beëindigd",
+                "manual_cleaning_terminated": "Handmatige reiniging beëindigd",
+                "auto_cleaning_failed_full": "Automatische reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "auto_cleaning_failed_hall_l": "Automatische reiniging mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+                "auto_cleaning_failed_hall_t": "Automatische reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "scheduled_cleaning_failed_full": "Geplande reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "scheduled_cleaning_failed_hall_l": "Geplande reiniging mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+                "scheduled_cleaning_failed_hall_t": "Geplande reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "manual_cleaning_failed_full": "Handmatige reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "manual_cleaning_failed_hall_l": "Handmatige reiniging mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+                "manual_cleaning_failed_hall_t": "Handmatige reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "auto_cleaning_canceled": "Automatische reiniging geannuleerd, apparaat in gebruik",
+                "periodic_cleaning_canceled": "Periodieke reiniging geannuleerd, apparaat in gebruik",
+                "manual_cleaning_canceled": "Handmatige reiniging geannuleerd, apparaat in gebruik",
+                "auto_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, automatische reiniging is geannuleerd",
+                "periodic_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, periodieke reiniging is geannuleerd",
+                "litter_empty_completed": "Legen kattenbakvulling voltooid",
+                "litter_empty_terminated": "Legen kattenbakvulling beëindigd",
+                "litter_empty_failed_full": "Legen kattenbakvulling mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "litter_empty_failed_hall_l": "Legen kattenbakvulling mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+                "litter_empty_failed_hall_t": "Legen kattenbakvulling mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "reset_completed": "Apparaatreset voltooid",
+                "reset_terminated": "Apparaatreset beëindigd",
+                "reset_failed_full": "Apparaatreset mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "reset_failed_hall_l": "Apparaatreset mislukt, de cilinder zit niet goed op zijn plaats, controleer dit",
+                "reset_failed_hall_t": "Apparaatreset mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "deodorant_finished": "Geurmiddel op",
+                "periodic_odor_completed": "Periodieke geurverwijdering voltooid",
+                "manual_odor_completed": "Handmatige geurverwijdering voltooid",
+                "deodorant_finished_liquid_lack": "Geurmiddel op, niet genoeg reinigingsvloeistof, vul dit op tijd bij",
+                "periodic_odor_completed_liquid_lack": "Periodieke geurverwijdering voltooid, niet genoeg reinigingsvloeistof, vul dit op tijd bij",
+                "manual_odor_completed_liquid_lack": "Handmatige geurverwijdering voltooid, niet genoeg reinigingsvloeistof, vul dit op tijd bij",
+                "auto_odor_failed": "Automatische geurverwijdering mislukt, fout met geureliminator",
+                "periodic_odor_failed": "Periodieke geurverwijdering mislukt, storing geureliminator",
+                "manual_odor_failed": "Handmatige geurverwijdering mislukt, storing geureliminator",
+                "no_sub_events": "Geen bijbehorende subgebeurtenissen"
+              }
+            }
+          }
+        },
+        "latest_weight": {
+          "name": "Laatste gewicht"
+        },
+        "last_use_duration": {
+          "name": "Duur laatste gebruik"
+        },
+        "pura_air_battery": {
+          "name": "Pura Air batterij"
+        },
+        "pura_air_liquid": {
+          "name": "Pura Air vloeistof"
+        },
+        "n50_odor_eliminator": {
+          "name": "N50 geureliminator"
+        },
+        "max_last_event": {
+          "name": "Laatste gebeurtenis",
+          "state": {
+            "no_events_yet": "Nog geen gebeurtenissen",
+            "event_type_unknown": "Gebeurtenistype onbekend",
+            "cleaning_completed": "Reiniging voltooid",
+            "dumping_over": "Legen voltooid",
+            "reset_over": "Reset voltooid",
+            "spray_over": "Spray voltooid",
+            "light_over": "Licht uit",
+            "pet_out": "Huisdier weg",
+            "auto_cleaning_completed": "Automatische reiniging voltooid",
+            "periodic_cleaning_completed": "Periodieke reiniging voltooid",
+            "manual_cleaning_completed": "Handmatige reiniging voltooid",
+            "auto_cleaning_terminated": "Automatische reiniging beëindigd",
+            "periodic_cleaning_terminated": "Periodieke reiniging beëindigd",
+            "manual_cleaning_terminated": "Handmatige reiniging beëindigd",
+            "auto_cleaning_failed_full": "Automatische reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "auto_cleaning_failed_hall_t": "Automatische reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "auto_cleaning_failed_falldown": "Automatische reiniging mislukt, de kattenbak is omgevallen, controleer dit.",
+            "auto_cleaning_failed_other": "Automatische reiniging mislukt, apparaatstoring, controleer dit.",
+            "scheduled_cleaning_failed_full": "Geplande reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "scheduled_cleaning_failed_hall_t": "Geplande reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "scheduled_cleaning_failed_falldown": "Geplande reiniging mislukt, de kattenbak is omgevallen, controleer dit.",
+            "scheduled_cleaning_failed_other": "Geplande reiniging mislukt, apparaatstoring, controleer dit.",
+            "manual_cleaning_failed_full": "Handmatige reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "manual_cleaning_failed_hall_t": "Handmatige reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "manual_cleaning_failed_falldown": "Handmatige reiniging mislukt, de kattenbak is omgevallen, controleer dit.",
+            "manual_cleaning_failed_other": "Handmatige reiniging mislukt, apparaatstoring, controleer dit.",
+            "auto_cleaning_canceled": "Automatische reiniging geannuleerd, apparaat in gebruik",
+            "periodic_cleaning_canceled": "Periodieke reiniging geannuleerd, apparaat in gebruik",
+            "manual_cleaning_canceled": "Handmatige reiniging geannuleerd, apparaat in gebruik",
+            "auto_cleaning_failed_maintenance": "Automatische reiniging mislukt, het apparaat is in onderhoudsmodus",
+            "periodic_cleaning_failed_maintenance": "Periodieke reiniging mislukt, het apparaat is in onderhoudsmodus",
+            "auto_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, automatische reiniging is geannuleerd",
+            "periodic_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, periodieke reiniging is geannuleerd",
+            "litter_empty_completed": "Legen kattenbakvulling voltooid",
+            "litter_empty_terminated": "Legen kattenbakvulling beëindigd",
+            "litter_empty_failed_full": "Legen kattenbakvulling mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "litter_empty_failed_hall_t": "Legen kattenbakvulling mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "litter_empty_failed_falldown": "Legen kattenbakvulling mislukt, de kattenbak is omgevallen, controleer dit",
+            "litter_empty_failed_other": "Legen kattenbakvulling mislukt, apparaatstoring, controleer dit.",
+            "reset_completed": "Apparaatreset voltooid",
+            "reset_terminated": "Apparaatreset beëindigd",
+            "reset_failed_full": "Apparaatreset mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+            "reset_failed_hall_t": "Apparaatreset mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+            "reset_failed_falldown": "Apparaatreset mislukt, de kattenbak is omgevallen, controleer dit.",
+            "reset_failed_other": "Apparaatreset mislukt, apparaatstoring, controleer dit.",
+            "maintenance_mode": "Onderhoudsmodus",
+            "deodorant_finished": "Geurmiddel op",
+            "periodic_odor_completed": "Periodieke geurverwijdering voltooid",
+            "manual_odor_completed": "Handmatige geurverwijdering voltooid",
+            "auto_odor_terminated": "Automatische geurverwijdering is beëindigd.",
+            "periodic_odor_terminated": "Periodieke geurverwijdering beëindigd.",
+            "manual_odor_terminated": "Handmatige geurverwijdering beëindigd.",
+            "auto_odor_failed": "Automatische geurverwijdering mislukt, fout met geureliminator",
+            "periodic_odor_failed": "Periodieke geurverwijdering mislukt, storing geureliminator",
+            "manual_odor_failed": "Handmatige geurverwijdering mislukt, storing geureliminator",
+            "auto_odor_canceled": "Automatische geurverwijdering geannuleerd, het apparaat is in gebruik.",
+            "periodic_odor_canceled": "Periodieke geurverwijdering geannuleerd, kattenbak is in gebruik.",
+            "manual_odor_canceled": "Handmatige geurverwijdering geannuleerd, kattenbak is in gebruik.",
+            "auto_odor_failed_device": "Automatische geurverwijdering mislukt, geen slimme spray verbonden.",
+            "periodic_odor_failed_device": "Periodieke geurverwijdering mislukt, geurverwijderingsapparaat verbroken.",
+            "manual_odor_failed_device": "Handmatige geurverwijdering mislukt, geurverwijderingsapparaat verbroken.",
+            "auto_odor_failed_batt": "Automatische geurverwijdering mislukt, controleer of de batterij van de slimme spray voldoende is.",
+            "periodic_odor_failed_batt": "Periodieke geurverwijdering mislukt, zorg dat het geurverwijderingsapparaat voldoende batterij heeft.",
+            "manual_odor_failed_batt": "Handmatige geurverwijdering mislukt, zorg dat het geurverwijderingsapparaat voldoende batterij heeft.",
+            "auto_odor_failed_low_batt": "Automatische geurverwijdering mislukt, batterij is bijna leeg.",
+            "periodic_odor_failed_low_batt": "Periodieke geurverwijdering mislukt, batterij geurverwijderingsapparaat bijna leeg.",
+            "manual_odor_failed_low_batt": "Handmatige geurverwijdering mislukt, batterij geurverwijderingsapparaat bijna leeg.",
+            "cat_stopped_odor": "Uw kat gebruikt de kattenbak, deodorisatie is geannuleerd",
+            "light_on": "Het licht is AAN",
+            "light_already_on": "Het licht is al aan. Het is niet nodig om opnieuw in te schakelen.",
+            "light_malfunc": "Licht inschakelen mislukt, apparaatstoring, controleer dit.",
+            "light_no_device": "Licht inschakelen mislukt, koppel eerst het geurverwijderingsapparaat.",
+            "light_batt_cap": "Licht inschakelen mislukt, controleer de batterijcapaciteit van het geurverwijderingsapparaat.",
+            "light_low_batt": "Licht inschakelen mislukt, lage batterijcapaciteit van het geurverwijderingsapparaat."
+          },
+          "state_attributes": {
+            "sub_events": {
+              "state": {
+                "no_events_yet": "Nog geen gebeurtenissen",
+                "event_type_unknown": "Gebeurtenistype onbekend",
+                "cleaning_completed": "Reiniging voltooid",
+                "dumping_over": "Legen voltooid",
+                "reset_over": "Reset voltooid",
+                "spray_over": "Spray voltooid",
+                "light_over": "Licht uit",
+                "pet_out": "Huisdier weg",
+                "auto_cleaning_completed": "Automatische reiniging voltooid",
+                "periodic_cleaning_completed": "Periodieke reiniging voltooid",
+                "manual_cleaning_completed": "Handmatige reiniging voltooid",
+                "auto_cleaning_terminated": "Automatische reiniging beëindigd",
+                "periodic_cleaning_terminated": "Periodieke reiniging beëindigd",
+                "manual_cleaning_terminated": "Handmatige reiniging beëindigd",
+                "auto_cleaning_failed_full": "Automatische reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "auto_cleaning_failed_hall_t": "Automatische reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "auto_cleaning_failed_falldown": "Automatische reiniging mislukt, de kattenbak is omgevallen, controleer dit.",
+                "auto_cleaning_failed_other": "Automatische reiniging mislukt, apparaatstoring, controleer dit.",
+                "scheduled_cleaning_failed_full": "Geplande reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "scheduled_cleaning_failed_hall_t": "Geplande reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "scheduled_cleaning_failed_falldown": "Geplande reiniging mislukt, de kattenbak is omgevallen, controleer dit.",
+                "scheduled_cleaning_failed_other": "Geplande reiniging mislukt, apparaatstoring, controleer dit.",
+                "manual_cleaning_failed_full": "Handmatige reiniging mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "manual_cleaning_failed_hall_t": "Handmatige reiniging mislukt, de bovenste afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "manual_cleaning_failed_falldown": "Handmatige reiniging mislukt, de kattenbak is omgevallen, controleer dit.",
+                "manual_cleaning_failed_other": "Handmatige reiniging mislukt, apparaatstoring, controleer dit.",
+                "auto_cleaning_canceled": "Automatische reiniging geannuleerd, apparaat in gebruik",
+                "periodic_cleaning_canceled": "Periodieke reiniging geannuleerd, apparaat in gebruik",
+                "manual_cleaning_canceled": "Handmatige reiniging geannuleerd, apparaat in gebruik",
+                "auto_cleaning_failed_maintenance": "Automatische reiniging mislukt, het apparaat is in onderhoudsmodus",
+                "periodic_cleaning_failed_maintenance": "Periodieke reiniging mislukt, het apparaat is in onderhoudsmodus",
+                "auto_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, automatische reiniging is geannuleerd",
+                "periodic_cleaning_canceled_kitten": "Kittenmodus is ingeschakeld, periodieke reiniging is geannuleerd",
+                "litter_empty_completed": "Legen kattenbakvulling voltooid",
+                "litter_empty_terminated": "Legen kattenbakvulling beëindigd",
+                "litter_empty_failed_full": "Legen kattenbakvulling mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "litter_empty_failed_hall_t": "Legen kattenbakvulling mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "litter_empty_failed_falldown": "Legen kattenbakvulling mislukt, de kattenbak is omgevallen, controleer dit",
+                "litter_empty_failed_other": "Legen kattenbakvulling mislukt, apparaatstoring, controleer dit.",
+                "reset_completed": "Apparaatreset voltooid",
+                "reset_terminated": "Apparaatreset beëindigd",
+                "reset_failed_full": "Apparaatreset mislukt, afvalbak is vol, maak deze onmiddellijk leeg",
+                "reset_failed_hall_t": "Apparaatreset mislukt, de afdekking van de kattenbak is niet goed geplaatst, controleer dit",
+                "reset_failed_falldown": "Apparaatreset mislukt, de kattenbak is omgevallen, controleer dit.",
+                "reset_failed_other": "Apparaatreset mislukt, apparaatstoring, controleer dit.",
+                "maintenance_mode": "Onderhoudsmodus",
+                "deodorant_finished": "Geurmiddel op",
+                "periodic_odor_completed": "Periodieke geurverwijdering voltooid",
+                "manual_odor_completed": "Handmatige geurverwijdering voltooid",
+                "auto_odor_terminated": "Automatische geurverwijdering is beëindigd.",
+                "periodic_odor_terminated": "Periodieke geurverwijdering beëindigd.",
+                "manual_odor_terminated": "Handmatige geurverwijdering beëindigd.",
+                "auto_odor_failed": "Automatische geurverwijdering mislukt, fout met geureliminator",
+                "periodic_odor_failed": "Periodieke geurverwijdering mislukt, storing geureliminator",
+                "manual_odor_failed": "Handmatige geurverwijdering mislukt, storing geureliminator",
+                "auto_odor_canceled": "Automatische geurverwijdering geannuleerd, het apparaat is in gebruik.",
+                "periodic_odor_canceled": "Periodieke geurverwijdering geannuleerd, kattenbak is in gebruik.",
+                "manual_odor_canceled": "Handmatige geurverwijdering geannuleerd, kattenbak is in gebruik.",
+                "auto_odor_failed_device": "Automatische geurverwijdering mislukt, geen slimme spray verbonden.",
+                "periodic_odor_failed_device": "Periodieke geurverwijdering mislukt, geurverwijderingsapparaat verbroken.",
+                "manual_odor_failed_device": "Handmatige geurverwijdering mislukt, geurverwijderingsapparaat verbroken.",
+                "auto_odor_failed_batt": "Automatische geurverwijdering mislukt, controleer of de batterij van de slimme spray voldoende is.",
+                "periodic_odor_failed_batt": "Periodieke geurverwijdering mislukt, zorg dat het geurverwijderingsapparaat voldoende batterij heeft.",
+                "manual_odor_failed_batt": "Handmatige geurverwijdering mislukt, zorg dat het geurverwijderingsapparaat voldoende batterij heeft.",
+                "auto_odor_failed_low_batt": "Automatische geurverwijdering mislukt, batterij is bijna leeg.",
+                "periodic_odor_failed_low_batt": "Periodieke geurverwijdering mislukt, batterij geurverwijderingsapparaat bijna leeg.",
+                "manual_odor_failed_low_batt": "Handmatige geurverwijdering mislukt, batterij geurverwijderingsapparaat bijna leeg.",
+                "cat_stopped_odor": "Uw kat gebruikt de kattenbak, deodorisatie is geannuleerd",
+                "light_on": "Het licht is AAN",
+                "light_already_on": "Het licht is al aan. Het is niet nodig om opnieuw in te schakelen.",
+                "light_malfunc": "Licht inschakelen mislukt, apparaatstoring, controleer dit.",
+                "light_no_device": "Licht inschakelen mislukt, koppel eerst het geurverwijderingsapparaat.",
+                "light_batt_cap": "Licht inschakelen mislukt, controleer de batterijcapaciteit van het geurverwijderingsapparaat.",
+                "light_low_batt": "Licht inschakelen mislukt, lage batterijcapaciteit van het geurverwijderingsapparaat.",
+                "no_sub_events": "Geen bijbehorende subgebeurtenissen"
+              }
+            }
+          }
+        },
+        "max_work_state": {
+          "name": "Staat",
+          "state": {
+            "cleaning_litter_box": "Kattenbak reinigen",
+            "cleaning_litter_box_paused": "Reiniging kattenbak gepauzeerd",
+            "cleaning_paused_pet_entered": "Reiniging kattenbak gepauzeerd: huisdier betrad de bak tijdens gebruik, klempreventiesensoren geactiveerd, apparaat gestopt. Controleer het apparaat zo snel mogelijk.",
+            "cleaning_paused_system_error": "Reiniging kattenbak gepauzeerd: systeemfout, bewerking gepauzeerd",
+            "cleaning_paused_pet_approach": "Reiniging kattenbak gepauzeerd: uw kat nadert, bewerking gepauzeerd",
+            "cleaning_paused_pet_using": "Reiniging kattenbak gepauzeerd: uw kat gebruikt het apparaat, bewerking gepauzeerd",
+            "resetting_device": "Apparaat resetten",
+            "litter_box_paused": "Kattenbak gepauzeerd",
+            "paused_pet_entered": "Kattenbak gepauzeerd: huisdier betrad de bak tijdens gebruik, klempreventiesensoren geactiveerd, apparaat gestopt. Controleer het apparaat zo snel mogelijk.",
+            "paused_system_error": "Kattenbak gepauzeerd: systeemfout, bewerking gepauzeerd",
+            "paused_pet_approach": "Kattenbak gepauzeerd: uw kat nadert, bewerking gepauzeerd",
+            "paused_pet_using": "Kattenbak gepauzeerd: uw kat gebruikt het apparaat, bewerking gepauzeerd",
+            "dumping_litter": "Kattenbakvulling legen",
+            "dumping_litter_paused": "Legen kattenbakvulling gepauzeerd",
+            "dumping_paused_pet_entered": "Legen kattenbakvulling gepauzeerd: huisdier betrad de bak tijdens gebruik, klempreventiesensoren geactiveerd, apparaat gestopt. Controleer het apparaat zo snel mogelijk.",
+            "dumping_paused_system_error": "Legen kattenbakvulling gepauzeerd: systeemfout, bewerking gepauzeerd",
+            "dumping_paused_pet_approach": "Legen kattenbakvulling gepauzeerd: uw kat nadert, bewerking gepauzeerd",
+            "dumping_paused_pet_using": "Legen kattenbakvulling gepauzeerd: uw kat gebruikt het apparaat, bewerking gepauzeerd",
+            "resetting": "Resetten",
+            "leveling": "Kattenbakvulling nivelleren, even geduld.",
+            "calibrating": "Kattenbak kalibreren, even geduld.",
+            "maintenance_mode": "In onderhoudsmodus",
+            "maintenance_paused_pet_entered": "Onderhoudsmodus gepauzeerd: huisdier betrad de bak tijdens gebruik, klempreventiesensoren geactiveerd, apparaat gestopt. Controleer het apparaat zo snel mogelijk.",
+            "maintenance_paused_cover": "Onderhoudsmodus gepauzeerd: de bovenafdekking is niet geplaatst, bewerking gepauzeerd",
+            "maintenance_paused_system_error": "Onderhoudsmodus gepauzeerd: systeemfout, bewerking gepauzeerd",
+            "maintenance_paused_pet_approach": "Onderhoudsmodus gepauzeerd: uw kat nadert, bewerking gepauzeerd",
+            "maintenance_paused_pet_using": "Onderhoudsmodus gepauzeerd: uw kat gebruikt het apparaat, bewerking gepauzeerd",
+            "maintenance_paused": "Onderhoudsmodus gepauzeerd",
+            "exit_maintenance": "Onderhoudsmodus verlaten",
+            "maintenance_exit_paused_pet_entered": "Verlaten onderhoudsmodus gepauzeerd: huisdier betrad de bak tijdens gebruik, klempreventiesensoren geactiveerd, apparaat gestopt. Controleer het apparaat zo snel mogelijk.",
+            "maintenance_exit_paused_cover": "Verlaten onderhoudsmodus gepauzeerd: de bovenafdekking is niet geplaatst, bewerking gepauzeerd",
+            "maintenance_exit_paused_system_error": "Verlaten onderhoudsmodus gepauzeerd: systeemfout, bewerking gepauzeerd",
+            "maintenance_exit_paused_pet_approach": "Verlaten onderhoudsmodus gepauzeerd: uw kat nadert, bewerking gepauzeerd",
+            "maintenance_exit_paused_pet_using": "Verlaten onderhoudsmodus gepauzeerd: uw kat gebruikt het apparaat, bewerking gepauzeerd",
+            "maintenance_exit_paused": "Verlaten onderhoudsmodus gepauzeerd",
+            "idle": "Inactief",
+            "unknown_safe_warn_state": "Onbekende veiligheidswaarchuwingsstatus"
+          }
+        },
+        "avg_eating_time": {
+          "name": "Gemiddelde eettijd"
+        },
+        "manually_dispensed_hopp_one": {
+          "name": "Handmatig verstrekt hopper 1"
+        },
+        "manually_dispensed_hopp_two": {
+          "name": "Handmatig verstrekt hopper 2"
+        },
+        "planned_hopp_one": {
+          "name": "Gepland hopper 1"
+        },
+        "planned_hopp_two": {
+          "name": "Gepland hopper 2"
+        },
+        "planned_dispensed_hopp_one": {
+          "name": "Gepland verstrekt hopper 1"
+        },
+        "planned_dispensed_hopp_two": {
+          "name": "Gepland verstrekt hopper 2"
+        },
+        "dispensed_hopp_one": {
+          "name": "Verstrekt hopper 1"
+        },
+        "dispensed_hopp_two": {
+          "name": "Verstrekt hopper 2"
+        },
+        "humidity": {
+          "name": "Luchtvochtigheid"
+        },
+        "temperature": {
+          "name": "Temperatuur"
+        },
+        "air_purified": {
+          "name": "Lucht gezuiverd"
+        },
+        "liquid": {
+          "name": "Vloeistof"
+        },
+        "food_left": {
+          "name": "Voedsel over"
+        }
+      },
+      "switch": {
+        "light": {
+          "name": "Licht"
+        },
+        "power": {
+          "name": "Stroom"
+        },
+        "do_not_disturb": {
+          "name": "Niet storen"
+        },
+        "indicator_light": {
+          "name": "Indicatielampje"
+        },
+        "child_lock": {
+          "name": "Kinderslot"
+        },
+        "food_shortage_alarm": {
+          "name": "Alarm voedselgebrek"
+        },
+        "dispense_tone": {
+          "name": "Verstrekgeluid"
+        },
+        "voice_with_dispense": {
+          "name": "Stem bij verstrekken"
+        },
+        "surplus_control": {
+          "name": "Overschotbeheer"
+        },
+        "system_notification_sound": {
+          "name": "Systeemmeldingsgeluid"
+        },
+        "auto_odor_removal": {
+          "name": "Automatische geurverwijdering"
+        },
+        "auto_cleaning": {
+          "name": "Automatische reiniging"
+        },
+        "avoid_repeat_cleaning": {
+          "name": "Herhaalde reiniging vermijden"
+        },
+        "periodic_cleaning": {
+          "name": "Periodieke reiniging"
+        },
+        "periodic_odor_removal": {
+          "name": "Periodieke geurverwijdering"
+        },
+        "kitten_mode": {
+          "name": "Kittenmodus"
+        },
+        "display": {
+          "name": "Scherm"
+        },
+        "light_weight_cleaning_disabled": {
+          "name": "Lichtgewicht reiniging uitgeschakeld"
+        },
+        "cont_rotation": {
+          "name": "Continue rotatie"
+        },
+        "deep_cleaning": {
+          "name": "Grondige reiniging"
+        },
+        "deep_deodor": {
+          "name": "Grondige geurverwijdering"
+        },
+        "prompt_tone": {
+          "name": "Promptgeluid"
+        },
+        "enhanced_adsorption": {
+          "name": "Verbeterde adsorptie"
+        }
+      },
+      "text": {
+        "manual_feed": {
+          "name": "Handmatig voeren"
+        }
+      }
+    }
+}
