@@ -2065,7 +2065,7 @@ class LBLastUsedBy(CoordinatorEntity, SensorEntity):
             if last_record['petId'] == '0':
                 return 'unknown_pet'
             else:
-                return last_record.get('petName', 'unknown_pet')
+                return last_record['petName']
         else:
             return 'no_record_yet'
 
@@ -2219,7 +2219,7 @@ class LBLastEvent(CoordinatorEntity, SensorEntity):
             if (record['petId'] == '-2') or (record['petId'] == '-1'):
                 name = 'Unknown'
             else:
-                name = record.get('petName', 'Unknown')
+                name = record['petName']
             return f'{name} used the litter box'
 
     def sub_events_to_description(self, sub_events: list[dict[str, Any]]) -> list[str]:
@@ -2820,7 +2820,7 @@ class MAXLastEvent(CoordinatorEntity, SensorEntity):
             if (record['petId'] == '-2') or (record['petId'] == '-1'):
                 name = 'Unknown'
             else:
-                name = record.get('petName', 'Unknown')
+                name = record['petName']
             return f'{name} used the litter box'
 
     def sub_events_to_description(self, sub_events: list[dict[str, Any]]) -> list[str]:
